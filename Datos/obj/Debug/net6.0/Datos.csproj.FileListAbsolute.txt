@@ -1,0 +1,15 @@
+D:\Net\TPI\TPI2023TM03\Datos\bin\Debug\net6.0\Datos.deps.json
+D:\Net\TPI\TPI2023TM03\Datos\bin\Debug\net6.0\Datos.dll
+D:\Net\TPI\TPI2023TM03\Datos\bin\Debug\net6.0\Datos.pdb
+D:\Net\TPI\TPI2023TM03\Datos\bin\Debug\net6.0\Entidad.dll
+D:\Net\TPI\TPI2023TM03\Datos\bin\Debug\net6.0\Entidad.pdb
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.csproj.AssemblyReference.cache
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.GeneratedMSBuildEditorConfig.editorconfig
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.AssemblyInfoInputs.cache
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.AssemblyInfo.cs
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.csproj.CoreCompileInputs.cache
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.csproj.CopyComplete
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.dll
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\refint\Datos.dll
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\Datos.pdb
+D:\Net\TPI\TPI2023TM03\Datos\obj\Debug\net6.0\ref\Datos.dll
