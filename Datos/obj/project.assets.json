@@ -33,11 +33,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Net\\TPI\\TPI2023TM03\\Datos\\Datos.csproj",
+      "projectUniqueName": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Datos\\Datos.csproj",
       "projectName": "Datos",
-      "projectPath": "D:\\Net\\TPI\\TPI2023TM03\\Datos\\Datos.csproj",
+      "projectPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Datos\\Datos.csproj",
       "packagesPath": "C:\\Users\\pandu\\.nuget\\packages\\",
-      "outputPath": "D:\\Net\\TPI\\TPI2023TM03\\Datos\\obj\\",
+      "outputPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Datos\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -59,8 +59,8 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Net\\TPI\\TPI2023TM03\\Entidad\\Entidad.csproj": {
-              "projectPath": "D:\\Net\\TPI\\TPI2023TM03\\Entidad\\Entidad.csproj"
+            "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Entidad\\Entidad.csproj": {
+              "projectPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Entidad\\Entidad.csproj"
             }
           }
         }

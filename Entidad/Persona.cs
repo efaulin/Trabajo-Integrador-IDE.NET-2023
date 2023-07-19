@@ -26,15 +26,23 @@
 
     public class Cliente : Persona
     {
-        public Cliente(int _id, string _nom, string _ape, string _tipDoc, string _nroDoc) : base(_id, _nom, _ape, _tipDoc, _nroDoc)
+        List<Reserva> _lstReserva;
+
+        public List<Reserva> lstReserva { get { return _lstReserva; } set { _lstReserva = value; } }
+
+        public Cliente(int _id, string _nom, string _ape, string _tipDoc, string _nroDoc, List<Reserva> _lstReserva) : base(_id, _nom, _ape, _tipDoc, _nroDoc)
         {
+            this._lstReserva = _lstReserva;
         }
     }
 
     public class Recepcionista : Persona
     {
-        string usuario { get; set; }
-        string contraseña { get; set; }
+        string _usuario;
+        string _contraseña;
+
+        public string usuario { get { return _usuario; } set { _usuario = value; } }
+        public string contraseña { get { return _contraseña; } set { _contraseña = value; } }
 
         public Recepcionista(int _id, string _nom, string _ape, string _tipDoc, string _nroDoc, string _usr, string _cts) : base(_id, _nom, _ape, _tipDoc, _nroDoc)
         {
@@ -45,8 +53,11 @@
 
     public class Gerente : Persona
     {
-        string usuario { get; set; }
-        string contraseña { get; set; }
+        string _usuario;
+        string _contraseña;
+
+        public string usuario { get { return _usuario; } set { _usuario = value; } }
+        public string contraseña { get { return _contraseña; } set { _contraseña = value; } }
 
         public Gerente(int _id, string _nom, string _ape, string _tipDoc, string _nroDoc, string _usr, string _cts) : base(_id, _nom, _ape, _tipDoc, _nroDoc)
         {
