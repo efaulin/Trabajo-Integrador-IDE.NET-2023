@@ -10,3 +10,15 @@ D:\Net\TPI\TPI2023TM03\Entidad\obj\Debug\net6.0\Entidad.dll
 D:\Net\TPI\TPI2023TM03\Entidad\obj\Debug\net6.0\refint\Entidad.dll
 D:\Net\TPI\TPI2023TM03\Entidad\obj\Debug\net6.0\Entidad.pdb
 D:\Net\TPI\TPI2023TM03\Entidad\obj\Debug\net6.0\ref\Entidad.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\bin\Debug\net6.0\Entidad.deps.json
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\bin\Debug\net6.0\Entidad.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\bin\Debug\net6.0\Entidad.pdb
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.csproj.AssemblyReference.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.AssemblyInfoInputs.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.AssemblyInfo.cs
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.csproj.CoreCompileInputs.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\refint\Entidad.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\Entidad.pdb
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Entidad\obj\Debug\net6.0\ref\Entidad.dll

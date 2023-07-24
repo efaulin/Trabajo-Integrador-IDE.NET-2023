@@ -1,0 +1,17 @@
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Negocio.deps.json
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Negocio.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Negocio.pdb
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Datos.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Entidad.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Datos.pdb
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\bin\Debug\net6.0\Entidad.pdb
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.csproj.AssemblyReference.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.AssemblyInfoInputs.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.AssemblyInfo.cs
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.csproj.CoreCompileInputs.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.csproj.CopyComplete
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\refint\Negocio.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\Negocio.pdb
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Negocio\obj\Debug\net6.0\ref\Negocio.dll
