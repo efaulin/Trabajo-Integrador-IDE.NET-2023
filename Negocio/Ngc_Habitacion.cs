@@ -1,21 +1,33 @@
-﻿namespace Negocio
+﻿using Datos;
+using Entidad.Models;
+using Microsoft.EntityFrameworkCore;
+
+namespace Negocio
 {
     public class Habitacion
     {
-        public static List<Entidad.Habitacion> getAll()
+        public static List<Entidad.Models.Habitacion> getAll(DBContext dBContext)
         {
-            List<Entidad.Habitacion> habitaciones = Datos.Habitacion.getAll().FindAll( delegate (Entidad.Habitacion hbt) { return hbt.estado == true; });
+            List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.ToList();
+            foreach (Entidad.Models.Habitacion hbt in habitaciones)
+            {
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.getOne(hbt.IdTipoHabitacion, dBContext);
+            }
             return habitaciones;
         }
-        public static Entidad.Habitacion Create(Entidad.Habitacion hbt) { return Datos.Habitacion.Create(hbt); }
-        public static bool Delete(int id)
+        public static void Create(Entidad.Models.Habitacion hbt, DBContext dBContext)
+        {
+            dBContext.Habitacions.Add(hbt);
+            dBContext.SaveChanges();
+            dBContext.Update(hbt);
+        }
+        public static bool Delete(Entidad.Models.Habitacion hbt, DBContext dBContext)
         {
             //return Datos.Habitacion.Delete(id);
-            Entidad.Habitacion hbt = Datos.Habitacion.getOne(id);
             if (hbt != null)
             {
-                hbt.estado = false;
-                Datos.Habitacion.Update(hbt);
+                dBContext.Habitacions.Remove(hbt);
+                dBContext.SaveChanges();
                 return true;
             }
             else
@@ -23,16 +35,32 @@
                 return false;
             }
         }
-        public static List<Entidad.Habitacion> getAllDisabled()
+        public static void Update(Entidad.Models.Habitacion hbt, DBContext dBContext)
         {
-            List<Entidad.Habitacion> habitaciones = Datos.Habitacion.getAll().FindAll(delegate (Entidad.Habitacion hbt) { return hbt.estado == false; });
-            return habitaciones;
+            dBContext.Update(hbt);
+            dBContext.SaveChanges();
         }
     }
 
     public class TipoHabitacion
     {
-        public static List<Entidad.TipoHabitacion> getAll() { return Datos.TipoHabitacion.getAll(); }
-        public static Entidad.TipoHabitacion getOne(int id) { return Datos.TipoHabitacion.getOne(id); }
+        public static List<Entidad.Models.TipoHabitacion> getAll(DBContext dBContext)
+        {
+            List<Entidad.Models.TipoHabitacion> lstTipHbt = dBContext.TipoHabitacions.ToList();
+            foreach (Entidad.Models.TipoHabitacion tipHbt in lstTipHbt)
+            {
+                tipHbt.PrecioTipoHabitacions = dBContext.PrecioTipoHabitacions.Where(tip => tip.IdTipoHabitacion == tipHbt.IdTipoHabitacion).ToList();
+            }
+            return lstTipHbt;
+        }
+        public static Entidad.Models.TipoHabitacion getOne(int id, DBContext dBContext)
+        {
+            Entidad.Models.TipoHabitacion tipHbt = dBContext.TipoHabitacions.Find(id);
+            if (tipHbt != null)
+            {
+                tipHbt.PrecioTipoHabitacions = dBContext.PrecioTipoHabitacions.Where(tip => tip.IdTipoHabitacion == tipHbt.IdTipoHabitacion).ToList();
+            }
+            return tipHbt;
+        }
     }
 }

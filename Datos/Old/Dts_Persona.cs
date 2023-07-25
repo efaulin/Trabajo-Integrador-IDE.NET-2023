@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 
-namespace Datos
+namespace Datos.Old
 {
     public class Persona
     {

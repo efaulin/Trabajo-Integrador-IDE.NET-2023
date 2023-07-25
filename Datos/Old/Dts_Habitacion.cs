@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Datos
+namespace Datos.Old
 {
     public class Habitacion
     {
-        public static List<Entidad.Habitacion> getAll()
+        public static List<Entidad.Old.Habitacion> getAll()
         {
             List<string[]> habitaciones = BBDD.ArrayHabitacion();
             List<string[]> rlcHbtXTipHbt = BBDD.ArrayTipoHabitacionHabitacion();
 
-            List<Entidad.Habitacion> lstHabitacion = new List<Entidad.Habitacion> ();
+            List<Entidad.Old.Habitacion> lstHabitacion = new List<Entidad.Old.Habitacion> ();
             foreach (string[] hab in habitaciones)
             {
-                Entidad.TipoHabitacion? tipHbt = null;
+                Entidad.Old.TipoHabitacion? tipHbt = null;
                 int count = 0;
                 while (tipHbt == null && count < rlcHbtXTipHbt.Count())
                 {
@@ -35,26 +35,26 @@ namespace Datos
                     }
                 }
                 //Para esta prueba consideramos que no exiten reservas en el sistema
-                Entidad.Habitacion habitacion = new Entidad.Habitacion(int.Parse(hab[0]), int.Parse(hab[1]), bool.Parse(hab[2]), int.Parse(hab[3]), int.Parse(hab[4]), tipHbt, new List<Reserva>());
+                Entidad.Old.Habitacion habitacion = new Entidad.Old.Habitacion(int.Parse(hab[0]), int.Parse(hab[1]), bool.Parse(hab[2]), int.Parse(hab[3]), int.Parse(hab[4]), tipHbt, new List<Entidad.Old.Reserva>());
                 lstHabitacion.Add(habitacion);
             }
 
             return lstHabitacion;
         }
 
-        public static Entidad.Habitacion getOne(int id)
+        public static Entidad.Old.Habitacion getOne(int id)
         {
             List<string[]> habitaciones = BBDD.ArrayHabitacion();
             List<string[]> rlcHbtXTipHbt = BBDD.ArrayTipoHabitacionHabitacion();
 
-            Entidad.Habitacion? hbt = null;
+            Entidad.Old.Habitacion? hbt = null;
             int count = 0;
             while (hbt == null && count < habitaciones.Count())
             {
                 string[] tmp = (string[])habitaciones[count];
                 if (id == int.Parse(tmp[0]))
                 {
-                    Entidad.TipoHabitacion? tipHbt = null;
+                    Entidad.Old.TipoHabitacion? tipHbt = null;
                     int count2 = 0;
                     while (tipHbt == null && count2 < rlcHbtXTipHbt.Count())
                     {
@@ -69,7 +69,7 @@ namespace Datos
                             count2++;
                         }
                     }
-                    hbt = new Entidad.Habitacion(int.Parse(tmp[0]), int.Parse(tmp[1]), bool.Parse(tmp[2]), int.Parse(tmp[3]), int.Parse(tmp[4]), tipHbt, new List<Reserva>());
+                    hbt = new Entidad.Old.Habitacion(int.Parse(tmp[0]), int.Parse(tmp[1]), bool.Parse(tmp[2]), int.Parse(tmp[3]), int.Parse(tmp[4]), tipHbt, new List<Entidad.Old.Reserva>());
                 }
                 else
                 {
@@ -104,7 +104,7 @@ namespace Datos
             }
         }
 
-        public static Entidad.Habitacion Create(Entidad.Habitacion hbt)
+        public static Entidad.Old.Habitacion Create(Entidad.Old.Habitacion hbt)
         {
             List<string[]> habitaciones = BBDD.ArrayHabitacion();
             List<string[]> rlcHbtXTipHbt = BBDD.ArrayTipoHabitacionHabitacion();
@@ -119,7 +119,7 @@ namespace Datos
             return hbt;
         }
 
-        public static bool Update(Entidad.Habitacion hbt)
+        public static bool Update(Entidad.Old.Habitacion hbt)
         {
             List<string[]> habitaciones = BBDD.ArrayHabitacion();
             List<string[]> rlcHbtXTipHbt = BBDD.ArrayTipoHabitacionHabitacion();
@@ -140,20 +140,20 @@ namespace Datos
 
     public class TipoHabitacion
     {
-        public static List<Entidad.TipoHabitacion> getAll()
+        public static List<Entidad.Old.TipoHabitacion> getAll()
         {
             List<string[]> tiposHabitaciones = BBDD.ArrayTipoHabitacion();
             List<string[]> rlcTipHbtXTipHbt_Prc = BBDD.ArrayTipoHabitacionTipHab_Precio();
 
-            List<Entidad.TipoHabitacion> lstTipoHabitacion = new List<Entidad.TipoHabitacion>();
+            List<Entidad.Old.TipoHabitacion> lstTipoHabitacion = new List<Entidad.Old.TipoHabitacion>();
             foreach (string[] tipHbt in tiposHabitaciones)
             {
-                Entidad.TipoHabitacion tipoHabitacion = new Entidad.TipoHabitacion(int.Parse(tipHbt[0]), tipHbt[1], new List<Entidad.TipHab_Precio>());
+                Entidad.Old.TipoHabitacion tipoHabitacion = new Entidad.Old.TipoHabitacion(int.Parse(tipHbt[0]), tipHbt[1], new List<Entidad.Old.TipHab_Precio>());
                 foreach (string[] rlcTipHbt_prc in rlcTipHbtXTipHbt_Prc)
                 {
                     if (tipoHabitacion.id == int.Parse(rlcTipHbt_prc[0]))
                     {
-                        Entidad.TipHab_Precio tmp = Datos.TipHab_Precio.getOne(int.Parse(rlcTipHbt_prc[1]));
+                        Entidad.Old.TipHab_Precio tmp = Datos.Old.TipHab_Precio.getOne(int.Parse(rlcTipHbt_prc[1]));
                         tipoHabitacion.lstTipHab_Precio.Add(tmp);
                     }
                 }
@@ -163,24 +163,24 @@ namespace Datos
             return lstTipoHabitacion;
         }
         
-        public static Entidad.TipoHabitacion getOne(int id)
+        public static Entidad.Old.TipoHabitacion getOne(int id)
         {
             List<string[]> tiposHabitaciones = BBDD.ArrayTipoHabitacion();
             List<string[]> rlcTipHbtXTipHbt_Prc = BBDD.ArrayTipoHabitacionTipHab_Precio();
 
-            Entidad.TipoHabitacion? tipoHabitacion = null;
+            Entidad.Old.TipoHabitacion? tipoHabitacion = null;
             int count = 0;
             while (tipoHabitacion == null && count < tiposHabitaciones.Count())
             {
                 string[] tipHbt = (string[])tiposHabitaciones[count];
                 if (id == int.Parse(tipHbt[0]))
                 {
-                    tipoHabitacion = new Entidad.TipoHabitacion(int.Parse(tipHbt[0]), tipHbt[1], new List<Entidad.TipHab_Precio>());
+                    tipoHabitacion = new Entidad.Old.TipoHabitacion(int.Parse(tipHbt[0]), tipHbt[1], new List<Entidad.Old.TipHab_Precio>());
                     foreach (string[] rlcTipHbt_prc in rlcTipHbtXTipHbt_Prc)
                     {
                         if (tipoHabitacion.id == int.Parse(rlcTipHbt_prc[0]))
                         {
-                            Entidad.TipHab_Precio tmp = Datos.TipHab_Precio.getOne(int.Parse(rlcTipHbt_prc[1]));
+                            Entidad.Old.TipHab_Precio tmp = Datos.Old.TipHab_Precio.getOne(int.Parse(rlcTipHbt_prc[1]));
                             tipoHabitacion.lstTipHab_Precio.Add(tmp);
                         }
                     }

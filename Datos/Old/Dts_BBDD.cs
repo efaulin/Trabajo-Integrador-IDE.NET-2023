@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using Microsoft.VisualBasic;
 using Entidad;
 
-namespace Datos
+namespace Datos.Old
 {
     public class BBDD
     {

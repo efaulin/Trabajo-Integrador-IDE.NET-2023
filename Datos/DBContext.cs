@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Entidad.Models;
 
-namespace Entidad.Models;
+namespace Datos;
 
-public partial class Tpi2023tm03Context : DbContext
+public partial class DBContext : DbContext
 {
-    public Tpi2023tm03Context()
+    public DBContext()
     {
     }
 
-    public Tpi2023tm03Context(DbContextOptions<Tpi2023tm03Context> options)
+    public DBContext(DbContextOptions<DBContext> options)
         : base(options)
     {
     }

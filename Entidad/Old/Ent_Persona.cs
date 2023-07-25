@@ -1,4 +1,4 @@
-﻿namespace Entidad
+﻿namespace Entidad.Old
 {
     public abstract class Persona
     {
