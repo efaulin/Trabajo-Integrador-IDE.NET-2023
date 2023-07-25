@@ -565,6 +565,9 @@
         }
       },
       "Entidad/1.0.0": {
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.9"
+        },
         "runtime": {
           "Entidad.dll": {}
         }

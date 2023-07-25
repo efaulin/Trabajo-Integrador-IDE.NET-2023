@@ -967,6 +967,9 @@
       "Entidad/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v6.0",
+        "dependencies": {
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.9"
+        },
         "compile": {
           "bin/placeholder/Entidad.dll": {}
         },
