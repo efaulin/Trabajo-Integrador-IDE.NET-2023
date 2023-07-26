@@ -51,11 +51,104 @@ void MenuHuesped()
         Console.Write("Ingrese una opcion: ");
         opc = Console.ReadKey();
 
+        List<Huesped> lstHuespedes;
+        Huesped hpd;
+        string? idHpd;
         switch (opc.Key)
         {
-            case ConsoleKey.D1: break;
-            case ConsoleKey.D2: break;
-            case ConsoleKey.D3: break;
+            case ConsoleKey.D1:
+                Console.Clear();
+                Console.WriteLine("-------------------------------------------");
+                lstHuespedes = Negocio.Huesped.getAll(dBContext);
+                foreach (Huesped tmpHpd in lstHuespedes)
+                {
+                    Console.WriteLine("ID: " + tmpHpd.IdHuesped);
+                    Console.WriteLine("nombre: " + tmpHpd.Nombre);
+                    Console.WriteLine("apellido: " + tmpHpd.Apellido);
+                    Console.WriteLine("nroDocumento: " + tmpHpd.NumeroDocumento);
+                    Console.WriteLine("tipoDocumento: " + tmpHpd.TipoDocumento);
+                    Console.WriteLine("-------------------------------------------");
+                }
+                Console.Write("Presione una tecla para volver al menu...");
+                Console.ReadKey();
+                break;
+
+            case ConsoleKey.D2:
+                Console.Clear();
+                hpd = new Huesped();
+                Console.WriteLine("Nuevo Huesped");
+                Console.Write("Ingrese nombre: ");
+                hpd.Nombre = Console.ReadLine();
+                Console.Write("Ingrese apellido: ");
+                hpd.Apellido = Console.ReadLine();
+                Console.Write("Seleccione tipo de documento: [1.DNI / 2.LC / 3.LE]: ");
+                switch (Console.ReadKey().Key)
+                {
+                    case ConsoleKey.D1: hpd.TipoDocumento = "DNI"; break;
+                    case ConsoleKey.D2: hpd.TipoDocumento = "LC"; break;
+                    case ConsoleKey.D3: hpd.TipoDocumento = "LE"; break;
+                }
+                Console.WriteLine(" -> " + hpd.TipoDocumento);
+                Console.Write("Ingrese numero de documento: ");
+                hpd.NumeroDocumento = Console.ReadLine();
+                Negocio.Huesped.Create(hpd, dBContext);
+
+                Console.Clear();
+                Console.WriteLine("--- Huesped cargado ---");
+                Console.WriteLine("ID: " + hpd.IdHuesped);
+                Console.WriteLine("nombre: " + hpd.Nombre);
+                Console.WriteLine("apellido: " + hpd.Apellido);
+                Console.WriteLine("nroDocumento: " + hpd.NumeroDocumento);
+                Console.WriteLine("tipoDocumento: " + hpd.TipoDocumento);
+                Console.WriteLine("-------------------------------------------");
+                Console.Write("Presione una tecla para volver al menu...");
+                Console.ReadKey();
+                break;
+
+            case ConsoleKey.D3:
+                Console.Clear();
+                Console.WriteLine("Huespedes registrados:");
+                lstHuespedes = Negocio.Huesped.getAll(dBContext);
+                foreach (Huesped tmpHpd in lstHuespedes)
+                {
+                    Console.WriteLine("ID: " + tmpHpd.IdHuesped.ToString() + " " + tmpHpd.TipoDocumento + ":" + tmpHpd.NumeroDocumento + " - Nombre: " + tmpHpd.Nombre + " Apellido: " + tmpHpd.Apellido);
+                }
+                Console.Write("Ingrese ID del tipo de habitacion: ");
+                idHpd = Console.ReadLine();
+                hpd = lstHuespedes.Find(delegate (Huesped hpd) { return hpd.IdHuesped == int.Parse(idHpd); });
+                Console.Clear();
+
+                if (hpd != null)
+                {
+                    Console.WriteLine("ID: " + hpd.IdHuesped);
+                    Console.Write("Nombre: " + hpd.Nombre + " -> ");
+                    hpd.Nombre = Console.ReadLine();
+                    Console.Write("Apellido: " + hpd.Apellido + " -> ");
+                    hpd.Apellido = Console.ReadLine();
+                    Console.Write("Seleccione tipo de documento: [1.DNI / 2.LC / 3.LE]: ");
+                    switch (Console.ReadKey().Key)
+                    {
+                        case ConsoleKey.D1: hpd.TipoDocumento = "DNI"; break;
+                        case ConsoleKey.D2: hpd.TipoDocumento = "LC"; break;
+                        case ConsoleKey.D3: hpd.TipoDocumento = "LE"; break;
+                    }
+                    Console.WriteLine(" -> " + hpd.TipoDocumento);
+                    Console.Write("Numero de documento: " + hpd.NumeroDocumento + " -> ");
+                    hpd.NumeroDocumento = Console.ReadLine();
+                    Negocio.Huesped.Update(hpd, dBContext);
+
+                    Console.Clear();
+                    Console.WriteLine("--- Huesped editado ---");
+                    Console.WriteLine("ID: " + hpd.IdHuesped);
+                    Console.WriteLine("nombre: " + hpd.Nombre);
+                    Console.WriteLine("apellido: " + hpd.Apellido);
+                    Console.WriteLine("nroDocumento: " + hpd.NumeroDocumento);
+                    Console.WriteLine("tipoDocumento: " + hpd.TipoDocumento);
+                    Console.WriteLine("-------------------------------------------");
+                    Console.Write("Presione una tecla para volver al menu...");
+                    Console.ReadKey();
+                }
+                break;
         }
 
     } while (opc.Key != ConsoleKey.D0);
