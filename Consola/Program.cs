@@ -60,21 +60,27 @@ void MenuHuesped()
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
                 lstHuespedes = Negocio.Huesped.getAll(dBContext);
-                foreach (Huesped tmpHpd in lstHuespedes)
-                {
-                    Console.WriteLine("ID: " + tmpHpd.IdHuesped);
-                    Console.WriteLine("nombre: " + tmpHpd.Nombre);
-                    Console.WriteLine("apellido: " + tmpHpd.Apellido);
-                    Console.WriteLine("nroDocumento: " + tmpHpd.NumeroDocumento);
-                    Console.WriteLine("tipoDocumento: " + tmpHpd.TipoDocumento);
-                    Console.WriteLine("-------------------------------------------");
+                if (lstHuespedes.Count == 0){
+                    Console.WriteLine("-NO SE HAN ENCONTRADO HUESPEDES REGISTRADOS-");
                 }
-                Console.Write("Presione una tecla para volver al menu...");
+                else {
+                    foreach (Huesped tmpHpd in lstHuespedes)
+                    {
+                        Console.WriteLine("ID: " + tmpHpd.IdHuesped);
+                        Console.WriteLine("nombre: " + tmpHpd.Nombre);
+                        Console.WriteLine("apellido: " + tmpHpd.Apellido);
+                        Console.WriteLine("nroDocumento: " + tmpHpd.NumeroDocumento);
+                        Console.WriteLine("tipoDocumento: " + tmpHpd.TipoDocumento);
+                        Console.WriteLine("-------------------------------------------");
+                    }
+                }
+                Console.Write("\nPresione una tecla para volver al menu...");
                 Console.ReadKey();
                 break;
 
             case ConsoleKey.D2:
                 Console.Clear();
+                Console.WriteLine("-------------------------------------------");
                 hpd = new Huesped();
                 Console.WriteLine("Nuevo Huesped");
                 Console.Write("Ingrese nombre: ");
@@ -101,53 +107,92 @@ void MenuHuesped()
                 Console.WriteLine("nroDocumento: " + hpd.NumeroDocumento);
                 Console.WriteLine("tipoDocumento: " + hpd.TipoDocumento);
                 Console.WriteLine("-------------------------------------------");
-                Console.Write("Presione una tecla para volver al menu...");
+                Console.Write("\nPresione una tecla para volver al menu...");
                 Console.ReadKey();
                 break;
 
             case ConsoleKey.D3:
                 Console.Clear();
+                Console.WriteLine("-------------------------------------------");
                 Console.WriteLine("Huespedes registrados:");
                 lstHuespedes = Negocio.Huesped.getAll(dBContext);
-                foreach (Huesped tmpHpd in lstHuespedes)
-                {
-                    Console.WriteLine("ID: " + tmpHpd.IdHuesped.ToString() + " " + tmpHpd.TipoDocumento + ":" + tmpHpd.NumeroDocumento + " - Nombre: " + tmpHpd.Nombre + " Apellido: " + tmpHpd.Apellido);
+                if (lstHuespedes.Count == 0){
+                    Console.WriteLine("-NO SE HAN ENCONTRADO HUESPEDES REGISTRADOS-");
                 }
-                Console.Write("Ingrese ID del tipo de habitacion: ");
-                idHpd = Console.ReadLine();
-                hpd = lstHuespedes.Find(delegate (Huesped hpd) { return hpd.IdHuesped == int.Parse(idHpd); });
-                Console.Clear();
-
-                if (hpd != null)
+                else
                 {
-                    Console.WriteLine("ID: " + hpd.IdHuesped);
-                    Console.Write("Nombre: " + hpd.Nombre + " -> ");
-                    hpd.Nombre = Console.ReadLine();
-                    Console.Write("Apellido: " + hpd.Apellido + " -> ");
-                    hpd.Apellido = Console.ReadLine();
-                    Console.Write("Seleccione tipo de documento: [1.DNI / 2.LC / 3.LE]: ");
-                    switch (Console.ReadKey().Key)
+                    foreach (Huesped tmpHpd in lstHuespedes)
                     {
-                        case ConsoleKey.D1: hpd.TipoDocumento = "DNI"; break;
-                        case ConsoleKey.D2: hpd.TipoDocumento = "LC"; break;
-                        case ConsoleKey.D3: hpd.TipoDocumento = "LE"; break;
+                        Console.WriteLine("ID: " + tmpHpd.IdHuesped.ToString() + " " + tmpHpd.TipoDocumento + ":" + tmpHpd.NumeroDocumento + " - Nombre: " + tmpHpd.Nombre + " Apellido: " + tmpHpd.Apellido);
                     }
-                    Console.WriteLine(" -> " + hpd.TipoDocumento);
-                    Console.Write("Numero de documento: " + hpd.NumeroDocumento + " -> ");
-                    hpd.NumeroDocumento = Console.ReadLine();
-                    Negocio.Huesped.Update(hpd, dBContext);
+                    Console.Write("Ingrese ID del tipo de habitacion: ");
+                    idHpd = Console.ReadLine();
+                    hpd = lstHuespedes.Find(delegate (Huesped hpd) { return hpd.IdHuesped == int.Parse(idHpd); });
+                    Console.Clear();
+
+                    if (hpd != null)
+                    {
+                        Console.WriteLine("ID: " + hpd.IdHuesped);
+                        Console.Write("Nombre: " + hpd.Nombre + " -> ");
+                        hpd.Nombre = Console.ReadLine();
+                        Console.Write("Apellido: " + hpd.Apellido + " -> ");
+                        hpd.Apellido = Console.ReadLine();
+                        Console.Write("Seleccione tipo de documento: [1.DNI / 2.LC / 3.LE]: ");
+                        switch (Console.ReadKey().Key)
+                        {
+                            case ConsoleKey.D1: hpd.TipoDocumento = "DNI"; break;
+                            case ConsoleKey.D2: hpd.TipoDocumento = "LC"; break;
+                            case ConsoleKey.D3: hpd.TipoDocumento = "LE"; break;
+                        }
+                        Console.WriteLine(" -> " + hpd.TipoDocumento);
+                        Console.Write("Numero de documento: " + hpd.NumeroDocumento + " -> ");
+                        hpd.NumeroDocumento = Console.ReadLine();
+                        Negocio.Huesped.Update(hpd, dBContext);
+
+                        Console.Clear();
+                        Console.WriteLine("--- Huesped editado ---");
+                        Console.WriteLine("ID: " + hpd.IdHuesped);
+                        Console.WriteLine("nombre: " + hpd.Nombre);
+                        Console.WriteLine("apellido: " + hpd.Apellido);
+                        Console.WriteLine("nroDocumento: " + hpd.NumeroDocumento);
+                        Console.WriteLine("tipoDocumento: " + hpd.TipoDocumento);
+                        Console.WriteLine("-------------------------------------------");
+                    }
+                }               
+                Console.Write("\nPresione una tecla para volver al menu...");
+                Console.ReadKey();
+                break;
+
+            case ConsoleKey.D4:
+                Console.Clear();
+                Console.WriteLine("-------------------------------------------");
+                Console.WriteLine("Huespedes registrados:");
+                lstHuespedes = Negocio.Huesped.getAll(dBContext);
+                if (lstHuespedes.Count == 0)
+                {
+                    Console.WriteLine("-NO SE HAN ENCONTRADO HUESPEDES REGISTRADOS-");
+                }
+                else
+                {
+                    foreach (Huesped tmpHpd in lstHuespedes)
+                    {
+                        Console.WriteLine("ID: " + tmpHpd.IdHuesped.ToString() + " - Nombre: " + tmpHpd.Nombre.ToString() + " Apellido: " + tmpHpd.Apellido.ToString());
+                    }
+                    Console.Write("Ingrese ID de huesped: ");
+                    idHpd = Console.ReadLine();
 
                     Console.Clear();
-                    Console.WriteLine("--- Huesped editado ---");
-                    Console.WriteLine("ID: " + hpd.IdHuesped);
-                    Console.WriteLine("nombre: " + hpd.Nombre);
-                    Console.WriteLine("apellido: " + hpd.Apellido);
-                    Console.WriteLine("nroDocumento: " + hpd.NumeroDocumento);
-                    Console.WriteLine("tipoDocumento: " + hpd.TipoDocumento);
-                    Console.WriteLine("-------------------------------------------");
-                    Console.Write("Presione una tecla para volver al menu...");
-                    Console.ReadKey();
+                    if (Negocio.Huesped.Delete(lstHuespedes.Find(delegate (Huesped hpd) { return hpd.IdHuesped == int.Parse(idHpd); }), dBContext))
+                    {
+                        Console.WriteLine("Huesped ID: " + idHpd.ToString() + " eliminado");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error");
+                    }
                 }
+                Console.Write("\nPresione una tecla para volver al menu...");
+                Console.ReadKey();
                 break;
         }
 
@@ -181,18 +226,24 @@ void MenuHabitacion()
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
                 lstHabitaciones = Negocio.Habitacion.getAll(dBContext);
-                foreach (Habitacion tmpHbt in lstHabitaciones)
-                {
-                    Console.WriteLine("ID: " + tmpHbt.IdHabitacion);
-                    Console.WriteLine("estado: " + tmpHbt.Estado.ToString());
-                    Console.WriteLine("nroHabitacion: " + tmpHbt.NumeroHabitacion);
-                    Console.WriteLine("pisoHabitacion: " + tmpHbt.PisoHabitacion);
-                    Console.WriteLine("tipoHabitacion: " + tmpHbt.IdTipoHabitacionNavigation.Descripcion);
-                    Console.WriteLine("Precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
-                    Console.WriteLine("  - Actualizacion de precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
-                    Console.WriteLine("-------------------------------------------");
+                if (lstHabitaciones.Count == 0){
+                    Console.WriteLine("-NO SE HAN ENCONTRADO HABITACIONES REGISTRADOS-");
                 }
-                Console.Write("Presione una tecla para volver al menu...");
+                else
+                {
+                    foreach (Habitacion tmpHbt in lstHabitaciones)
+                    {
+                        Console.WriteLine("ID: " + tmpHbt.IdHabitacion);
+                        Console.WriteLine("estado: " + tmpHbt.Estado.ToString());
+                        Console.WriteLine("nroHabitacion: " + tmpHbt.NumeroHabitacion);
+                        Console.WriteLine("pisoHabitacion: " + tmpHbt.PisoHabitacion);
+                        Console.WriteLine("tipoHabitacion: " + tmpHbt.IdTipoHabitacionNavigation.Descripcion);
+                        Console.WriteLine("Precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
+                        Console.WriteLine("  - Actualizacion de precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
+                        Console.WriteLine("-------------------------------------------");
+                    }
+                }
+                Console.Write("\nPresione una tecla para volver al menu...");
                 Console.ReadKey();
                 break;
 
@@ -232,7 +283,7 @@ void MenuHabitacion()
                 Console.WriteLine("Precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
                 Console.WriteLine("  - Actualizacion de precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
                 Console.WriteLine("-------------------------------------------");
-                Console.Write("Presione una tecla para volver al menu...");
+                Console.Write("\nPresione una tecla para volver al menu...");
                 Console.ReadKey();
                 break;
 
@@ -281,10 +332,10 @@ void MenuHabitacion()
                     Console.WriteLine("Precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
                     Console.WriteLine("  - Actualizacion de precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
                     Console.WriteLine("-------------------------------------------");
-                    Console.Write("Presione una tecla para volver al menu...");
-                    Console.ReadKey();
+                    
                 }
-
+                Console.Write("\nPresione una tecla para volver al menu...");
+                Console.ReadKey();
                 break;
 
             case ConsoleKey.D4:
@@ -307,7 +358,7 @@ void MenuHabitacion()
                 {
                     Console.WriteLine("Error");
                 }
-                Console.Write("Presione una tecla para volver al menu...");
+                Console.Write("\nPresione una tecla para volver al menu...");
                 Console.ReadKey();
                 break;
         }

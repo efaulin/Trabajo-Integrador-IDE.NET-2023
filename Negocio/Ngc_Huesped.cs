@@ -30,5 +30,19 @@ namespace Negocio
             dBContext.Update(hpd);
             dBContext.SaveChanges();
         }
+        public static bool Delete(Entidad.Models.Huesped hpd, DBContext dBContext)
+        {
+            //return Datos.Habitacion.Delete(id);
+            if (hpd != null)
+            {
+                dBContext.Huespeds.Remove(hpd);
+                dBContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }
