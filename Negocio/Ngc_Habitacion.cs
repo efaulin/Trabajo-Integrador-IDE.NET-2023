@@ -86,6 +86,26 @@ namespace Negocio
                 return false;
             }
         }
+        //Devuelve entidad precioTipoHabitacion de un tipoHabitacion especifico que pertenesca a la fecha ingresada
+        public static Entidad.Models.PrecioTipoHabitacion DevPrecioFecha(DateTime fecha, Entidad.Models.TipoHabitacion tipHbt)
+        {
+            Entidad.Models.PrecioTipoHabitacion? precioBuscado = null;
+            foreach (var preTipHbt in tipHbt.PrecioTipoHabitacions)
+            {
+                if (precioBuscado == null && preTipHbt.FechaPrecio <= fecha)
+                {
+                    precioBuscado = preTipHbt;
+                }
+                else if (precioBuscado != null)
+                {
+                    if (preTipHbt.FechaPrecio > precioBuscado.FechaPrecio && preTipHbt.FechaPrecio <= fecha)
+                    {
+                        precioBuscado = preTipHbt;
+                    }
+                }              
+            }
+            return precioBuscado;
+        }
 
     }
 

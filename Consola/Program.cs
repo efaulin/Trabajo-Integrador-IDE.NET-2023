@@ -238,8 +238,9 @@ void MenuHabitacion()
                         Console.WriteLine("nroHabitacion: " + tmpHbt.NumeroHabitacion);
                         Console.WriteLine("pisoHabitacion: " + tmpHbt.PisoHabitacion);
                         Console.WriteLine("tipoHabitacion: " + tmpHbt.IdTipoHabitacionNavigation.Descripcion);
-                        Console.WriteLine("Precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
-                        Console.WriteLine("  - Actualizacion de precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
+                        //Console.WriteLine("Precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
+                        Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, tmpHbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
+                        Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, tmpHbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
                         Console.WriteLine("-------------------------------------------");
                     }
                 }
@@ -280,8 +281,8 @@ void MenuHabitacion()
                 Console.WriteLine("nroHabitacion: " + hbt.NumeroHabitacion);
                 Console.WriteLine("pisoHabitacion: " + hbt.PisoHabitacion);
                 Console.WriteLine("tipoHabitacion: " + hbt.IdTipoHabitacionNavigation.Descripcion);
-                Console.WriteLine("Precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
-                Console.WriteLine("  - Actualizacion de precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
+                Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
+                Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
                 Console.WriteLine("-------------------------------------------");
                 Console.Write("\nPresione una tecla para volver al menu...");
                 Console.ReadKey();
@@ -329,8 +330,8 @@ void MenuHabitacion()
                     Console.WriteLine("nroHabitacion: " + hbt.NumeroHabitacion);
                     Console.WriteLine("pisoHabitacion: " + hbt.PisoHabitacion);
                     Console.WriteLine("tipoHabitacion: " + hbt.IdTipoHabitacionNavigation.Descripcion);
-                    Console.WriteLine("Precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
-                    Console.WriteLine("  - Actualizacion de precio: " + hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().FechaPrecio.ToString());
+                    Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
+                    Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
                     Console.WriteLine("-------------------------------------------");
                     
                 }
