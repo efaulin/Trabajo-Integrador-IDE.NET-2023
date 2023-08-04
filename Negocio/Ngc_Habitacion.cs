@@ -62,5 +62,80 @@ namespace Negocio
             }
             return tipHbt;
         }
+        public static void Create(Entidad.Models.TipoHabitacion tipHbt, DBContext dBContext)
+        {
+            dBContext.TipoHabitacions.Add(tipHbt);
+            dBContext.SaveChanges();
+            dBContext.Update(tipHbt);
+        }
+        public static void Update(Entidad.Models.TipoHabitacion tipHbt, DBContext dBContext)
+        {
+            dBContext.Update(tipHbt);
+            dBContext.SaveChanges();
+        }
+        public static bool Delete(Entidad.Models.TipoHabitacion tipHbt, DBContext dBContext)
+        {
+            if (tipHbt != null)
+            {
+                dBContext.TipoHabitacions.Remove(tipHbt);
+                dBContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+    }
+
+    public class PrecioTipoHabitacion
+    {
+        public static List<Entidad.Models.PrecioTipoHabitacion> getAll(DBContext dBContext)
+        {
+            List<Entidad.Models.PrecioTipoHabitacion> lstPresTipHbt = dBContext.PrecioTipoHabitacions.ToList();
+            foreach (Entidad.Models.PrecioTipoHabitacion PresTipHbt in lstPresTipHbt)
+            {
+                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.getOne(PresTipHbt.IdTipoHabitacion, dBContext);
+            }
+            return lstPresTipHbt;
+        }
+
+        public static Entidad.Models.PrecioTipoHabitacion getOne(int id, DBContext dBContext)
+        {
+            Entidad.Models.PrecioTipoHabitacion PresTipHbt = dBContext.PrecioTipoHabitacions.Find(id);
+            if (PresTipHbt != null)
+            {
+                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.getOne(PresTipHbt.IdTipoHabitacion, dBContext);
+            }
+            return PresTipHbt;
+        }
+
+        public static void Create(Entidad.Models.PrecioTipoHabitacion PresTipHbt, DBContext dBContext)
+        {
+            dBContext.PrecioTipoHabitacions.Add(PresTipHbt);
+            dBContext.SaveChanges();
+            dBContext.Update(PresTipHbt);
+        }
+
+        public static void Update(Entidad.Models.PrecioTipoHabitacion PresTipHbt, DBContext dBContext)
+        {
+            dBContext.Update(PresTipHbt);
+            dBContext.SaveChanges();
+        }
+
+        public static bool Delete(Entidad.Models.PrecioTipoHabitacion PresTipHbt, DBContext dBContext)
+        {
+            if (PresTipHbt != null)
+            {
+                dBContext.PrecioTipoHabitacions.Remove(PresTipHbt);
+                dBContext.SaveChanges();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

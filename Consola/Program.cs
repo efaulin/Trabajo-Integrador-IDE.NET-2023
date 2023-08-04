@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Scaffolding.Metadata;
 Datos.DBContext dBContext = new Datos.DBContext();
 
 Console.WriteLine("¡Bienvenido al sistema de recepcion de hotel!");
-//Usuarios en construccion
+//Usuarios en construccion (manejar excepciones y validacion)
 Console.Write("Ingrese usuario: ");
 string usuario = Console.ReadLine();
 
