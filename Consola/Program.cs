@@ -237,8 +237,8 @@ void MenuHabitacion()
                         Console.WriteLine("pisoHabitacion: " + tmpHbt.PisoHabitacion);
                         Console.WriteLine("tipoHabitacion: " + tmpHbt.IdTipoHabitacionNavigation.Descripcion);
                         //Console.WriteLine("Precio: " + tmpHbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions.Last().PrecioHabitacion.ToString());
-                        Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, tmpHbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
-                        Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, tmpHbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
+                        Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Now, tmpHbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
+                        Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Now, tmpHbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
                         Console.WriteLine("-------------------------------------------");
                     }
                 }
@@ -342,8 +342,8 @@ void MenuHabitacion()
                         Console.WriteLine("nroHabitacion: " + hbt.NumeroHabitacion);
                         Console.WriteLine("pisoHabitacion: " + hbt.PisoHabitacion);
                         Console.WriteLine("tipoHabitacion: " + hbt.IdTipoHabitacionNavigation.Descripcion);
-                        Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
-                        Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
+                        Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Now, hbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
+                        Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Now, hbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
                         Console.WriteLine("-------------------------------------------");
 
                     }
