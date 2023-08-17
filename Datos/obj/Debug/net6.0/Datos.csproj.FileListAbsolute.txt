@@ -45,3 +45,5 @@ D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\Datos\obj\Debug\net6.0\
 D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\Datos\obj\Debug\net6.0\Datos.pdb
 D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\Datos\obj\Debug\net6.0\Datos.genruntimeconfig.cache
 D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\Datos\obj\Debug\net6.0\ref\Datos.dll
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Datos\bin\Debug\net6.0\Datos.runtimeconfig.json
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\Datos\obj\Debug\net6.0\Datos.genruntimeconfig.cache
