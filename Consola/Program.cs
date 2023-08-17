@@ -286,8 +286,8 @@ void MenuHabitacion()
                     Console.WriteLine("nroHabitacion: " + hbt.NumeroHabitacion);
                     Console.WriteLine("pisoHabitacion: " + hbt.PisoHabitacion);
                     Console.WriteLine("tipoHabitacion: " + hbt.IdTipoHabitacionNavigation.Descripcion);
-                    Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
-                    Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Today, hbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
+                    Console.WriteLine("Precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Now, hbt.IdTipoHabitacionNavigation).PrecioHabitacion.ToString());
+                    Console.WriteLine("  - Actualizacion de precio: " + Negocio.TipoHabitacion.DevPrecioFecha(DateTime.Now, hbt.IdTipoHabitacionNavigation).FechaPrecio.ToString());
                     Console.WriteLine("-------------------------------------------");
                 }
                 Console.Write("\nPresione una tecla para volver al menu...");
