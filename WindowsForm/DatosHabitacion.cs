@@ -84,7 +84,7 @@ namespace WindowsForm
 
                     break;
             }
-            
+
             this.Close();
         }
 
@@ -96,6 +96,7 @@ namespace WindowsForm
                 case 1:
                     this.Text = "Agregar habitacion";
                     cmbIdHabitacion.Items.Add("Nuevo");
+                    cmbIdHabitacion.SelectedIndex = 0;
                     hbt = new Habitacion();
                     break;
 
