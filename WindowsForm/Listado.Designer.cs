@@ -1,14 +1,14 @@
 ﻿namespace WindowsForm
 {
-    partial class Form1
+    partial class Listado
     {
         /// <summary>
-        ///  Required designer variable.
+        /// Required designer variable.
         /// </summary>
         private System.ComponentModel.IContainer components = null;
 
         /// <summary>
-        ///  Clean up any resources being used.
+        /// Clean up any resources being used.
         /// </summary>
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
@@ -23,19 +23,24 @@
         #region Windows Form Designer generated code
 
         /// <summary>
-        ///  Required method for Designer support - do not modify
-        ///  the contents of this method with the code editor.
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            label1 = new Label();
-            panel1 = new Panel();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Listado));
+            panel3 = new Panel();
+            label5 = new Label();
+            label4 = new Label();
             panelHspdSubmenu = new Panel();
             deleteHspd = new Button();
             editarHspd = new Button();
             addHspd = new Button();
             mostrarHspd = new Button();
+            pictureBox1 = new PictureBox();
+            label6 = new Label();
+            label3 = new Label();
+            mostrarHbt = new Button();
             btnHuesped = new Button();
             panelTpHbtSubmenu = new Panel();
             deleteTpHbt = new Button();
@@ -43,61 +48,70 @@
             editarTpHbt = new Button();
             addTpHbt = new Button();
             mostrarTpHbt = new Button();
-            btnTpHbt = new Button();
-            panelHbtSubmenu = new Panel();
             deleteHbt = new Button();
             altaHbt = new Button();
             bajaHbt = new Button();
             editHbt = new Button();
             addHbt = new Button();
-            mostrarHbt = new Button();
+            btnTpHbt = new Button();
+            panelHbtSubmenu = new Panel();
             btnHabitacion = new Button();
             panel5 = new Panel();
-            label6 = new Label();
-            label3 = new Label();
             panel2 = new Panel();
-            pictureBox1 = new PictureBox();
-            label4 = new Label();
             label2 = new Label();
-            panel3 = new Panel();
-            panel1.SuspendLayout();
+            panel1 = new Panel();
+            label1 = new Label();
+            toolStripContainer1 = new ToolStripContainer();
+            tlHabitaciones = new TableLayoutPanel();
+            dgvHabitaciones = new DataGridView();
+            btnActualizar = new Button();
+            btnSalir = new Button();
+            panel3.SuspendLayout();
             panelHspdSubmenu.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panelTpHbtSubmenu.SuspendLayout();
             panelHbtSubmenu.SuspendLayout();
             panel5.SuspendLayout();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel1.SuspendLayout();
+            toolStripContainer1.ContentPanel.SuspendLayout();
+            toolStripContainer1.SuspendLayout();
+            tlHabitaciones.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvHabitaciones).BeginInit();
             SuspendLayout();
             // 
-            // label1
+            // panel3
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Black", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-            label1.Location = new Point(337, 86);
-            label1.Name = "label1";
-            label1.Size = new Size(648, 25);
-            label1.TabIndex = 1;
-            label1.Text = "¡Bienvenido, seleccione alguna de las opciones para iniciar un CRUD!";
-            label1.Click += label1_Click;
+            panel3.BackColor = Color.LightSeaGreen;
+            panel3.Controls.Add(label5);
+            panel3.Dock = DockStyle.Top;
+            panel3.Location = new Point(251, 0);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(808, 97);
+            panel3.TabIndex = 6;
             // 
-            // panel1
+            // label5
             // 
-            panel1.AutoScroll = true;
-            panel1.BackColor = Color.DarkCyan;
-            panel1.Controls.Add(panelHspdSubmenu);
-            panel1.Controls.Add(btnHuesped);
-            panel1.Controls.Add(panelTpHbtSubmenu);
-            panel1.Controls.Add(btnTpHbt);
-            panel1.Controls.Add(panelHbtSubmenu);
-            panel1.Controls.Add(btnHabitacion);
-            panel1.Controls.Add(panel5);
-            panel1.Controls.Add(panel2);
-            panel1.Dock = DockStyle.Left;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(251, 717);
-            panel1.TabIndex = 2;
-            panel1.Paint += panel1_Paint;
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI Black", 14.25F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point);
+            label5.ForeColor = Color.White;
+            label5.Location = new Point(294, 43);
+            label5.Name = "label5";
+            label5.Size = new Size(207, 25);
+            label5.TabIndex = 0;
+            label5.Text = "Listado Habitaciones";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.BackColor = Color.DarkCyan;
+            label4.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.White;
+            label4.Location = new Point(96, 47);
+            label4.Name = "label4";
+            label4.Size = new Size(125, 21);
+            label4.TabIndex = 5;
+            label4.Text = "Administrador";
             // 
             // panelHspdSubmenu
             // 
@@ -111,7 +125,6 @@
             panelHspdSubmenu.Name = "panelHspdSubmenu";
             panelHspdSubmenu.Size = new Size(251, 111);
             panelHspdSubmenu.TabIndex = 20;
-            panelHspdSubmenu.Paint += panelHspdSubmenu_Paint;
             // 
             // deleteHspd
             // 
@@ -182,6 +195,55 @@
             mostrarHspd.UseVisualStyleBackColor = true;
             mostrarHspd.Click += mostrarHspd_Click;
             // 
+            // pictureBox1
+            // 
+            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
+            pictureBox1.Location = new Point(12, 27);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(51, 41);
+            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.ForeColor = Color.White;
+            label6.Location = new Point(82, 23);
+            label6.Name = "label6";
+            label6.Size = new Size(54, 21);
+            label6.TabIndex = 9;
+            label6.Text = "CRUD";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
+            label3.ForeColor = Color.White;
+            label3.Location = new Point(12, 23);
+            label3.Name = "label3";
+            label3.Size = new Size(75, 21);
+            label3.TabIndex = 8;
+            label3.Text = "Opciones";
+            // 
+            // mostrarHbt
+            // 
+            mostrarHbt.Dock = DockStyle.Top;
+            mostrarHbt.FlatAppearance.BorderSize = 0;
+            mostrarHbt.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            mostrarHbt.FlatStyle = FlatStyle.Flat;
+            mostrarHbt.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            mostrarHbt.Location = new Point(0, 0);
+            mostrarHbt.Name = "mostrarHbt";
+            mostrarHbt.Padding = new Padding(8, 0, 0, 0);
+            mostrarHbt.Size = new Size(251, 25);
+            mostrarHbt.TabIndex = 18;
+            mostrarHbt.Text = "Listar";
+            mostrarHbt.TextAlign = ContentAlignment.MiddleLeft;
+            mostrarHbt.UseVisualStyleBackColor = true;
+            mostrarHbt.Click += mostrarHbt_Click;
+            // 
             // btnHuesped
             // 
             btnHuesped.BackColor = Color.LightSeaGreen;
@@ -212,7 +274,6 @@
             panelTpHbtSubmenu.Name = "panelTpHbtSubmenu";
             panelTpHbtSubmenu.Size = new Size(251, 135);
             panelTpHbtSubmenu.TabIndex = 18;
-            panelTpHbtSubmenu.Paint += panelTpHbtSubmenu_Paint;
             // 
             // deleteTpHbt
             // 
@@ -300,39 +361,6 @@
             mostrarTpHbt.UseVisualStyleBackColor = true;
             mostrarTpHbt.Click += mostrarTpHbt_Click;
             // 
-            // btnTpHbt
-            // 
-            btnTpHbt.BackColor = Color.LightSeaGreen;
-            btnTpHbt.Dock = DockStyle.Top;
-            btnTpHbt.FlatAppearance.BorderColor = Color.DarkCyan;
-            btnTpHbt.FlatAppearance.BorderSize = 2;
-            btnTpHbt.FlatStyle = FlatStyle.Flat;
-            btnTpHbt.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnTpHbt.ForeColor = Color.White;
-            btnTpHbt.Location = new Point(0, 361);
-            btnTpHbt.Name = "btnTpHbt";
-            btnTpHbt.Size = new Size(251, 35);
-            btnTpHbt.TabIndex = 17;
-            btnTpHbt.Text = "Tipo de Habitacion";
-            btnTpHbt.UseVisualStyleBackColor = false;
-            btnTpHbt.Click += btnTpHbt_Click;
-            // 
-            // panelHbtSubmenu
-            // 
-            panelHbtSubmenu.BackColor = Color.MediumTurquoise;
-            panelHbtSubmenu.Controls.Add(deleteHbt);
-            panelHbtSubmenu.Controls.Add(altaHbt);
-            panelHbtSubmenu.Controls.Add(bajaHbt);
-            panelHbtSubmenu.Controls.Add(editHbt);
-            panelHbtSubmenu.Controls.Add(addHbt);
-            panelHbtSubmenu.Controls.Add(mostrarHbt);
-            panelHbtSubmenu.Dock = DockStyle.Top;
-            panelHbtSubmenu.Location = new Point(0, 200);
-            panelHbtSubmenu.Name = "panelHbtSubmenu";
-            panelHbtSubmenu.Size = new Size(251, 161);
-            panelHbtSubmenu.TabIndex = 16;
-            panelHbtSubmenu.Paint += panelHabitacionSubMenu_Paint;
-            // 
             // deleteHbt
             // 
             deleteHbt.Dock = DockStyle.Top;
@@ -419,22 +447,37 @@
             addHbt.UseVisualStyleBackColor = true;
             addHbt.Click += addHbt_Click;
             // 
-            // mostrarHbt
+            // btnTpHbt
             // 
-            mostrarHbt.Dock = DockStyle.Top;
-            mostrarHbt.FlatAppearance.BorderSize = 0;
-            mostrarHbt.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
-            mostrarHbt.FlatStyle = FlatStyle.Flat;
-            mostrarHbt.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            mostrarHbt.Location = new Point(0, 0);
-            mostrarHbt.Name = "mostrarHbt";
-            mostrarHbt.Padding = new Padding(8, 0, 0, 0);
-            mostrarHbt.Size = new Size(251, 25);
-            mostrarHbt.TabIndex = 18;
-            mostrarHbt.Text = "Listar";
-            mostrarHbt.TextAlign = ContentAlignment.MiddleLeft;
-            mostrarHbt.UseVisualStyleBackColor = true;
-            mostrarHbt.Click += mostrarHbt_Click;
+            btnTpHbt.BackColor = Color.LightSeaGreen;
+            btnTpHbt.Dock = DockStyle.Top;
+            btnTpHbt.FlatAppearance.BorderColor = Color.DarkCyan;
+            btnTpHbt.FlatAppearance.BorderSize = 2;
+            btnTpHbt.FlatStyle = FlatStyle.Flat;
+            btnTpHbt.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnTpHbt.ForeColor = Color.White;
+            btnTpHbt.Location = new Point(0, 361);
+            btnTpHbt.Name = "btnTpHbt";
+            btnTpHbt.Size = new Size(251, 35);
+            btnTpHbt.TabIndex = 17;
+            btnTpHbt.Text = "Tipo de Habitacion";
+            btnTpHbt.UseVisualStyleBackColor = false;
+            btnTpHbt.Click += btnTpHbt_Click;
+            // 
+            // panelHbtSubmenu
+            // 
+            panelHbtSubmenu.BackColor = Color.MediumTurquoise;
+            panelHbtSubmenu.Controls.Add(deleteHbt);
+            panelHbtSubmenu.Controls.Add(altaHbt);
+            panelHbtSubmenu.Controls.Add(bajaHbt);
+            panelHbtSubmenu.Controls.Add(editHbt);
+            panelHbtSubmenu.Controls.Add(addHbt);
+            panelHbtSubmenu.Controls.Add(mostrarHbt);
+            panelHbtSubmenu.Dock = DockStyle.Top;
+            panelHbtSubmenu.Location = new Point(0, 200);
+            panelHbtSubmenu.Name = "panelHbtSubmenu";
+            panelHbtSubmenu.Size = new Size(251, 161);
+            panelHbtSubmenu.TabIndex = 16;
             // 
             // btnHabitacion
             // 
@@ -451,7 +494,7 @@
             btnHabitacion.TabIndex = 15;
             btnHabitacion.Text = "Habitacion";
             btnHabitacion.UseVisualStyleBackColor = false;
-            btnHabitacion.Click += btnHabitacion_Click_1;
+            btnHabitacion.Click += btnHabitacion_Click;
             // 
             // panel5
             // 
@@ -462,31 +505,6 @@
             panel5.Name = "panel5";
             panel5.Size = new Size(251, 68);
             panel5.TabIndex = 14;
-            panel5.Paint += panel5_Paint;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label6.ForeColor = Color.White;
-            label6.Location = new Point(82, 23);
-            label6.Name = "label6";
-            label6.Size = new Size(54, 21);
-            label6.TabIndex = 9;
-            label6.Text = "CRUD";
-            label6.Click += label6_Click_1;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point);
-            label3.ForeColor = Color.White;
-            label3.Location = new Point(12, 23);
-            label3.Name = "label3";
-            label3.Size = new Size(75, 21);
-            label3.TabIndex = 8;
-            label3.Text = "Opciones";
-            label3.Click += label3_Click_1;
             // 
             // panel2
             // 
@@ -499,31 +517,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(251, 97);
             panel2.TabIndex = 12;
-            panel2.Paint += panel2_Paint;
-            // 
-            // pictureBox1
-            // 
-            pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 27);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(51, 41);
-            pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox1.TabIndex = 6;
-            pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click_1;
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.BackColor = Color.DarkCyan;
-            label4.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.ForeColor = Color.White;
-            label4.Location = new Point(96, 47);
-            label4.Name = "label4";
-            label4.Size = new Size(125, 21);
-            label4.TabIndex = 5;
-            label4.Text = "Administrador";
-            label4.Click += label4_Click_1;
             // 
             // label2
             // 
@@ -536,68 +529,155 @@
             label2.Size = new Size(85, 20);
             label2.TabIndex = 4;
             label2.Text = "Bienvenido";
-            label2.Click += label2_Click_1;
             // 
-            // panel3
+            // panel1
             // 
-            panel3.BackColor = Color.LightSeaGreen;
-            panel3.Dock = DockStyle.Top;
-            panel3.Location = new Point(251, 0);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(808, 18);
-            panel3.TabIndex = 3;
-            panel3.Paint += panel3_Paint_1;
+            panel1.AutoScroll = true;
+            panel1.BackColor = Color.DarkCyan;
+            panel1.Controls.Add(panelHspdSubmenu);
+            panel1.Controls.Add(btnHuesped);
+            panel1.Controls.Add(panelTpHbtSubmenu);
+            panel1.Controls.Add(btnTpHbt);
+            panel1.Controls.Add(panelHbtSubmenu);
+            panel1.Controls.Add(btnHabitacion);
+            panel1.Controls.Add(panel5);
+            panel1.Controls.Add(panel2);
+            panel1.Dock = DockStyle.Left;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(251, 717);
+            panel1.TabIndex = 5;
             // 
-            // Form1
+            // label1
             // 
-            AutoScaleDimensions = new SizeF(6F, 13F);
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Black", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
+            label1.Location = new Point(337, 86);
+            label1.Name = "label1";
+            label1.Size = new Size(0, 25);
+            label1.TabIndex = 4;
+            // 
+            // toolStripContainer1
+            // 
+            // 
+            // toolStripContainer1.ContentPanel
+            // 
+            toolStripContainer1.ContentPanel.Controls.Add(tlHabitaciones);
+            toolStripContainer1.ContentPanel.Size = new Size(808, 595);
+            toolStripContainer1.Dock = DockStyle.Fill;
+            toolStripContainer1.Location = new Point(251, 97);
+            toolStripContainer1.Name = "toolStripContainer1";
+            toolStripContainer1.Size = new Size(808, 620);
+            toolStripContainer1.TabIndex = 7;
+            toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // toolStripContainer1.TopToolStripPanel
+            // 
+            toolStripContainer1.TopToolStripPanel.Click += toolStripContainer1_TopToolStripPanel_Click;
+            // 
+            // tlHabitaciones
+            // 
+            tlHabitaciones.ColumnCount = 2;
+            tlHabitaciones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
+            tlHabitaciones.ColumnStyles.Add(new ColumnStyle());
+            tlHabitaciones.Controls.Add(dgvHabitaciones, 0, 0);
+            tlHabitaciones.Controls.Add(btnActualizar, 0, 1);
+            tlHabitaciones.Controls.Add(btnSalir, 1, 1);
+            tlHabitaciones.Dock = DockStyle.Fill;
+            tlHabitaciones.Location = new Point(0, 0);
+            tlHabitaciones.Name = "tlHabitaciones";
+            tlHabitaciones.RowCount = 2;
+            tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
+            tlHabitaciones.RowStyles.Add(new RowStyle());
+            tlHabitaciones.Size = new Size(808, 595);
+            tlHabitaciones.TabIndex = 0;
+            // 
+            // dgvHabitaciones
+            // 
+            dgvHabitaciones.AllowUserToResizeColumns = false;
+            dgvHabitaciones.AllowUserToResizeRows = false;
+            dgvHabitaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHabitaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            tlHabitaciones.SetColumnSpan(dgvHabitaciones, 2);
+            dgvHabitaciones.Dock = DockStyle.Fill;
+            dgvHabitaciones.Location = new Point(3, 3);
+            dgvHabitaciones.Name = "dgvHabitaciones";
+            dgvHabitaciones.ReadOnly = true;
+            dgvHabitaciones.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
+            dgvHabitaciones.RowTemplate.Height = 25;
+            dgvHabitaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            dgvHabitaciones.Size = new Size(802, 560);
+            dgvHabitaciones.TabIndex = 0;
+            dgvHabitaciones.CellContentClick += dgvHabitaciones_CellContentClick;
+            // 
+            // btnActualizar
+            // 
+            btnActualizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            btnActualizar.Location = new Point(649, 569);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(75, 23);
+            btnActualizar.TabIndex = 1;
+            btnActualizar.Text = "Actualizar";
+            btnActualizar.UseVisualStyleBackColor = true;
+            btnActualizar.Click += btnActualizar_Click;
+            // 
+            // btnSalir
+            // 
+            btnSalir.Location = new Point(730, 569);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(75, 23);
+            btnSalir.TabIndex = 2;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = true;
+            // 
+            // Listado
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1059, 717);
+            Controls.Add(toolStripContainer1);
             Controls.Add(panel3);
             Controls.Add(panel1);
             Controls.Add(label1);
-            Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
-            FormBorderStyle = FormBorderStyle.FixedSingle;
             MinimumSize = new Size(950, 600);
-            Name = "Form1";
+            Name = "Listado";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Menu Principal";
-            Load += Form1_Load;
-            panel1.ResumeLayout(false);
+            Text = "Listar Habitaciones";
+            Load += ListarHbt_Load;
+            panel3.ResumeLayout(false);
+            panel3.PerformLayout();
             panelHspdSubmenu.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panelTpHbtSubmenu.ResumeLayout(false);
             panelHbtSubmenu.ResumeLayout(false);
             panel5.ResumeLayout(false);
             panel5.PerformLayout();
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel1.ResumeLayout(false);
+            toolStripContainer1.ContentPanel.ResumeLayout(false);
+            toolStripContainer1.ResumeLayout(false);
+            toolStripContainer1.PerformLayout();
+            tlHabitaciones.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)dgvHabitaciones).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private Label label1;
-        private Panel panel1;
+
         private Panel panel3;
-        private PictureBox pictureBox2;
-        private Label label5;
-        private Panel panel2;
-        private PictureBox pictureBox1;
         private Label label4;
-        private Label label2;
-        private Panel panel5;
-        private Panel panelHbtSubmenu;
-        private Button btnHabitacion;
-        private Label label6;
-        private Label label3;
-        private Button mostrarHbt;
         private Panel panelHspdSubmenu;
         private Button deleteHspd;
         private Button editarHspd;
         private Button addHspd;
         private Button mostrarHspd;
+        private PictureBox pictureBox1;
+        private Label label6;
+        private Label label3;
+        private Button mostrarHbt;
         private Button btnHuesped;
         private Panel panelTpHbtSubmenu;
         private Button deleteTpHbt;
@@ -605,11 +685,24 @@
         private Button editarTpHbt;
         private Button addTpHbt;
         private Button mostrarTpHbt;
-        private Button btnTpHbt;
         private Button deleteHbt;
         private Button altaHbt;
         private Button bajaHbt;
         private Button editHbt;
         private Button addHbt;
+        private Button btnTpHbt;
+        private Panel panelHbtSubmenu;
+        private Button btnHabitacion;
+        private Panel panel5;
+        private Panel panel2;
+        private Label label2;
+        private Panel panel1;
+        private Label label1;
+        private Label label5;
+        private ToolStripContainer toolStripContainer1;
+        private TableLayoutPanel tlHabitaciones;
+        private DataGridView dgvHabitaciones;
+        private Button btnActualizar;
+        private Button btnSalir;
     }
 }
