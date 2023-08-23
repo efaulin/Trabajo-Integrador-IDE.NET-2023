@@ -181,8 +181,10 @@ namespace WindowsForm
         private void mostrarHbt_Click(object sender, EventArgs e)
         {
             //..
-            Form form = new ListarHbt();
+            
+            Form form = new Listado(0);
             form.ShowDialog();
+            
             ocultarSubmenu();
         }
 
@@ -221,6 +223,8 @@ namespace WindowsForm
         private void mostrarTpHbt_Click(object sender, EventArgs e)
         {
             //..
+            Form form = new Listado(1);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 
@@ -251,6 +255,8 @@ namespace WindowsForm
         private void mostrarHspd_Click(object sender, EventArgs e)
         {
             //..
+            Form form = new Listado(2);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

@@ -123,4 +123,4 @@ D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\WindowsForm\obj\Debug\n
 D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\WindowsForm\obj\Debug\net6.0-windows\WindowsForm.genruntimeconfig.cache
 D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\WindowsForm\obj\Debug\net6.0-windows\ref\WindowsForm.dll
 D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\WindowsForm\obj\Debug\net6.0-windows\WindowsForm.Properties.Resources.resources
-D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\WindowsForm\obj\Debug\net6.0-windows\WindowsForm.ListarHbt.resources
+D:\Joaco\UNI 3ero\TPINet\Trabajo-Integrador-IDE.NET-2023\WindowsForm\obj\Debug\net6.0-windows\WindowsForm.Listado.resources

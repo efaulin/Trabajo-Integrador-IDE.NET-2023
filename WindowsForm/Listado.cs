@@ -12,10 +12,12 @@ using System.Windows.Forms;
 
 namespace WindowsForm
 {
-    public partial class ListarHbt : Form
+    public partial class Listado : Form
     {
-        public ListarHbt()
+        int opcion;
+        public Listado(int op)
         {
+            opcion = op;
             InitializeComponent();
             personalizarDesign();
         }
@@ -56,11 +58,26 @@ namespace WindowsForm
 
         public void listar()
         {
-            List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
-            dgvHabitaciones.DataSource = _lstHbt;
-            dgvHabitaciones.Columns.RemoveAt(6);
-            dgvHabitaciones.Columns.RemoveAt(5);
-            //dgvHabitaciones.CellFormatting
+            switch (opcion)
+            {
+                case 0:
+                    List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
+                    dgvHabitaciones.DataSource = _lstHbt;
+                    dgvHabitaciones.Columns.RemoveAt(6);
+                    dgvHabitaciones.Columns.RemoveAt(5);
+                    break;
+                case 1:
+                    List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
+                    dgvHabitaciones.DataSource = _lstTpHbt;
+                    dgvHabitaciones.Columns.RemoveAt(3);
+                    break;
+                case 2:
+                    List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
+                    dgvHabitaciones.DataSource = _lstHspd;
+                    dgvHabitaciones.Columns.RemoveAt(5);
+                    break;
+            }
+
         }
 
         private void ListarHbt_Load(object sender, EventArgs e)
@@ -114,6 +131,8 @@ namespace WindowsForm
         private void mostrarTpHbt_Click(object sender, EventArgs e)
         {
             //..
+            Form form = new Listado(1);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 
@@ -144,6 +163,8 @@ namespace WindowsForm
         private void mostrarHspd_Click(object sender, EventArgs e)
         {
             //..
+            Form form = new Listado(2);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

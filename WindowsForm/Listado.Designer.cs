@@ -1,6 +1,6 @@
 ﻿namespace WindowsForm
 {
-    partial class ListarHbt
+    partial class Listado
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ListarHbt));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Listado));
             panel3 = new Panel();
             label5 = new Label();
             label4 = new Label();
@@ -563,7 +563,7 @@
             // toolStripContainer1.ContentPanel
             // 
             toolStripContainer1.ContentPanel.Controls.Add(tlHabitaciones);
-            toolStripContainer1.ContentPanel.Size = new Size(808, 620);
+            toolStripContainer1.ContentPanel.Size = new Size(808, 595);
             toolStripContainer1.Dock = DockStyle.Fill;
             toolStripContainer1.Location = new Point(251, 97);
             toolStripContainer1.Name = "toolStripContainer1";
@@ -589,7 +589,7 @@
             tlHabitaciones.RowCount = 2;
             tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlHabitaciones.RowStyles.Add(new RowStyle());
-            tlHabitaciones.Size = new Size(808, 620);
+            tlHabitaciones.Size = new Size(808, 595);
             tlHabitaciones.TabIndex = 0;
             // 
             // dgvHabitaciones
@@ -606,14 +606,14 @@
             dgvHabitaciones.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvHabitaciones.RowTemplate.Height = 25;
             dgvHabitaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHabitaciones.Size = new Size(802, 585);
+            dgvHabitaciones.Size = new Size(802, 560);
             dgvHabitaciones.TabIndex = 0;
             dgvHabitaciones.CellContentClick += dgvHabitaciones_CellContentClick;
             // 
             // btnActualizar
             // 
             btnActualizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnActualizar.Location = new Point(649, 594);
+            btnActualizar.Location = new Point(649, 569);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(75, 23);
             btnActualizar.TabIndex = 1;
@@ -623,14 +623,14 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(730, 594);
+            btnSalir.Location = new Point(730, 569);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(75, 23);
             btnSalir.TabIndex = 2;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
             // 
-            // ListarHbt
+            // Listado
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -641,7 +641,8 @@
             Controls.Add(panel1);
             Controls.Add(label1);
             MinimumSize = new Size(950, 600);
-            Name = "ListarHbt";
+            Name = "Listado";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Listar Habitaciones";
             Load += ListarHbt_Load;
             panel3.ResumeLayout(false);
