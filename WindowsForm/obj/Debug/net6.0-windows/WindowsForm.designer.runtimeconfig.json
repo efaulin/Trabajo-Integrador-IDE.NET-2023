@@ -12,9 +12,8 @@
       }
     ],
     "additionalProbingPaths": [
-      "C:\\Users\\pandu\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\pandu\\.nuget\\packages",
-      "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      "C:\\Users\\joaqu\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\joaqu\\.nuget\\packages"
     ],
     "configProperties": {
       "System.Reflection.NullabilityInfoContext.IsSupported": true,

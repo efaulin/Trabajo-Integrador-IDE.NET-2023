@@ -13,7 +13,7 @@ namespace WindowsForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
         }
 
         #region tlSc_Habitaciones
@@ -24,15 +24,15 @@ namespace WindowsForm
 
         private void tlSc_hbtAgregar_Click(object sender, EventArgs e)
         {
-            Form form = new DatosHabitacion();
+            Form form = new DatosHabitacion(1);
             form.ShowDialog();
         }
 
         private void tlSc_hbtEditar_Click(object sender, EventArgs e)
         {
             //Elegir habitacion...
-            Habitacion hbt = Negocio.Habitacion.GetOne(1004);
-            Form form = new DatosHabitacion(hbt);
+            //Habitacion hbt = Negocio.Habitacion.GetOne(1004);
+            Form form = new DatosHabitacion(2);
             form.ShowDialog();
         }
 
@@ -51,5 +51,20 @@ namespace WindowsForm
 
         }
         #endregion
+
+        private void habitacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tlScTpHbtAgregar_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tiposDeHabitacionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label1 = new Label();
-            txtId = new TextBox();
             label2 = new Label();
             label3 = new Label();
             nroNumero = new NumericUpDown();
@@ -38,6 +37,7 @@
             btnCancelar = new Button();
             label4 = new Label();
             cmbTipoHabitacion = new ComboBox();
+            cmbIdHabitacion = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nroPiso).BeginInit();
             SuspendLayout();
@@ -51,16 +51,6 @@
             label1.TabIndex = 0;
             label1.Text = "ID:";
             label1.Click += label1_Click;
-            // 
-            // txtId
-            // 
-            txtId.Enabled = false;
-            txtId.Font = new Font("Segoe UI", 9F, FontStyle.Italic, GraphicsUnit.Point);
-            txtId.Location = new Point(126, 33);
-            txtId.Name = "txtId";
-            txtId.Size = new Size(103, 23);
-            txtId.TabIndex = 1;
-            txtId.Text = "Nuevo";
             // 
             // label2
             // 
@@ -87,6 +77,7 @@
             nroNumero.Name = "nroNumero";
             nroNumero.Size = new Size(103, 23);
             nroNumero.TabIndex = 6;
+            nroNumero.ValueChanged += nroNumero_ValueChanged;
             // 
             // nroPiso
             // 
@@ -135,11 +126,22 @@
             cmbTipoHabitacion.Size = new Size(191, 23);
             cmbTipoHabitacion.TabIndex = 12;
             // 
+            // cmbIdHabitacion
+            // 
+            cmbIdHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbIdHabitacion.FormattingEnabled = true;
+            cmbIdHabitacion.Location = new Point(126, 33);
+            cmbIdHabitacion.Name = "cmbIdHabitacion";
+            cmbIdHabitacion.Size = new Size(191, 23);
+            cmbIdHabitacion.TabIndex = 13;
+            cmbIdHabitacion.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
             // DatosHabitacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(373, 258);
+            Controls.Add(cmbIdHabitacion);
             Controls.Add(cmbTipoHabitacion);
             Controls.Add(label4);
             Controls.Add(btnCancelar);
@@ -148,7 +150,6 @@
             Controls.Add(nroNumero);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(txtId);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "DatosHabitacion";
@@ -163,7 +164,6 @@
         #endregion
 
         private Label label1;
-        private TextBox txtId;
         private Label label2;
         private Label label3;
         private NumericUpDown nroNumero;
@@ -172,5 +172,6 @@
         private Button btnCancelar;
         private Label label4;
         private ComboBox cmbTipoHabitacion;
+        private ComboBox cmbIdHabitacion;
     }
 }

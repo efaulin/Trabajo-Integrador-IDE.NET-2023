@@ -67,39 +67,40 @@
             habitacionesToolStripMenuItem.Name = "habitacionesToolStripMenuItem";
             habitacionesToolStripMenuItem.Size = new Size(88, 20);
             habitacionesToolStripMenuItem.Text = "Habitaciones";
+            habitacionesToolStripMenuItem.Click += habitacionesToolStripMenuItem_Click;
             // 
             // tlScHbtVer
             // 
             tlScHbtVer.Name = "tlScHbtVer";
-            tlScHbtVer.Size = new Size(133, 22);
+            tlScHbtVer.Size = new Size(180, 22);
             tlScHbtVer.Text = "Ver";
             tlScHbtVer.Click += tlSc_hbtVer_Click;
             // 
             // tlScHbtAgregar
             // 
             tlScHbtAgregar.Name = "tlScHbtAgregar";
-            tlScHbtAgregar.Size = new Size(133, 22);
+            tlScHbtAgregar.Size = new Size(180, 22);
             tlScHbtAgregar.Text = "Agregar";
             tlScHbtAgregar.Click += tlSc_hbtAgregar_Click;
             // 
             // tlScHbtEditar
             // 
             tlScHbtEditar.Name = "tlScHbtEditar";
-            tlScHbtEditar.Size = new Size(133, 22);
+            tlScHbtEditar.Size = new Size(180, 22);
             tlScHbtEditar.Text = "Editar";
             tlScHbtEditar.Click += tlSc_hbtEditar_Click;
             // 
             // tlScHbtBaja
             // 
             tlScHbtBaja.Name = "tlScHbtBaja";
-            tlScHbtBaja.Size = new Size(133, 22);
+            tlScHbtBaja.Size = new Size(180, 22);
             tlScHbtBaja.Text = "Dar de baja";
             tlScHbtBaja.Click += tlSc_hbtBaja_Click;
             // 
             // tlScHbtAlta
             // 
             tlScHbtAlta.Name = "tlScHbtAlta";
-            tlScHbtAlta.Size = new Size(133, 22);
+            tlScHbtAlta.Size = new Size(180, 22);
             tlScHbtAlta.Text = "Dar de alta";
             tlScHbtAlta.Click += tlSc_hbtAlta_Click;
             // 
@@ -107,7 +108,7 @@
             // 
             tlScHbtEliminar.ForeColor = Color.Red;
             tlScHbtEliminar.Name = "tlScHbtEliminar";
-            tlScHbtEliminar.Size = new Size(133, 22);
+            tlScHbtEliminar.Size = new Size(180, 22);
             tlScHbtEliminar.Text = "Eliminar";
             tlScHbtEliminar.Click += tlSc_hbtEliminar_Click;
             // 
@@ -117,24 +118,26 @@
             tiposDeHabitacionesToolStripMenuItem.Name = "tiposDeHabitacionesToolStripMenuItem";
             tiposDeHabitacionesToolStripMenuItem.Size = new Size(133, 20);
             tiposDeHabitacionesToolStripMenuItem.Text = "Tipos de habitaciones";
+            tiposDeHabitacionesToolStripMenuItem.Click += tiposDeHabitacionesToolStripMenuItem_Click;
             // 
             // tlScTpHbtVer
             // 
             tlScTpHbtVer.Name = "tlScTpHbtVer";
-            tlScTpHbtVer.Size = new Size(117, 22);
+            tlScTpHbtVer.Size = new Size(180, 22);
             tlScTpHbtVer.Text = "Ver";
             // 
             // tlScTpHbtAgregar
             // 
             tlScTpHbtAgregar.Name = "tlScTpHbtAgregar";
-            tlScTpHbtAgregar.Size = new Size(117, 22);
+            tlScTpHbtAgregar.Size = new Size(180, 22);
             tlScTpHbtAgregar.Text = "Agregar";
+            tlScTpHbtAgregar.Click += tlScTpHbtAgregar_Click;
             // 
             // tlScTpHbtEditar
             // 
             tlScTpHbtEditar.DropDownItems.AddRange(new ToolStripItem[] { tlScTpHbtEditarDatos, tlScTpHbtEditarPrecio });
             tlScTpHbtEditar.Name = "tlScTpHbtEditar";
-            tlScTpHbtEditar.Size = new Size(117, 22);
+            tlScTpHbtEditar.Size = new Size(180, 22);
             tlScTpHbtEditar.Text = "Editar";
             // 
             // tlScTpHbtEditarDatos
@@ -153,7 +156,7 @@
             // 
             tlScTpHbtEliminar.ForeColor = Color.Red;
             tlScTpHbtEliminar.Name = "tlScTpHbtEliminar";
-            tlScTpHbtEliminar.Size = new Size(117, 22);
+            tlScTpHbtEliminar.Size = new Size(180, 22);
             tlScTpHbtEliminar.Text = "Eliminar";
             // 
             // huespedesToolStripMenuItem
@@ -166,26 +169,26 @@
             // tlScHpdVer
             // 
             tlScHpdVer.Name = "tlScHpdVer";
-            tlScHpdVer.Size = new Size(180, 22);
+            tlScHpdVer.Size = new Size(117, 22);
             tlScHpdVer.Text = "Ver";
             // 
             // tlScHpdAgregar
             // 
             tlScHpdAgregar.Name = "tlScHpdAgregar";
-            tlScHpdAgregar.Size = new Size(180, 22);
+            tlScHpdAgregar.Size = new Size(117, 22);
             tlScHpdAgregar.Text = "Agregar";
             // 
             // tlScHpdEditar
             // 
             tlScHpdEditar.Name = "tlScHpdEditar";
-            tlScHpdEditar.Size = new Size(180, 22);
+            tlScHpdEditar.Size = new Size(117, 22);
             tlScHpdEditar.Text = "Editar";
             // 
             // tlScHpdEliminar
             // 
             tlScHpdEliminar.ForeColor = Color.Red;
             tlScHpdEliminar.Name = "tlScHpdEliminar";
-            tlScHpdEliminar.Size = new Size(180, 22);
+            tlScHpdEliminar.Size = new Size(117, 22);
             tlScHpdEliminar.Text = "Eliminar";
             // 
             // label1

@@ -14,9 +14,11 @@ namespace WindowsForm
 {
     public partial class DatosHabitacion : Form
     {
-        Habitacion? _hbt;
+        int? op;
         Habitacion hbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
+        List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
+        Hashtable _tmpHbt = new Hashtable();
         Hashtable _tmpTpHbt = new Hashtable();
 
         public DatosHabitacion()
@@ -24,9 +26,9 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        public DatosHabitacion(Habitacion exHbt)
+        public DatosHabitacion(int opcion)
         {
-            _hbt = exHbt;
+            op = opcion;
             InitializeComponent();
         }
 
@@ -37,37 +39,84 @@ namespace WindowsForm
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem];
-            hbt.Estado = true;
-            hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
-            hbt.IdTipoHabitacionNavigation = tmpTpHbt;
-            hbt.NumeroHabitacion = (int)this.nroNumero.Value;
-            hbt.PisoHabitacion = (int)this.nroPiso.Value;
+            switch (op)
+            {
+                case 1:
+                    try
+                    {
+                        TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem];
+                        hbt.Estado = true;
+                        hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
+                        hbt.IdTipoHabitacionNavigation = tmpTpHbt;
+                        hbt.NumeroHabitacion = (int)this.nroNumero.Value;
+                        hbt.PisoHabitacion = (int)this.nroPiso.Value;
+                        Negocio.Habitacion.Create(hbt);
+                        MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " cargada con exito.");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Hubo un problema al cargar la habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //throw ex;
+                    }
 
-            if (_hbt == null)
-            {
-                Negocio.Habitacion.Create(hbt);
-            }
-            else
-            {
-                Negocio.Habitacion.Update(hbt); //¿Cambiar las funciones CRUD de negocio para devolver un boolean? ¿Como?
-            }
+                    break;
 
-            if (hbt.IdHabitacion != 0)
-            {
-                MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " cargada con exito.");
-            }
-            else
-            {
-                MessageBox.Show("Hubo un problema al cargar la habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
+                case 2:
+                    try
+                    {
+                        Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+                        hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt == tmpHbt; });
+                        TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem];
+                        hbt.Estado = true;
+                        hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
+                        hbt.IdTipoHabitacionNavigation = tmpTpHbt;
+                        hbt.NumeroHabitacion = (int)this.nroNumero.Value;
+                        hbt.PisoHabitacion = (int)this.nroPiso.Value;
 
+                        Negocio.Habitacion.Update(hbt);
+                        MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " editada con exito.");
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Hubo un problema al editar la habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //throw ex;
+                    }
+
+                    break;
+            }
+            
             this.Close();
         }
 
         private void DatosHabitacion_Load(object sender, EventArgs e)
         {
-            this.Text = "Agregar habitacion";
+
+            switch (op)
+            {
+                case 1:
+                    this.Text = "Agregar habitacion";
+                    cmbIdHabitacion.Items.Add("Nuevo");
+                    hbt = new Habitacion();
+                    break;
+
+                case 2:
+                    this.Text = "Editar habitacion";
+                    if (_lstHbt.Count <= 0)
+                    {
+                        MessageBox.Show("No hay Habitaciones registradas\nAgrege una Habitacion, antes de editar ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+
+                    foreach (Habitacion _hbt in _lstHbt)
+                    {
+                        string tmp = "Nro: " + _hbt.NumeroHabitacion + " -  Piso: " + _hbt.PisoHabitacion;
+                        _tmpHbt[tmp] = _hbt;
+                        cmbIdHabitacion.Items.Add(tmp);
+                    }
+                    cmbIdHabitacion.SelectedIndex = 0;
+                    break;
+            }
+
             if (_lstTpHbt.Count <= 0)
             {
                 MessageBox.Show("No hay tipos de habitaciones registradas\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -81,19 +130,6 @@ namespace WindowsForm
                 cmbTipoHabitacion.Items.Add(tmp);
             }
             cmbTipoHabitacion.SelectedIndex = 0;
-
-            if (_hbt == null)
-            {
-                hbt = new Habitacion();
-            }
-            else
-            {
-                hbt = _hbt;
-                this.txtId.Text = hbt.IdHabitacion.ToString();
-                this.nroNumero.Value = hbt.NumeroHabitacion;
-                this.nroPiso.Value = hbt.PisoHabitacion;
-                cmbTipoHabitacion.SelectedItem = hbt.IdTipoHabitacion + " - " + hbt.IdTipoHabitacionNavigation.Descripcion;
-            }
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -107,6 +143,16 @@ namespace WindowsForm
         }
 
         private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nroNumero_ValueChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
         }
