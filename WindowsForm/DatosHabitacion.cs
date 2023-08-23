@@ -107,14 +107,16 @@ namespace WindowsForm
                         MessageBox.Show("No hay Habitaciones registradas\nAgrege una Habitacion, antes de editar ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
-
-                    foreach (Habitacion _hbt in _lstHbt)
+                    else
                     {
-                        string tmp = "Nro: " + _hbt.NumeroHabitacion + " -  Piso: " + _hbt.PisoHabitacion;
-                        _tmpHbt[tmp] = _hbt;
-                        cmbIdHabitacion.Items.Add(tmp);
+                        foreach (Habitacion _hbt in _lstHbt)
+                        {
+                            string tmp = "Nro: " + _hbt.NumeroHabitacion + " -  Piso: " + _hbt.PisoHabitacion;
+                            _tmpHbt[tmp] = _hbt;
+                            cmbIdHabitacion.Items.Add(tmp);
+                        }
+                        cmbIdHabitacion.SelectedIndex = 0;
                     }
-                    cmbIdHabitacion.SelectedIndex = 0;
                     break;
             }
 
@@ -123,6 +125,10 @@ namespace WindowsForm
                 MessageBox.Show("No hay tipos de habitaciones registradas\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
+            else
+            {
+                cmbTipoHabitacion.SelectedIndex = 0;
+            }
 
             foreach (TipoHabitacion tpHbt in _lstTpHbt)
             {
@@ -130,7 +136,6 @@ namespace WindowsForm
                 _tmpTpHbt[tmp] = tpHbt;
                 cmbTipoHabitacion.Items.Add(tmp);
             }
-            cmbTipoHabitacion.SelectedIndex = 0;
         }
 
         private void label4_Click(object sender, EventArgs e)

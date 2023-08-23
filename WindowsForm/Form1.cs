@@ -224,13 +224,15 @@ namespace WindowsForm
 
         private void addTpHbt_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new DatosTipoHabitacion(1);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 
         private void editarTpHbt_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new DatosTipoHabitacion(2);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

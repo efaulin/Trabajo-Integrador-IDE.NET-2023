@@ -2678,19 +2678,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\joaqu\\.nuget\\packages\\": {}
+    "C:\\Users\\pandu\\.nuget\\packages\\": {},
+    "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Consola\\Consola.csproj",
+      "projectUniqueName": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Consola\\Consola.csproj",
       "projectName": "Consola",
-      "projectPath": "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Consola\\Consola.csproj",
-      "packagesPath": "C:\\Users\\joaqu\\.nuget\\packages\\",
-      "outputPath": "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Consola\\obj\\",
+      "projectPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Consola\\Consola.csproj",
+      "packagesPath": "C:\\Users\\pandu\\.nuget\\packages\\",
+      "outputPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Consola\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "D:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "C:\\Users\\joaqu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\pandu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -2698,17 +2703,18 @@
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
           "projectReferences": {
-            "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Entidad\\Entidad.csproj": {
-              "projectPath": "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Entidad\\Entidad.csproj"
+            "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Entidad\\Entidad.csproj": {
+              "projectPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Entidad\\Entidad.csproj"
             },
-            "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Negocio\\Negocio.csproj": {
-              "projectPath": "D:\\Joaco\\UNI 3ero\\TPINet\\Trabajo-Integrador-IDE.NET-2023\\Negocio\\Negocio.csproj"
+            "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Negocio\\Negocio.csproj": {
+              "projectPath": "D:\\GitHub\\Trabajo-Integrador-IDE.NET-2023\\Negocio\\Negocio.csproj"
             }
           }
         }
@@ -2738,7 +2744,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.306\\RuntimeIdentifierGraph.json"
       }
     }
   }
