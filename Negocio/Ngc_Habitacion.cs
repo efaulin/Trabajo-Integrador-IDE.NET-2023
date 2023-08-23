@@ -7,12 +7,21 @@ namespace Negocio
     public class Habitacion
     {
         static Datos.DBContext dBContext = DBContext.dBContext;
-        public static List<Entidad.Models.Habitacion> getAll()
+        public static Entidad.Models.Habitacion GetOne(int id)
+        {
+            Entidad.Models.Habitacion hbt = dBContext.Habitacions.Find(id);
+            if (hbt != null)
+            {
+                dBContext.TipoHabitacions.Find(hbt.IdTipoHabitacion);
+            }
+            return hbt;
+        }
+        public static List<Entidad.Models.Habitacion> GetAll()
         {
             List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.ToList();
             foreach (Entidad.Models.Habitacion hbt in habitaciones)
             {
-                hbt.IdTipoHabitacionNavigation = TipoHabitacion.getOne(hbt.IdTipoHabitacion);
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion);
             }
             return habitaciones;
         }
@@ -46,7 +55,7 @@ namespace Negocio
     public class TipoHabitacion
     {
         static Datos.DBContext dBContext = DBContext.dBContext;
-        public static List<Entidad.Models.TipoHabitacion> getAll()
+        public static List<Entidad.Models.TipoHabitacion> GetAll()
         {
             List<Entidad.Models.TipoHabitacion> lstTipHbt = dBContext.TipoHabitacions.ToList();
             foreach (Entidad.Models.TipoHabitacion tipHbt in lstTipHbt)
@@ -55,7 +64,7 @@ namespace Negocio
             }
             return lstTipHbt;
         }
-        public static Entidad.Models.TipoHabitacion getOne(int id)
+        public static Entidad.Models.TipoHabitacion GetOne(int id)
         {
             Entidad.Models.TipoHabitacion tipHbt = dBContext.TipoHabitacions.Find(id);
             if (tipHbt != null)
@@ -114,22 +123,22 @@ namespace Negocio
     public class PrecioTipoHabitacion
     {
         static Datos.DBContext dBContext = DBContext.dBContext;
-        public static List<Entidad.Models.PrecioTipoHabitacion> getAll()
+        public static List<Entidad.Models.PrecioTipoHabitacion> GetAll()
         {
             List<Entidad.Models.PrecioTipoHabitacion> lstPresTipHbt = dBContext.PrecioTipoHabitacions.ToList();
             foreach (Entidad.Models.PrecioTipoHabitacion PresTipHbt in lstPresTipHbt)
             {
-                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.getOne(PresTipHbt.IdTipoHabitacion);
+                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion);
             }
             return lstPresTipHbt;
         }
 
-        public static Entidad.Models.PrecioTipoHabitacion getOne(int id)
+        public static Entidad.Models.PrecioTipoHabitacion GetOne(int id)
         {
             Entidad.Models.PrecioTipoHabitacion PresTipHbt = dBContext.PrecioTipoHabitacions.Find(id);
             if (PresTipHbt != null)
             {
-                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.getOne(PresTipHbt.IdTipoHabitacion);
+                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion);
             }
             return PresTipHbt;
         }

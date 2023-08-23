@@ -57,7 +57,7 @@ void MenuHuesped()
             case ConsoleKey.D1:
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
-                lstHuespedes = Negocio.Huesped.getAll();
+                lstHuespedes = Negocio.Huesped.GetAll();
                 if (lstHuespedes.Count == 0){
                     Console.WriteLine("-NO SE HAN ENCONTRADO HUESPEDES REGISTRADOS-");
                 }
@@ -113,7 +113,7 @@ void MenuHuesped()
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
                 Console.WriteLine("Huespedes registrados:");
-                lstHuespedes = Negocio.Huesped.getAll();
+                lstHuespedes = Negocio.Huesped.GetAll();
                 if (lstHuespedes.Count == 0){
                     Console.WriteLine("-NO SE HAN ENCONTRADO HUESPEDES REGISTRADOS-");
                 }
@@ -165,7 +165,7 @@ void MenuHuesped()
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
                 Console.WriteLine("Huespedes registrados:");
-                lstHuespedes = Negocio.Huesped.getAll();
+                lstHuespedes = Negocio.Huesped.GetAll();
                 if (lstHuespedes.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO HUESPEDES REGISTRADOS-");
@@ -223,7 +223,7 @@ void MenuHabitacion()
             case ConsoleKey.D1:
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
-                lstHabitaciones = Negocio.Habitacion.getAll();
+                lstHabitaciones = Negocio.Habitacion.GetAll();
                 if (lstHabitaciones.Count == 0){
                     Console.WriteLine("-NO SE HAN ENCONTRADO HABITACIONES REGISTRADAS-");
                 }
@@ -249,7 +249,7 @@ void MenuHabitacion()
             case ConsoleKey.D2: 
                 Console.Clear();
                 Console.WriteLine("Tipos de habitaciones disponibles:");
-                lstTipoHabitaciones = Negocio.TipoHabitacion.getAll();
+                lstTipoHabitaciones = Negocio.TipoHabitacion.GetAll();
                 if (lstTipoHabitaciones.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO TIPO DE HABITACIONES REGISTRADAS-");
@@ -265,7 +265,7 @@ void MenuHabitacion()
                     string? idTipHbt = Console.ReadLine();
 
                     Console.Clear();
-                    tipHbt = Negocio.TipoHabitacion.getOne(int.Parse(idTipHbt));
+                    tipHbt = Negocio.TipoHabitacion.GetOne(int.Parse(idTipHbt));
                     hbt = new Habitacion();
                     hbt.Estado = true;
                     hbt.IdTipoHabitacion = tipHbt.IdTipoHabitacion;
@@ -297,7 +297,7 @@ void MenuHabitacion()
             case ConsoleKey.D3:
                 Console.Clear();
                 Console.WriteLine("Habitaciones registradas:");
-                lstHabitaciones = Negocio.Habitacion.getAll();
+                lstHabitaciones = Negocio.Habitacion.GetAll();
                 if (lstHabitaciones.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO HABITACIONES REGISTRADAS-");
@@ -325,14 +325,14 @@ void MenuHabitacion()
                         Console.Clear();
                         Console.WriteLine("tipoHabitacion: " + hbt.IdTipoHabitacionNavigation.Descripcion);
                         Console.WriteLine("Tipos de habitaciones disponibles:");
-                        lstTipoHabitaciones = Negocio.TipoHabitacion.getAll();
+                        lstTipoHabitaciones = Negocio.TipoHabitacion.GetAll();
                         foreach (TipoHabitacion tpHbt in lstTipoHabitaciones)
                         {
                             Console.WriteLine("ID: " + tpHbt.IdTipoHabitacion.ToString() + " - " + tpHbt.Descripcion);
                         }
                         Console.Write("Ingrese ID del tipo de habitacion: ");
                         hbt.IdTipoHabitacion = int.Parse(Console.ReadLine());
-                        hbt.IdTipoHabitacionNavigation = Negocio.TipoHabitacion.getOne(hbt.IdTipoHabitacion);
+                        hbt.IdTipoHabitacionNavigation = Negocio.TipoHabitacion.GetOne(hbt.IdTipoHabitacion);
                         Negocio.Habitacion.Update(hbt);
 
                         Console.Clear();
@@ -355,7 +355,7 @@ void MenuHabitacion()
             case ConsoleKey.D4:
                 Console.Clear();
                 Console.WriteLine("Habitaciones registradas:");
-                lstHabitaciones = Negocio.Habitacion.getAll();
+                lstHabitaciones = Negocio.Habitacion.GetAll();
                 if (lstHabitaciones.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO HABITACIONES REGISTRADAS-");
@@ -407,7 +407,7 @@ void MenuTipoHabitacion()
             case ConsoleKey.D1:
                 Console.Clear();
                 Console.WriteLine("-------------------------------------------");
-                lstTpHbt = Negocio.TipoHabitacion.getAll();
+                lstTpHbt = Negocio.TipoHabitacion.GetAll();
                 if (lstTpHbt.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO TIPOS DE HABITACIONES REGISTRADOS-");
@@ -461,7 +461,7 @@ void MenuTipoHabitacion()
             case ConsoleKey.D3:
                 Console.Clear();
                 Console.WriteLine("Tipos de Habitaciones registradas:");
-                lstTpHbt = Negocio.TipoHabitacion.getAll();
+                lstTpHbt = Negocio.TipoHabitacion.GetAll();
                 if (lstTpHbt.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO TIPOS DE HABITACIONES REGISTRADOS-");
@@ -501,7 +501,7 @@ void MenuTipoHabitacion()
             case ConsoleKey.D4:
                 Console.Clear();
                 Console.WriteLine("Tipos de Habitaciones registradas:");
-                lstTpHbt = Negocio.TipoHabitacion.getAll();
+                lstTpHbt = Negocio.TipoHabitacion.GetAll();
                 if (lstTpHbt.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO TIPOS DE HABITACIONES REGISTRADOS-");
@@ -549,7 +549,7 @@ void MenuTipoHabitacion()
             case ConsoleKey.D5:
                 Console.Clear();
                 Console.WriteLine("Tipos de Habitaciones registradas:");
-                lstTpHbt = Negocio.TipoHabitacion.getAll();
+                lstTpHbt = Negocio.TipoHabitacion.GetAll();
                 if (lstTpHbt.Count == 0)
                 {
                     Console.WriteLine("-NO SE HAN ENCONTRADO TIPOS DE HABITACIONES REGISTRADOS-");

@@ -11,7 +11,7 @@ namespace Negocio
     public class Huesped
     {
         static Datos.DBContext dBContext = DBContext.dBContext;
-        public static List<Entidad.Models.Huesped> getAll()
+        public static List<Entidad.Models.Huesped> GetAll()
         {
             List<Entidad.Models.Huesped> huespeds = dBContext.Huespeds.ToList();
             foreach (Entidad.Models.Huesped hpd in huespeds)
