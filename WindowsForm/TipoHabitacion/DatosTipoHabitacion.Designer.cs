@@ -86,7 +86,7 @@
             nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroNumero.Name = "nroNumero";
             nroNumero.Size = new Size(103, 23);
-            nroNumero.TabIndex = 6;
+            nroNumero.TabIndex = 2;
             nroNumero.ValueChanged += nroNumero_ValueChanged;
             // 
             // btnAceptar
@@ -98,7 +98,7 @@
             btnAceptar.Location = new Point(12, 227);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
-            btnAceptar.TabIndex = 8;
+            btnAceptar.TabIndex = 6;
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
@@ -108,7 +108,7 @@
             btnCancelar.Location = new Point(12, 263);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
-            btnCancelar.TabIndex = 9;
+            btnCancelar.TabIndex = 7;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
@@ -134,7 +134,7 @@
             cmbId.Location = new Point(152, 33);
             cmbId.Name = "cmbId";
             cmbId.Size = new Size(191, 23);
-            cmbId.TabIndex = 13;
+            cmbId.TabIndex = 1;
             cmbId.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             cmbId.SelectionChangeCommitted += cmbId_SelectionChangeCommitted;
             // 
@@ -152,7 +152,7 @@
             txtDescipcion.Location = new Point(152, 94);
             txtDescipcion.Name = "txtDescipcion";
             txtDescipcion.Size = new Size(191, 23);
-            txtDescipcion.TabIndex = 15;
+            txtDescipcion.TabIndex = 3;
             txtDescipcion.TextChanged += txtDescipcion_TextChanged;
             // 
             // label5
@@ -173,7 +173,7 @@
             nroPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroPrecio.Name = "nroPrecio";
             nroPrecio.Size = new Size(103, 23);
-            nroPrecio.TabIndex = 17;
+            nroPrecio.TabIndex = 4;
             // 
             // mskCmbFecha
             // 
@@ -182,7 +182,7 @@
             mskCmbFecha.Mask = "00/00/0000";
             mskCmbFecha.Name = "mskCmbFecha";
             mskCmbFecha.Size = new Size(100, 23);
-            mskCmbFecha.TabIndex = 18;
+            mskCmbFecha.TabIndex = 5;
             mskCmbFecha.TextAlign = HorizontalAlignment.Center;
             mskCmbFecha.ValidatingType = typeof(DateTime);
             // 

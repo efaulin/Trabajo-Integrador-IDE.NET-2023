@@ -72,7 +72,7 @@
             cmbId.Location = new Point(152, 39);
             cmbId.Name = "cmbId";
             cmbId.Size = new Size(191, 23);
-            cmbId.TabIndex = 26;
+            cmbId.TabIndex = 1;
             cmbId.SelectedIndexChanged += cmbId_SelectedIndexChanged;
             cmbId.SelectionChangeCommitted += cmbId_SelectionChangeCommitted;
             // 
@@ -92,7 +92,7 @@
             btnCancelar.Location = new Point(12, 269);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
-            btnCancelar.TabIndex = 24;
+            btnCancelar.TabIndex = 3;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
@@ -106,7 +106,7 @@
             btnAceptar.Location = new Point(12, 233);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
-            btnAceptar.TabIndex = 23;
+            btnAceptar.TabIndex = 2;
             btnAceptar.Text = "Eliminar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
@@ -208,6 +208,7 @@
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "EliminarHuesped";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Eliminar Huesped";
             Load += DatosHuesped_Load;
             ResumeLayout(false);

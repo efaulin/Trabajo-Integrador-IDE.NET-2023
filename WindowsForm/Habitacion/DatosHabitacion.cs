@@ -15,20 +15,24 @@ namespace WindowsForm
     public partial class DatosHabitacion : Form
     {
         int? op;
+        int? _id;
         Habitacion hbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
         List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
         Hashtable _tmpTpHbt = new Hashtable();
 
-        public DatosHabitacion()
-        {
-            InitializeComponent();
-        }
-
         public DatosHabitacion(int opcion)
         {
             op = opcion;
+            InitializeComponent();
+        }
+
+        //constructor con parametro del listado
+        public DatosHabitacion(int opcion, int id)
+        {
+            op = opcion;
+            _id = id;
             InitializeComponent();
         }
 
@@ -44,6 +48,7 @@ namespace WindowsForm
                 case 1:
                     try
                     {
+                        // Crear if para validar el ingreso de parametro id y editar a partir del mismo
                         TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem];
                         hbt.Estado = true;
                         hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;

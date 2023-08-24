@@ -59,7 +59,7 @@
             txtApellido.Location = new Point(152, 100);
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(191, 23);
-            txtApellido.TabIndex = 28;
+            txtApellido.TabIndex = 3;
             // 
             // panel1
             // 
@@ -79,7 +79,7 @@
             cmbId.Location = new Point(152, 39);
             cmbId.Name = "cmbId";
             cmbId.Size = new Size(191, 23);
-            cmbId.TabIndex = 26;
+            cmbId.TabIndex = 1;
             cmbId.SelectedIndexChanged += cmbId_SelectedIndexChanged;
             cmbId.SelectionChangeCommitted += cmbId_SelectionChangeCommitted;
             // 
@@ -99,7 +99,7 @@
             btnCancelar.Location = new Point(12, 269);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
-            btnCancelar.TabIndex = 24;
+            btnCancelar.TabIndex = 7;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
@@ -113,7 +113,7 @@
             btnAceptar.Location = new Point(12, 233);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
-            btnAceptar.TabIndex = 23;
+            btnAceptar.TabIndex = 6;
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
@@ -158,7 +158,7 @@
             txtNombre.Location = new Point(152, 71);
             txtNombre.Name = "txtNombre";
             txtNombre.Size = new Size(191, 23);
-            txtNombre.TabIndex = 32;
+            txtNombre.TabIndex = 2;
             // 
             // cmbTipoDoc
             // 
@@ -167,14 +167,14 @@
             cmbTipoDoc.Location = new Point(152, 163);
             cmbTipoDoc.Name = "cmbTipoDoc";
             cmbTipoDoc.Size = new Size(191, 23);
-            cmbTipoDoc.TabIndex = 33;
+            cmbTipoDoc.TabIndex = 5;
             // 
             // txtDNI
             // 
             txtDNI.Location = new Point(152, 132);
             txtDNI.Name = "txtDNI";
             txtDNI.Size = new Size(191, 23);
-            txtDNI.TabIndex = 34;
+            txtDNI.TabIndex = 4;
             // 
             // DatosHuesped
             // 
@@ -197,6 +197,7 @@
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "DatosHuesped";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosHuesped";
             Load += DatosHuesped_Load;
             ResumeLayout(false);

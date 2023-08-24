@@ -34,6 +34,8 @@
             dgvHabitaciones = new DataGridView();
             btnActualizar = new Button();
             btnSalir = new Button();
+            btnEditar = new Button();
+            btnEliminar = new Button();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
             tlHabitaciones.SuspendLayout();
@@ -69,20 +71,26 @@
             // 
             // tlHabitaciones
             // 
-            tlHabitaciones.ColumnCount = 2;
+            tlHabitaciones.ColumnCount = 4;
+            tlHabitaciones.ColumnStyles.Add(new ColumnStyle());
+            tlHabitaciones.ColumnStyles.Add(new ColumnStyle());
             tlHabitaciones.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tlHabitaciones.ColumnStyles.Add(new ColumnStyle());
+            tlHabitaciones.Controls.Add(btnEditar, 0, 1);
             tlHabitaciones.Controls.Add(dgvHabitaciones, 0, 0);
-            tlHabitaciones.Controls.Add(btnActualizar, 0, 1);
-            tlHabitaciones.Controls.Add(btnSalir, 1, 1);
+            tlHabitaciones.Controls.Add(btnSalir, 3, 1);
+            tlHabitaciones.Controls.Add(btnActualizar, 2, 1);
+            tlHabitaciones.Controls.Add(btnEliminar, 1, 1);
             tlHabitaciones.Dock = DockStyle.Fill;
             tlHabitaciones.Location = new Point(0, 0);
+            tlHabitaciones.Margin = new Padding(15, 3, 3, 3);
             tlHabitaciones.Name = "tlHabitaciones";
             tlHabitaciones.RowCount = 2;
-            tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tlHabitaciones.RowStyles.Add(new RowStyle());
+            tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 91F));
+            tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 9F));
             tlHabitaciones.Size = new Size(950, 575);
             tlHabitaciones.TabIndex = 0;
+            tlHabitaciones.Paint += tlHabitaciones_Paint;
             // 
             // dgvHabitaciones
             // 
@@ -91,7 +99,7 @@
             dgvHabitaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dgvHabitaciones.BackgroundColor = Color.White;
             dgvHabitaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            tlHabitaciones.SetColumnSpan(dgvHabitaciones, 2);
+            tlHabitaciones.SetColumnSpan(dgvHabitaciones, 4);
             dgvHabitaciones.Dock = DockStyle.Fill;
             dgvHabitaciones.Location = new Point(3, 3);
             dgvHabitaciones.Name = "dgvHabitaciones";
@@ -99,7 +107,7 @@
             dgvHabitaciones.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvHabitaciones.RowTemplate.Height = 25;
             dgvHabitaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHabitaciones.Size = new Size(944, 540);
+            dgvHabitaciones.Size = new Size(944, 517);
             dgvHabitaciones.TabIndex = 0;
             dgvHabitaciones.CellContentClick += dgvHabitaciones_CellContentClick;
             // 
@@ -109,7 +117,7 @@
             btnActualizar.BackColor = Color.DarkCyan;
             btnActualizar.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
             btnActualizar.ForeColor = Color.White;
-            btnActualizar.Location = new Point(744, 549);
+            btnActualizar.Location = new Point(744, 526);
             btnActualizar.Margin = new Padding(3, 3, 10, 3);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(89, 23);
@@ -122,7 +130,7 @@
             // 
             btnSalir.BackColor = Color.White;
             btnSalir.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSalir.Location = new Point(846, 549);
+            btnSalir.Location = new Point(846, 526);
             btnSalir.Margin = new Padding(3, 3, 15, 3);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(89, 23);
@@ -130,6 +138,27 @@
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
+            // 
+            // btnEditar
+            // 
+            btnEditar.Location = new Point(40, 526);
+            btnEditar.Margin = new Padding(40, 3, 3, 3);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(55, 23);
+            btnEditar.TabIndex = 1;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.Click += btnEditar_Click;
+            // 
+            // btnEliminar
+            // 
+            btnEliminar.Location = new Point(113, 526);
+            btnEliminar.Margin = new Padding(15, 3, 3, 3);
+            btnEliminar.Name = "btnEliminar";
+            btnEliminar.Size = new Size(75, 23);
+            btnEliminar.TabIndex = 3;
+            btnEliminar.Text = "Eliminar";
+            btnEliminar.UseVisualStyleBackColor = true;
             // 
             // Listado
             // 
@@ -161,5 +190,7 @@
         private DataGridView dgvHabitaciones;
         private Button btnActualizar;
         private Button btnSalir;
+        private Button btnEditar;
+        private Button btnEliminar;
     }
 }

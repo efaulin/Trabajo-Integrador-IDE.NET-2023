@@ -89,7 +89,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(251, 717);
             panel1.TabIndex = 2;
-            panel1.Paint += panel1_Paint;
             // 
             // panelHspdSubmenu
             // 
@@ -103,7 +102,6 @@
             panelHspdSubmenu.Name = "panelHspdSubmenu";
             panelHspdSubmenu.Size = new Size(251, 111);
             panelHspdSubmenu.TabIndex = 20;
-            panelHspdSubmenu.Paint += panelHspdSubmenu_Paint;
             // 
             // deleteHspd
             // 
@@ -204,7 +202,6 @@
             panelTpHbtSubmenu.Name = "panelTpHbtSubmenu";
             panelTpHbtSubmenu.Size = new Size(251, 135);
             panelTpHbtSubmenu.TabIndex = 18;
-            panelTpHbtSubmenu.Paint += panelTpHbtSubmenu_Paint;
             // 
             // deleteTpHbt
             // 
@@ -322,7 +319,6 @@
             panelHbtSubmenu.Name = "panelHbtSubmenu";
             panelHbtSubmenu.Size = new Size(251, 135);
             panelHbtSubmenu.TabIndex = 16;
-            panelHbtSubmenu.Paint += panelHabitacionSubMenu_Paint;
             // 
             // deleteHbt
             // 
@@ -436,7 +432,6 @@
             panel5.Name = "panel5";
             panel5.Size = new Size(251, 68);
             panel5.TabIndex = 14;
-            panel5.Paint += panel5_Paint;
             // 
             // label6
             // 
@@ -448,7 +443,6 @@
             label6.Size = new Size(54, 21);
             label6.TabIndex = 9;
             label6.Text = "CRUD";
-            label6.Click += label6_Click_1;
             // 
             // label3
             // 
@@ -460,7 +454,6 @@
             label3.Size = new Size(75, 21);
             label3.TabIndex = 8;
             label3.Text = "Opciones";
-            label3.Click += label3_Click_1;
             // 
             // panel2
             // 
@@ -473,7 +466,6 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(251, 97);
             panel2.TabIndex = 12;
-            panel2.Paint += panel2_Paint;
             // 
             // pictureBox1
             // 
@@ -484,7 +476,6 @@
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
             pictureBox1.TabIndex = 6;
             pictureBox1.TabStop = false;
-            pictureBox1.Click += pictureBox1_Click_1;
             // 
             // label4
             // 
@@ -497,7 +488,6 @@
             label4.Size = new Size(125, 21);
             label4.TabIndex = 5;
             label4.Text = "Administrador";
-            label4.Click += label4_Click_1;
             // 
             // label2
             // 
@@ -510,7 +500,6 @@
             label2.Size = new Size(85, 20);
             label2.TabIndex = 4;
             label2.Text = "Bienvenido";
-            label2.Click += label2_Click_1;
             // 
             // panel3
             // 
@@ -535,7 +524,6 @@
             label1.TabIndex = 0;
             label1.Text = "ⵥ";
             label1.TextAlign = ContentAlignment.MiddleCenter;
-            label1.Click += label1_Click_1;
             // 
             // panelChildForm
             // 
@@ -546,7 +534,6 @@
             panelChildForm.Name = "panelChildForm";
             panelChildForm.Size = new Size(808, 620);
             panelChildForm.TabIndex = 4;
-            panelChildForm.Paint += panelChildForm_Paint;
             // 
             // panel4
             // 
@@ -571,7 +558,6 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu Principal";
-            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panelHspdSubmenu.ResumeLayout(false);
             panelTpHbtSubmenu.ResumeLayout(false);

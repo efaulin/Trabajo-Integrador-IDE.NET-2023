@@ -7,6 +7,7 @@ namespace WindowsForm
     {
         List<Habitacion> lstHbt = Negocio.Habitacion.GetAll();
         List<TipoHabitacion> lstTpHbt = Negocio.TipoHabitacion.GetAll();
+        private Form activeForm = null;
         public Form1()
         {
             InitializeComponent();
@@ -46,132 +47,6 @@ namespace WindowsForm
             {
                 submenu.Visible = false;
             }
-        }
-
-        private void Form1_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        #region tlSc_Habitaciones
-        private void tlSc_hbtVer_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tlSc_hbtAgregar_Click(object sender, EventArgs e)
-        {
-            Form form = new DatosHabitacion(1);
-            form.ShowDialog();
-        }
-
-        private void tlSc_hbtEditar_Click(object sender, EventArgs e)
-        {
-            //Elegir habitacion...
-            //Habitacion hbt = Negocio.Habitacion.GetOne(1004);
-            Form form = new DatosHabitacion(2);
-            form.ShowDialog();
-        }
-
-        private void tlSc_hbtBaja_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tlSc_hbtAlta_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tlSc_hbtEliminar_Click(object sender, EventArgs e)
-        {
-
-        }
-        #endregion
-
-        private void habitacionesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tlScTpHbtAgregar_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tiposDeHabitacionesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-
-        }
-
-        private void panel4_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panelHabitacionSubMenu_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
         }
 
         private void btnHabitacion_Click(object sender, EventArgs e)
@@ -300,48 +175,15 @@ namespace WindowsForm
             mostrarSubmenu(panelHspdSubmenu);
         }
 
-        private void label6_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panelHspdSubmenu_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void panelTpHbtSubmenu_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void panel5_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void label3_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void panel2_Paint(object sender, PaintEventArgs e)
-        {
-        }
-
-        private void pictureBox1_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void label4_Click_1(object sender, EventArgs e)
-        {
-        }
-
-        private void label2_Click_1(object sender, EventArgs e)
-        {
-        }
-
         private void panel3_Paint_1(object sender, PaintEventArgs e)
         {
         }
-        private Form activeForm = null;
+
+        private void actualizarListado()
+        {
+            //..
+        }
+
         private void openChildForm(Form childForm)
         {
             if (activeForm != null)
@@ -356,21 +198,6 @@ namespace WindowsForm
             panelChildForm.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
-        }
-
-        private void panelChildForm_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void groupBox1_Enter(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click_1(object sender, EventArgs e)
-        {
-
         }
     }
 }

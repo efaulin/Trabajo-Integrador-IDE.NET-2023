@@ -84,7 +84,7 @@
             nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroNumero.Name = "nroNumero";
             nroNumero.Size = new Size(103, 23);
-            nroNumero.TabIndex = 6;
+            nroNumero.TabIndex = 2;
             nroNumero.ValueChanged += nroNumero_ValueChanged;
             // 
             // nroPiso
@@ -93,7 +93,7 @@
             nroPiso.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroPiso.Name = "nroPiso";
             nroPiso.Size = new Size(103, 23);
-            nroPiso.TabIndex = 7;
+            nroPiso.TabIndex = 3;
             // 
             // btnAceptar
             // 
@@ -104,7 +104,7 @@
             btnAceptar.Location = new Point(12, 184);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
-            btnAceptar.TabIndex = 8;
+            btnAceptar.TabIndex = 5;
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
@@ -114,7 +114,7 @@
             btnCancelar.Location = new Point(12, 220);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
-            btnCancelar.TabIndex = 9;
+            btnCancelar.TabIndex = 6;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
@@ -140,7 +140,7 @@
             cmbTipoHabitacion.Location = new Point(152, 123);
             cmbTipoHabitacion.Name = "cmbTipoHabitacion";
             cmbTipoHabitacion.Size = new Size(191, 23);
-            cmbTipoHabitacion.TabIndex = 12;
+            cmbTipoHabitacion.TabIndex = 4;
             // 
             // cmbIdHabitacion
             // 
@@ -151,7 +151,7 @@
             cmbIdHabitacion.Location = new Point(152, 33);
             cmbIdHabitacion.Name = "cmbIdHabitacion";
             cmbIdHabitacion.Size = new Size(191, 23);
-            cmbIdHabitacion.TabIndex = 13;
+            cmbIdHabitacion.TabIndex = 1;
             cmbIdHabitacion.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             cmbIdHabitacion.SelectionChangeCommitted += cmbIdHabitacion_SelectionChangeCommitted;
             // 

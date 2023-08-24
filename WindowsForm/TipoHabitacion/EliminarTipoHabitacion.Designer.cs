@@ -89,7 +89,7 @@
             btnAceptar.Location = new Point(12, 223);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
-            btnAceptar.TabIndex = 8;
+            btnAceptar.TabIndex = 2;
             btnAceptar.Text = "Eliminar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
@@ -99,7 +99,7 @@
             btnCancelar.Location = new Point(12, 259);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
-            btnCancelar.TabIndex = 9;
+            btnCancelar.TabIndex = 3;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
@@ -125,7 +125,7 @@
             cmbId.Location = new Point(152, 33);
             cmbId.Name = "cmbId";
             cmbId.Size = new Size(191, 23);
-            cmbId.TabIndex = 13;
+            cmbId.TabIndex = 1;
             cmbId.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             cmbId.SelectionChangeCommitted += cmbId_SelectionChangeCommitted;
             // 

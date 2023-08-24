@@ -103,17 +103,17 @@ namespace WindowsForm.Huespedes
                     break;
 
                 case 2:
-                    this.Text = "Editar tipo de habitacion";
+                    this.Text = "Editar huesped";
                     if (_lstHspd.Count <= 0)
                     {
-                        MessageBox.Show("No hay Tipos de Huespedes registradas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("No hay Huespedes registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                     else
                     {
                         foreach (Huesped _Hspd in _lstHspd)
                         {
-                            string tmp = _Hspd.Nombre + " " + _Hspd.Apellido;
+                            string tmp = _Hspd.IdHuesped + " - " + _Hspd.Nombre + " " + _Hspd.Apellido;
                             _tmpHspd[tmp] = _Hspd;
                             cmbId.Items.Add(tmp);
                         }

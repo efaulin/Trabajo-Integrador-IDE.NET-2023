@@ -27,19 +27,15 @@ namespace WindowsForm
             switch (opcion)
             {
                 case 0:
-                    //List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
                     dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_Hbt_TpHbt();
-                    //dgvHabitaciones.Columns.RemoveAt(6);
-                    //dgvHabitaciones.Columns.RemoveAt(5);
                     break;
                 case 1:
-                    //List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
                     dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
-                    //dgvHabitaciones.Columns.RemoveAt(3);
                     break;
                 case 2:
                     List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
                     dgvHabitaciones.DataSource = _lstHspd;
+                    //Se remueve la columna de reserva debido a la falta de ABM
                     dgvHabitaciones.Columns.RemoveAt(5);
                     break;
             }
@@ -50,9 +46,6 @@ namespace WindowsForm
         {
             listar();
         }
-
-
-
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
@@ -82,6 +75,31 @@ namespace WindowsForm
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void tlHabitaciones_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void btnEditar_Click(object sender, EventArgs e)
+        {
+            switch (opcion)
+            {
+                case 0:
+                    var tmp = dgvHabitaciones.SelectedCells[0].Value;
+                    MessageBox.Show("tmp: " + tmp);
+                    break;
+                case 1:
+                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
+                    break;
+                case 2:
+                    List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
+                    dgvHabitaciones.DataSource = _lstHspd;
+                    //Se remueve la columna de reserva debido a la falta de ABM
+                    dgvHabitaciones.Columns.RemoveAt(5);
+                    break;
+            }
         }
     }
 }

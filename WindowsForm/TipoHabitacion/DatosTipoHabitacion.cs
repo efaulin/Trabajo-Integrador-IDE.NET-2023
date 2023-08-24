@@ -113,7 +113,7 @@ namespace WindowsForm
                     cmbId.Items.Add("Nuevo");
                     cmbId.SelectedIndex = 0;
                     cmbId.Enabled = false;
-                    mskCmbFecha.Text = DateTime.Now.ToString();
+                    mskCmbFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
                     break;
 
                 case 2:
@@ -198,7 +198,7 @@ namespace WindowsForm
             nroNumero.Value = tpHbt.NumeroCamas;
             txtDescipcion.Text = tpHbt.Descripcion;
             nroPrecio.Value = (decimal)tpHbt.PrecioTipoHabitacions.Last().PrecioHabitacion;
-            mskCmbFecha.Text = tpHbt.PrecioTipoHabitacions.Last().FechaPrecio.ToString();
+            mskCmbFecha.Text = tpHbt.PrecioTipoHabitacions.Last().FechaPrecio.ToString("dd/MM/yyyy");
         }
 
         private void txtDescipcion_TextChanged(object sender, EventArgs e)
