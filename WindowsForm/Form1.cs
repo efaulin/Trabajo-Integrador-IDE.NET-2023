@@ -1,4 +1,5 @@
 using Entidad.Models;
+using WindowsForm.Huespedes;
 
 namespace WindowsForm
 {
@@ -267,12 +268,16 @@ namespace WindowsForm
         private void addHspd_Click(object sender, EventArgs e)
         {
             //..
+            Form form = new DatosHuesped(1);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 
         private void editarHspd_Click(object sender, EventArgs e)
         {
             //..
+            Form form = new DatosHuesped(2);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

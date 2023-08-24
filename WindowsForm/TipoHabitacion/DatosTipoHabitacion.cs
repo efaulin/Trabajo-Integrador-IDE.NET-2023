@@ -50,7 +50,7 @@ namespace WindowsForm
                         prcTpHbt.FechaPrecio = DateTime.Now;
                         tpHbt.PrecioTipoHabitacions.Add(prcTpHbt);
 
-                        Negocio.TipoHabitacion.Update(tpHbt);
+                        Negocio.TipoHabitacion.Create(tpHbt);
                         MessageBox.Show("Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " cargado con exito.");
                     }
                     catch
@@ -156,6 +156,11 @@ namespace WindowsForm
             txtDescipcion.Text = tpHbt.Descripcion;
             nroPrecio.Value = (decimal)tpHbt.PrecioTipoHabitacions.Last().PrecioHabitacion;
             mskCmbFecha.Text = tpHbt.PrecioTipoHabitacions.Last().FechaPrecio.ToString();
+        }
+
+        private void txtDescipcion_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

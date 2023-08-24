@@ -153,6 +153,7 @@
             txtDescipcion.Name = "txtDescipcion";
             txtDescipcion.Size = new Size(191, 23);
             txtDescipcion.TabIndex = 15;
+            txtDescipcion.TextChanged += txtDescipcion_TextChanged;
             // 
             // label5
             // 
