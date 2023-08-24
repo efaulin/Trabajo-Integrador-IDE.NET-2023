@@ -200,5 +200,10 @@ namespace WindowsForm
             nroPrecio.Value = (decimal)tpHbt.PrecioTipoHabitacions.Last().PrecioHabitacion;
             mskCmbFecha.Text = tpHbt.PrecioTipoHabitacions.Last().FechaPrecio.ToString();
         }
+
+        private void txtDescipcion_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
