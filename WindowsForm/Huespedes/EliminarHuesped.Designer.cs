@@ -1,6 +1,6 @@
 ﻿namespace WindowsForm.Huespedes
 {
-    partial class DatosHuesped
+    partial class EliminarHuesped
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             label5 = new Label();
-            txtApellido = new TextBox();
             panel1 = new Panel();
             cmbId = new ComboBox();
             label4 = new Label();
@@ -38,9 +37,10 @@
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            txtNombre = new TextBox();
-            cmbTipoDoc = new ComboBox();
-            txtDNI = new TextBox();
+            lblNombre = new Label();
+            lblApellido = new Label();
+            lblNumero = new Label();
+            lblDocumento = new Label();
             SuspendLayout();
             // 
             // label5
@@ -53,13 +53,6 @@
             label5.Size = new Size(38, 17);
             label5.TabIndex = 29;
             label5.Text = "DNI:";
-            // 
-            // txtApellido
-            // 
-            txtApellido.Location = new Point(152, 100);
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(191, 23);
-            txtApellido.TabIndex = 28;
             // 
             // panel1
             // 
@@ -106,7 +99,7 @@
             // 
             // btnAceptar
             // 
-            btnAceptar.BackColor = Color.DarkCyan;
+            btnAceptar.BackColor = Color.Crimson;
             btnAceptar.FlatStyle = FlatStyle.Flat;
             btnAceptar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             btnAceptar.ForeColor = Color.White;
@@ -114,7 +107,7 @@
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
             btnAceptar.TabIndex = 23;
-            btnAceptar.Text = "Aceptar";
+            btnAceptar.Text = "Eliminar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
             // 
@@ -134,7 +127,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(86, 74);
+            label2.Location = new Point(82, 74);
             label2.Name = "label2";
             label2.Size = new Size(64, 17);
             label2.TabIndex = 20;
@@ -153,40 +146,58 @@
             label1.TabIndex = 19;
             label1.Text = "ID:";
             // 
-            // txtNombre
+            // lblNombre
             // 
-            txtNombre.Location = new Point(152, 71);
-            txtNombre.Name = "txtNombre";
-            txtNombre.Size = new Size(191, 23);
-            txtNombre.TabIndex = 32;
+            lblNombre.AutoSize = true;
+            lblNombre.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNombre.Location = new Point(152, 74);
+            lblNombre.Name = "lblNombre";
+            lblNombre.Size = new Size(71, 17);
+            lblNombre.TabIndex = 30;
+            lblNombre.Text = "lblNombre";
             // 
-            // cmbTipoDoc
+            // lblApellido
             // 
-            cmbTipoDoc.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbTipoDoc.FormattingEnabled = true;
-            cmbTipoDoc.Location = new Point(152, 163);
-            cmbTipoDoc.Name = "cmbTipoDoc";
-            cmbTipoDoc.Size = new Size(191, 23);
-            cmbTipoDoc.TabIndex = 33;
+            lblApellido.AutoSize = true;
+            lblApellido.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblApellido.Location = new Point(152, 106);
+            lblApellido.Name = "lblApellido";
+            lblApellido.Size = new Size(70, 17);
+            lblApellido.TabIndex = 31;
+            lblApellido.Text = "lblApellido";
             // 
-            // txtDNI
+            // lblNumero
             // 
-            txtDNI.Location = new Point(152, 132);
-            txtDNI.Name = "txtDNI";
-            txtDNI.Size = new Size(191, 23);
-            txtDNI.TabIndex = 34;
+            lblNumero.AutoSize = true;
+            lblNumero.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblNumero.Location = new Point(152, 138);
+            lblNumero.Name = "lblNumero";
+            lblNumero.Size = new Size(70, 17);
+            lblNumero.TabIndex = 32;
+            lblNumero.Text = "lblNumero";
+            lblNumero.Click += lblNumero_Click;
             // 
-            // DatosHuesped
+            // lblDocumento
+            // 
+            lblDocumento.AutoSize = true;
+            lblDocumento.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblDocumento.Location = new Point(152, 169);
+            lblDocumento.Name = "lblDocumento";
+            lblDocumento.Size = new Size(89, 17);
+            lblDocumento.TabIndex = 33;
+            lblDocumento.Text = "lblDocumento";
+            // 
+            // EliminarHuesped
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(373, 301);
-            Controls.Add(txtDNI);
-            Controls.Add(cmbTipoDoc);
-            Controls.Add(txtNombre);
+            Controls.Add(lblDocumento);
+            Controls.Add(lblNumero);
+            Controls.Add(lblApellido);
+            Controls.Add(lblNombre);
             Controls.Add(label5);
-            Controls.Add(txtApellido);
             Controls.Add(panel1);
             Controls.Add(cmbId);
             Controls.Add(label4);
@@ -196,8 +207,8 @@
             Controls.Add(label2);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "DatosHuesped";
-            Text = "DatosHuesped";
+            Name = "EliminarHuesped";
+            Text = "Eliminar Huesped";
             Load += DatosHuesped_Load;
             ResumeLayout(false);
             PerformLayout();
@@ -207,7 +218,6 @@
 
         private MaskedTextBox mskCmbFecha;
         private Label label5;
-        private TextBox txtApellido;
         private Panel panel1;
         private ComboBox cmbId;
         private Label label4;
@@ -216,8 +226,9 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private TextBox txtNombre;
-        private ComboBox cmbTipoDoc;
-        private TextBox txtDNI;
+        private Label lblNombre;
+        private Label lblApellido;
+        private Label lblNumero;
+        private Label lblDocumento;
     }
 }
