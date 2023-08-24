@@ -280,7 +280,8 @@ namespace WindowsForm
 
         private void deleteHspd_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new EliminarHuesped();
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

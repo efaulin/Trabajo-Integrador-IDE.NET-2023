@@ -70,10 +70,10 @@ namespace WindowsForm.Huespedes
                         hspd.Nombre = txtNombre.Text;
                         hspd.Apellido = txtApellido.Text;
                         hspd.NumeroDocumento = txtDNI.Text;
-                        hspd.TipoDocumento = cmbTipoDoc.SelectedIndex.ToString();
+                        hspd.TipoDocumento = cmbTipoDoc.Text;
 
                         Negocio.Huesped.Update(hspd);
-                        MessageBox.Show("Hueñsped ID: " + hspd.IdHuesped + " editado con exito.");
+                        MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " editado con exito.");
                     }
                     catch
                     {
@@ -118,10 +118,25 @@ namespace WindowsForm.Huespedes
                             cmbId.Items.Add(tmp);
                         }
                         cmbId.SelectedIndex = 0;
+                        cmbId_SelectionChangeCommitted(sender, e);
                     }
                     break;
             }
 
+        }
+
+        private void btnCancelar_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            hspd = (Huesped)_tmpHspd[cmbId.SelectedItem];
+            txtNombre.Text = hspd.Nombre;
+            txtApellido.Text = hspd.Apellido;
+            txtDNI.Text = hspd.NumeroDocumento.ToString();
+            cmbTipoDoc.SelectedItem = hspd.TipoDocumento;
         }
     }
 }

@@ -41,7 +41,7 @@ namespace WindowsForm
             int tmpId = tpHbt.IdTipoHabitacion;
             try
             {
-                if (MessageBox.Show("¿Seguro que quiere borrar la habitacion?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
+                if (MessageBox.Show("¿Seguro que quiere borrar el tipo de habitacion?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                 {
                     if (Negocio.TipoHabitacion.Delete(tpHbt))
                     {
