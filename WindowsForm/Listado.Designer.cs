@@ -66,6 +66,7 @@
             dgvHabitaciones = new DataGridView();
             btnActualizar = new Button();
             btnSalir = new Button();
+            panel4 = new Panel();
             panel3.SuspendLayout();
             panelHspdSubmenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
@@ -83,6 +84,7 @@
             // panel3
             // 
             panel3.BackColor = Color.LightSeaGreen;
+            panel3.Controls.Add(panel4);
             panel3.Controls.Add(label5);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(251, 0);
@@ -95,11 +97,12 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 14.25F, FontStyle.Bold | FontStyle.Underline, GraphicsUnit.Point);
             label5.ForeColor = Color.White;
-            label5.Location = new Point(294, 43);
+            label5.Location = new Point(355, 43);
             label5.Name = "label5";
-            label5.Size = new Size(207, 25);
+            label5.Size = new Size(95, 25);
             label5.TabIndex = 0;
-            label5.Text = "Listado Habitaciones";
+            label5.Text = "LISTADO";
+            label5.Click += label5_Click;
             // 
             // label4
             // 
@@ -563,7 +566,7 @@
             // toolStripContainer1.ContentPanel
             // 
             toolStripContainer1.ContentPanel.Controls.Add(tlHabitaciones);
-            toolStripContainer1.ContentPanel.Size = new Size(808, 595);
+            toolStripContainer1.ContentPanel.Size = new Size(808, 620);
             toolStripContainer1.Dock = DockStyle.Fill;
             toolStripContainer1.Location = new Point(251, 97);
             toolStripContainer1.Name = "toolStripContainer1";
@@ -589,7 +592,7 @@
             tlHabitaciones.RowCount = 2;
             tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tlHabitaciones.RowStyles.Add(new RowStyle());
-            tlHabitaciones.Size = new Size(808, 595);
+            tlHabitaciones.Size = new Size(808, 620);
             tlHabitaciones.TabIndex = 0;
             // 
             // dgvHabitaciones
@@ -597,6 +600,7 @@
             dgvHabitaciones.AllowUserToResizeColumns = false;
             dgvHabitaciones.AllowUserToResizeRows = false;
             dgvHabitaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+            dgvHabitaciones.BackgroundColor = Color.White;
             dgvHabitaciones.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             tlHabitaciones.SetColumnSpan(dgvHabitaciones, 2);
             dgvHabitaciones.Dock = DockStyle.Fill;
@@ -606,14 +610,14 @@
             dgvHabitaciones.RowHeadersWidthSizeMode = DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             dgvHabitaciones.RowTemplate.Height = 25;
             dgvHabitaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dgvHabitaciones.Size = new Size(802, 560);
+            dgvHabitaciones.Size = new Size(802, 585);
             dgvHabitaciones.TabIndex = 0;
             dgvHabitaciones.CellContentClick += dgvHabitaciones_CellContentClick;
             // 
             // btnActualizar
             // 
             btnActualizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
-            btnActualizar.Location = new Point(649, 569);
+            btnActualizar.Location = new Point(649, 594);
             btnActualizar.Name = "btnActualizar";
             btnActualizar.Size = new Size(75, 23);
             btnActualizar.TabIndex = 1;
@@ -623,12 +627,20 @@
             // 
             // btnSalir
             // 
-            btnSalir.Location = new Point(730, 569);
+            btnSalir.Location = new Point(730, 594);
             btnSalir.Name = "btnSalir";
             btnSalir.Size = new Size(75, 23);
             btnSalir.TabIndex = 2;
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = true;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.White;
+            panel4.Location = new Point(0, 86);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(808, 11);
+            panel4.TabIndex = 1;
             // 
             // Listado
             // 
@@ -704,5 +716,6 @@
         private DataGridView dgvHabitaciones;
         private Button btnActualizar;
         private Button btnSalir;
+        private Panel panel4;
     }
 }
