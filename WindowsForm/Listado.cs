@@ -61,15 +61,15 @@ namespace WindowsForm
             switch (opcion)
             {
                 case 0:
-                    List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
-                    dgvHabitaciones.DataSource = _lstHbt;
-                    dgvHabitaciones.Columns.RemoveAt(6);
-                    dgvHabitaciones.Columns.RemoveAt(5);
+                    //List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
+                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_Hbt_TpHbt();
+                    //dgvHabitaciones.Columns.RemoveAt(6);
+                    //dgvHabitaciones.Columns.RemoveAt(5);
                     break;
                 case 1:
-                    List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
-                    dgvHabitaciones.DataSource = _lstTpHbt;
-                    dgvHabitaciones.Columns.RemoveAt(3);
+                    //List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
+                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
+                    //dgvHabitaciones.Columns.RemoveAt(3);
                     break;
                 case 2:
                     List<Huesped> _lstHspd = Negocio.Huesped.GetAll();

@@ -1,6 +1,8 @@
 ﻿using Datos;
 using Entidad.Models;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Data.SqlTypes;
 
 namespace Negocio
 {

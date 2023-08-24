@@ -14,7 +14,7 @@ namespace Datos.Old
 {
     public class BBDD
     {
-        /*static string sCnn =
+        static string sCnn =
             @"data source=.\SQLEXPRESS; " +
             "initial catalog=TPI2023TM03; " +
             "Encrypt=false;" +
@@ -25,6 +25,56 @@ namespace Datos.Old
         public static SqlConnection Conexion()
         {
             return conn;
+        }
+
+        public static DataTable? InnerJoin_Hbt_TpHbt()
+        {
+            try
+            {
+                SqlCommand sqlCommand = conn.CreateCommand();
+                sqlCommand.CommandText = "SELECT idHabitacion, estado, numeroHabitacion, pisoHabitacion, hbt.idTipoHabitacion, numeroCamas, descripcion FROM Habitacion hbt INNER JOIN TipoHabitacion tphbt ON hbt.idTipoHabitacion = tphbt.idTipoHabitacion";
+                conn.Open();
+                //SqlDataReader dr = sqlCommand.ExecuteReader();
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                DataTable dt = new DataTable();
+                sqlDataAdapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+            
+        }
+
+        public static DataTable? InnerJoin_TpHbt_PrcTpHbt()
+        {
+            try
+            {
+                SqlCommand sqlCommand = conn.CreateCommand();
+                sqlCommand.CommandText = "SELECT th.idTipoHabitacion, th.descripcion, th.numeroCamas, pth.fechaPrecio, pth.precioHabitacion\r\nFROM TipoHabitacion AS th\r\nINNER JOIN PrecioTipoHabitacion AS pth ON th.idTipoHabitacion = pth.idTipoHabitacion\r\nINNER JOIN (\r\n    SELECT idTipoHabitacion,  MAX(fechaPrecio) AS max_fecha\r\n    FROM PrecioTipoHabitacion\r\n    GROUP BY idTipoHabitacion \r\n) AS subquery ON th.idTipoHabitacion= subquery.idTipoHabitacion AND pth.fechaPrecio = subquery.max_fecha;";
+                conn.Open();
+                //SqlDataReader dr = sqlCommand.ExecuteReader();
+                SqlDataAdapter sqlDataAdapter = new SqlDataAdapter(sqlCommand);
+                DataTable dt = new DataTable();
+                sqlDataAdapter.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+
         }
 
         //Prueba
@@ -39,7 +89,7 @@ namespace Datos.Old
                 Console.WriteLine(dr["nombre"].ToString());
             }
             conn.Close();
-        }*/
+        }
 
         #region Arrays para probar funcionamiento
         //Habitacion
