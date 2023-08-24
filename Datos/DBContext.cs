@@ -78,7 +78,7 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacions)
                 .HasForeignKey(d => d.IdTipoHabitacion)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__Habitacio__idTip__2C3393D0");
         });
 
@@ -171,12 +171,12 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Reservas)
                 .HasForeignKey(d => d.IdHabitacion)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__Reserva__idHabit__35BCFE0A");
 
             entity.HasOne(d => d.IdHuespedNavigation).WithMany(p => p.Reservas)
                 .HasForeignKey(d => d.IdHuesped)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__Reserva__idHuesp__34C8D9D1");
         });
 
@@ -191,12 +191,12 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.IdReservaNavigation).WithMany()
                 .HasForeignKey(d => d.IdReserva)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__Reserva_S__idRes__37A5467C");
 
             entity.HasOne(d => d.IdServicioNavigation).WithMany()
                 .HasForeignKey(d => d.IdServicio)
-                .OnDelete(DeleteBehavior.Cascade)
+                .OnDelete(DeleteBehavior.NoAction)
                 .HasConstraintName("FK__Reserva_S__idSer__38996AB5");
         });
 

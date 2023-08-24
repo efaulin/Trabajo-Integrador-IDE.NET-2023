@@ -17,8 +17,6 @@ namespace WindowsForm
         int? op;
         TipoHabitacion tpHbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
-        List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
-        Hashtable _tmpHbt = new Hashtable();
         Hashtable _tmpTpHbt = new Hashtable();
 
         public DatosTipoHabitacion()
@@ -87,7 +85,6 @@ namespace WindowsForm
 
         private void DatosTipoHabitacion_Load(object sender, EventArgs e)
         {
-
             switch (op)
             {
                 case 1:

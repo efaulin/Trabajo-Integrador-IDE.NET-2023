@@ -90,6 +90,21 @@ namespace WindowsForm
 
         private void DatosHabitacion_Load(object sender, EventArgs e)
         {
+            if (_lstTpHbt.Count <= 0)
+            {
+                MessageBox.Show("No hay tipos de habitaciones registradas\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            else
+            {
+                foreach (TipoHabitacion tpHbt in _lstTpHbt)
+                {
+                    string tmp = tpHbt.IdTipoHabitacion + " - " + tpHbt.Descripcion;
+                    _tmpTpHbt[tmp] = tpHbt;
+                    cmbTipoHabitacion.Items.Add(tmp);
+                }
+                cmbTipoHabitacion.SelectedIndex = 0;
+            }
 
             switch (op)
             {
@@ -97,6 +112,7 @@ namespace WindowsForm
                     this.Text = "Agregar habitacion";
                     cmbIdHabitacion.Items.Add("Nuevo");
                     cmbIdHabitacion.SelectedIndex = 0;
+                    cmbIdHabitacion.Enabled = false;
                     hbt = new Habitacion();
                     break;
 
@@ -116,25 +132,9 @@ namespace WindowsForm
                             cmbIdHabitacion.Items.Add(tmp);
                         }
                         cmbIdHabitacion.SelectedIndex = 0;
+                        cmbIdHabitacion_SelectionChangeCommitted(sender, e);
                     }
                     break;
-            }
-
-            if (_lstTpHbt.Count <= 0)
-            {
-                MessageBox.Show("No hay tipos de habitaciones registradas\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.Close();
-            }
-            else
-            {
-                cmbTipoHabitacion.SelectedIndex = 0;
-            }
-
-            foreach (TipoHabitacion tpHbt in _lstTpHbt)
-            {
-                string tmp = tpHbt.IdTipoHabitacion + " - " + tpHbt.Descripcion;
-                _tmpTpHbt[tmp] = tpHbt;
-                cmbTipoHabitacion.Items.Add(tmp);
             }
         }
 
@@ -161,6 +161,14 @@ namespace WindowsForm
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
+        {
+            hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+            nroNumero.Value = hbt.NumeroHabitacion;
+            nroPiso.Value = hbt.PisoHabitacion;
+            cmbTipoHabitacion.SelectedItem = hbt.IdTipoHabitacionNavigation.IdTipoHabitacion + " - " + hbt.IdTipoHabitacionNavigation.Descripcion;
         }
     }
 }

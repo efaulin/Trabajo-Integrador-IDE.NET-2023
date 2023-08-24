@@ -7,12 +7,13 @@ namespace Negocio
     public class Habitacion
     {
         static Datos.DBContext dBContext = DBContext.dBContext;
-        public static Entidad.Models.Habitacion GetOne(int id)
+        public static Entidad.Models.Habitacion? GetOne(int id)
         {
-            Entidad.Models.Habitacion hbt = dBContext.Habitacions.Find(id);
+            Entidad.Models.Habitacion? hbt = dBContext.Habitacions.Find(id);
             if (hbt != null)
             {
-                dBContext.TipoHabitacions.Find(hbt.IdTipoHabitacion);
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion);
+                hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
             }
             return hbt;
         }
@@ -22,6 +23,7 @@ namespace Negocio
             foreach (Entidad.Models.Habitacion hbt in habitaciones)
             {
                 hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion);
+                hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
             }
             return habitaciones;
         }

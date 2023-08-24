@@ -181,10 +181,10 @@ namespace WindowsForm
         private void mostrarHbt_Click(object sender, EventArgs e)
         {
             //..
-            
+
             Form form = new Listado(0);
             form.ShowDialog();
-            
+
             ocultarSubmenu();
         }
 
@@ -210,13 +210,15 @@ namespace WindowsForm
 
         private void altaHbt_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new AltaBajaHabitacion();
+            form.ShowDialog();
             ocultarSubmenu();
         }
 
         private void deleteHbt_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new EliminarHabitacion();
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

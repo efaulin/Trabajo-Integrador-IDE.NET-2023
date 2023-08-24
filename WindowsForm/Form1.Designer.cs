@@ -47,7 +47,6 @@
             panelHbtSubmenu = new Panel();
             deleteHbt = new Button();
             altaHbt = new Button();
-            bajaHbt = new Button();
             editHbt = new Button();
             addHbt = new Button();
             mostrarHbt = new Button();
@@ -107,7 +106,7 @@
             panelHspdSubmenu.Controls.Add(addHspd);
             panelHspdSubmenu.Controls.Add(mostrarHspd);
             panelHspdSubmenu.Dock = DockStyle.Top;
-            panelHspdSubmenu.Location = new Point(0, 566);
+            panelHspdSubmenu.Location = new Point(0, 540);
             panelHspdSubmenu.Name = "panelHspdSubmenu";
             panelHspdSubmenu.Size = new Size(251, 111);
             panelHspdSubmenu.TabIndex = 20;
@@ -191,7 +190,7 @@
             btnHuesped.FlatStyle = FlatStyle.Flat;
             btnHuesped.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             btnHuesped.ForeColor = Color.White;
-            btnHuesped.Location = new Point(0, 531);
+            btnHuesped.Location = new Point(0, 505);
             btnHuesped.Name = "btnHuesped";
             btnHuesped.Size = new Size(251, 35);
             btnHuesped.TabIndex = 19;
@@ -208,7 +207,7 @@
             panelTpHbtSubmenu.Controls.Add(addTpHbt);
             panelTpHbtSubmenu.Controls.Add(mostrarTpHbt);
             panelTpHbtSubmenu.Dock = DockStyle.Top;
-            panelTpHbtSubmenu.Location = new Point(0, 396);
+            panelTpHbtSubmenu.Location = new Point(0, 370);
             panelTpHbtSubmenu.Name = "panelTpHbtSubmenu";
             panelTpHbtSubmenu.Size = new Size(251, 135);
             panelTpHbtSubmenu.TabIndex = 18;
@@ -309,7 +308,7 @@
             btnTpHbt.FlatStyle = FlatStyle.Flat;
             btnTpHbt.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
             btnTpHbt.ForeColor = Color.White;
-            btnTpHbt.Location = new Point(0, 361);
+            btnTpHbt.Location = new Point(0, 335);
             btnTpHbt.Name = "btnTpHbt";
             btnTpHbt.Size = new Size(251, 35);
             btnTpHbt.TabIndex = 17;
@@ -322,14 +321,13 @@
             panelHbtSubmenu.BackColor = Color.MediumTurquoise;
             panelHbtSubmenu.Controls.Add(deleteHbt);
             panelHbtSubmenu.Controls.Add(altaHbt);
-            panelHbtSubmenu.Controls.Add(bajaHbt);
             panelHbtSubmenu.Controls.Add(editHbt);
             panelHbtSubmenu.Controls.Add(addHbt);
             panelHbtSubmenu.Controls.Add(mostrarHbt);
             panelHbtSubmenu.Dock = DockStyle.Top;
             panelHbtSubmenu.Location = new Point(0, 200);
             panelHbtSubmenu.Name = "panelHbtSubmenu";
-            panelHbtSubmenu.Size = new Size(251, 161);
+            panelHbtSubmenu.Size = new Size(251, 135);
             panelHbtSubmenu.TabIndex = 16;
             panelHbtSubmenu.Paint += panelHabitacionSubMenu_Paint;
             // 
@@ -341,7 +339,7 @@
             deleteHbt.FlatStyle = FlatStyle.Flat;
             deleteHbt.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             deleteHbt.ForeColor = Color.Firebrick;
-            deleteHbt.Location = new Point(0, 125);
+            deleteHbt.Location = new Point(0, 100);
             deleteHbt.Name = "deleteHbt";
             deleteHbt.Padding = new Padding(8, 0, 0, 0);
             deleteHbt.Size = new Size(251, 25);
@@ -358,32 +356,15 @@
             altaHbt.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
             altaHbt.FlatStyle = FlatStyle.Flat;
             altaHbt.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            altaHbt.Location = new Point(0, 100);
+            altaHbt.Location = new Point(0, 75);
             altaHbt.Name = "altaHbt";
             altaHbt.Padding = new Padding(8, 0, 0, 0);
             altaHbt.Size = new Size(251, 25);
             altaHbt.TabIndex = 22;
-            altaHbt.Text = "Dar de alta";
+            altaHbt.Text = "Dar de alta o baja";
             altaHbt.TextAlign = ContentAlignment.MiddleLeft;
             altaHbt.UseVisualStyleBackColor = true;
             altaHbt.Click += altaHbt_Click;
-            // 
-            // bajaHbt
-            // 
-            bajaHbt.Dock = DockStyle.Top;
-            bajaHbt.FlatAppearance.BorderSize = 0;
-            bajaHbt.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
-            bajaHbt.FlatStyle = FlatStyle.Flat;
-            bajaHbt.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            bajaHbt.Location = new Point(0, 75);
-            bajaHbt.Name = "bajaHbt";
-            bajaHbt.Padding = new Padding(8, 0, 0, 0);
-            bajaHbt.Size = new Size(251, 25);
-            bajaHbt.TabIndex = 21;
-            bajaHbt.Text = "Dar de baja";
-            bajaHbt.TextAlign = ContentAlignment.MiddleLeft;
-            bajaHbt.UseVisualStyleBackColor = true;
-            bajaHbt.Click += bajaHbt_Click;
             // 
             // editHbt
             // 
@@ -608,7 +589,6 @@
         private Button btnTpHbt;
         private Button deleteHbt;
         private Button altaHbt;
-        private Button bajaHbt;
         private Button editHbt;
         private Button addHbt;
     }
