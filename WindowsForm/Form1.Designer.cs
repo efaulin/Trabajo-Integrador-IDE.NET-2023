@@ -29,7 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            label1 = new Label();
             panel1 = new Panel();
             panelHspdSubmenu = new Panel();
             deleteHspd = new Button();
@@ -59,6 +58,9 @@
             label4 = new Label();
             label2 = new Label();
             panel3 = new Panel();
+            label1 = new Label();
+            panelChildForm = new Panel();
+            panel4 = new Panel();
             panel1.SuspendLayout();
             panelHspdSubmenu.SuspendLayout();
             panelTpHbtSubmenu.SuspendLayout();
@@ -66,18 +68,9 @@
             panel5.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panel3.SuspendLayout();
+            panelChildForm.SuspendLayout();
             SuspendLayout();
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Segoe UI Black", 14.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
-            label1.Location = new Point(337, 86);
-            label1.Name = "label1";
-            label1.Size = new Size(648, 25);
-            label1.TabIndex = 1;
-            label1.Text = "¡Bienvenido, seleccione alguna de las opciones para iniciar un CRUD!";
-            label1.Click += label1_Click;
             // 
             // panel1
             // 
@@ -522,12 +515,46 @@
             // panel3
             // 
             panel3.BackColor = Color.LightSeaGreen;
+            panel3.Controls.Add(panel4);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(251, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(808, 18);
+            panel3.Size = new Size(808, 97);
             panel3.TabIndex = 3;
             panel3.Paint += panel3_Paint_1;
+            // 
+            // label1
+            // 
+            label1.Anchor = AnchorStyles.None;
+            label1.AutoSize = true;
+            label1.Font = new Font("Segoe UI Black", 72F, FontStyle.Bold, GraphicsUnit.Point);
+            label1.Location = new Point(350, 213);
+            label1.Name = "label1";
+            label1.RightToLeft = RightToLeft.No;
+            label1.Size = new Size(135, 128);
+            label1.TabIndex = 0;
+            label1.Text = "ⵥ";
+            label1.TextAlign = ContentAlignment.MiddleCenter;
+            label1.Click += label1_Click_1;
+            // 
+            // panelChildForm
+            // 
+            panelChildForm.BackColor = Color.White;
+            panelChildForm.Controls.Add(label1);
+            panelChildForm.Dock = DockStyle.Fill;
+            panelChildForm.Location = new Point(251, 97);
+            panelChildForm.Name = "panelChildForm";
+            panelChildForm.Size = new Size(808, 620);
+            panelChildForm.TabIndex = 4;
+            panelChildForm.Paint += panelChildForm_Paint;
+            // 
+            // panel4
+            // 
+            panel4.BackColor = Color.White;
+            panel4.Location = new Point(0, 87);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(808, 10);
+            panel4.TabIndex = 0;
             // 
             // Form1
             // 
@@ -535,9 +562,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1059, 717);
+            Controls.Add(panelChildForm);
             Controls.Add(panel3);
             Controls.Add(panel1);
-            Controls.Add(label1);
             Font = new Font("Segoe UI", 8.25F, FontStyle.Regular, GraphicsUnit.Point);
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MinimumSize = new Size(950, 600);
@@ -554,12 +581,13 @@
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            panel3.ResumeLayout(false);
+            panelChildForm.ResumeLayout(false);
+            panelChildForm.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-        private Label label1;
         private Panel panel1;
         private Panel panel3;
         private PictureBox pictureBox2;
@@ -591,5 +619,8 @@
         private Button altaHbt;
         private Button editHbt;
         private Button addHbt;
+        private Label label1;
+        private Panel panelChildForm;
+        private Panel panel4;
     }
 }

@@ -181,11 +181,8 @@ namespace WindowsForm
 
         private void mostrarHbt_Click(object sender, EventArgs e)
         {
-            //..
-
-            Form form = new Listado(0);
-            form.ShowDialog();
-
+            //..          
+            openChildForm(new Listado(0));
             ocultarSubmenu();
         }
 
@@ -226,8 +223,7 @@ namespace WindowsForm
         private void mostrarTpHbt_Click(object sender, EventArgs e)
         {
             //..
-            Form form = new Listado(1);
-            form.ShowDialog();
+            openChildForm(new Listado(1));
             ocultarSubmenu();
         }
 
@@ -262,8 +258,7 @@ namespace WindowsForm
         private void mostrarHspd_Click(object sender, EventArgs e)
         {
             //..
-            Form form = new Listado(2);
-            form.ShowDialog();
+            openChildForm(new Listado(2));
             ocultarSubmenu();
         }
 
@@ -344,6 +339,37 @@ namespace WindowsForm
 
         private void panel3_Paint_1(object sender, PaintEventArgs e)
         {
+        }
+        private Form activeForm = null;
+        private void openChildForm(Form childForm)
+        {
+            if (activeForm != null)
+            {
+                activeForm.Close();
+            }
+            activeForm = childForm;
+            childForm.TopLevel = false;
+            childForm.FormBorderStyle = FormBorderStyle.None;
+            childForm.Dock = DockStyle.Fill;
+            panelChildForm.Controls.Add(childForm);
+            panelChildForm.Tag = childForm;
+            childForm.BringToFront();
+            childForm.Show();
+        }
+
+        private void panelChildForm_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }
