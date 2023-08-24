@@ -20,6 +20,9 @@
     <Compile Update="Habitacion\EliminarHabitacion.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="TipoHabitacion\EliminarTipoHabitacion.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="TipoHabitacion\DatosTipoHabitacion.cs">
       <SubType>Form</SubType>
     </Compile>

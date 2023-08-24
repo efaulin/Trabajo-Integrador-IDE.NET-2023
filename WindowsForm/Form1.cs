@@ -246,13 +246,15 @@ namespace WindowsForm
 
         private void editarPrecioTpHbt_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new DatosTipoHabitacion(3);
+            form.ShowDialog();
             ocultarSubmenu();
         }
 
         private void deleteTpHbt_Click(object sender, EventArgs e)
         {
-            //..
+            Form form = new EliminarTipoHabitacion();
+            form.ShowDialog();
             ocultarSubmenu();
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace WindowsForm
 {
-    partial class DatosTipoHabitacion
+    partial class EliminarTipoHabitacion
     {
         /// <summary>
         /// Required designer variable.
@@ -31,18 +31,18 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            nroNumero = new NumericUpDown();
             btnAceptar = new Button();
             btnCancelar = new Button();
-            lblFecha = new Label();
+            label4 = new Label();
             cmbId = new ComboBox();
             panel1 = new Panel();
-            txtDescipcion = new TextBox();
             label5 = new Label();
-            nroPrecio = new NumericUpDown();
-            mskCmbFecha = new MaskedTextBox();
-            ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nroPrecio).BeginInit();
+            lblCamas = new Label();
+            lblDescripcion = new Label();
+            lblPrecio = new Label();
+            lblFecha = new Label();
+            label6 = new Label();
+            lblHabitaciones = new Label();
             SuspendLayout();
             // 
             // label1
@@ -80,32 +80,23 @@
             label3.TabIndex = 4;
             label3.Text = "Descripcion:";
             // 
-            // nroNumero
-            // 
-            nroNumero.Location = new Point(152, 62);
-            nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroNumero.Name = "nroNumero";
-            nroNumero.Size = new Size(103, 23);
-            nroNumero.TabIndex = 6;
-            nroNumero.ValueChanged += nroNumero_ValueChanged;
-            // 
             // btnAceptar
             // 
-            btnAceptar.BackColor = Color.DarkCyan;
+            btnAceptar.BackColor = Color.Crimson;
             btnAceptar.FlatStyle = FlatStyle.Flat;
             btnAceptar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             btnAceptar.ForeColor = Color.White;
-            btnAceptar.Location = new Point(12, 227);
+            btnAceptar.Location = new Point(12, 223);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
             btnAceptar.TabIndex = 8;
-            btnAceptar.Text = "Aceptar";
+            btnAceptar.Text = "Eliminar";
             btnAceptar.UseVisualStyleBackColor = false;
             btnAceptar.Click += btnAceptar_Click;
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(12, 263);
+            btnCancelar.Location = new Point(12, 259);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
             btnCancelar.TabIndex = 9;
@@ -113,17 +104,17 @@
             btnCancelar.UseVisualStyleBackColor = true;
             btnCancelar.Click += btnCancelar_Click;
             // 
-            // lblFecha
+            // label4
             // 
-            lblFecha.AutoSize = true;
-            lblFecha.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            lblFecha.ForeColor = Color.DarkCyan;
-            lblFecha.Location = new Point(43, 163);
-            lblFecha.Name = "lblFecha";
-            lblFecha.Size = new Size(194, 17);
-            lblFecha.TabIndex = 11;
-            lblFecha.Text = "Fecha modificacion de precio:";
-            lblFecha.Click += label4_Click;
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.ForeColor = Color.DarkCyan;
+            label4.Location = new Point(43, 163);
+            label4.Name = "label4";
+            label4.Size = new Size(194, 17);
+            label4.TabIndex = 11;
+            label4.Text = "Fecha modificacion de precio:";
+            label4.Click += label4_Click;
             // 
             // cmbId
             // 
@@ -147,13 +138,6 @@
             panel1.Size = new Size(373, 11);
             panel1.TabIndex = 14;
             // 
-            // txtDescipcion
-            // 
-            txtDescipcion.Location = new Point(152, 94);
-            txtDescipcion.Name = "txtDescipcion";
-            txtDescipcion.Size = new Size(191, 23);
-            txtDescipcion.TabIndex = 15;
-            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -165,52 +149,93 @@
             label5.TabIndex = 16;
             label5.Text = "Precio:";
             // 
-            // nroPrecio
+            // lblCamas
             // 
-            nroPrecio.DecimalPlaces = 2;
-            nroPrecio.Location = new Point(152, 126);
-            nroPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroPrecio.Name = "nroPrecio";
-            nroPrecio.Size = new Size(103, 23);
-            nroPrecio.TabIndex = 17;
+            lblCamas.AutoSize = true;
+            lblCamas.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblCamas.Location = new Point(152, 68);
+            lblCamas.Name = "lblCamas";
+            lblCamas.Size = new Size(61, 17);
+            lblCamas.TabIndex = 17;
+            lblCamas.Text = "lblCamas";
             // 
-            // mskCmbFecha
+            // lblDescripcion
             // 
-            mskCmbFecha.Enabled = false;
-            mskCmbFecha.Location = new Point(243, 157);
-            mskCmbFecha.Mask = "00/00/0000";
-            mskCmbFecha.Name = "mskCmbFecha";
-            mskCmbFecha.Size = new Size(100, 23);
-            mskCmbFecha.TabIndex = 18;
-            mskCmbFecha.TextAlign = HorizontalAlignment.Center;
-            mskCmbFecha.ValidatingType = typeof(DateTime);
+            lblDescripcion.AutoSize = true;
+            lblDescripcion.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblDescripcion.Location = new Point(152, 100);
+            lblDescripcion.Name = "lblDescripcion";
+            lblDescripcion.Size = new Size(90, 17);
+            lblDescripcion.TabIndex = 18;
+            lblDescripcion.Text = "lblDescripcion";
             // 
-            // DatosTipoHabitacion
+            // lblPrecio
+            // 
+            lblPrecio.AutoSize = true;
+            lblPrecio.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblPrecio.Location = new Point(152, 132);
+            lblPrecio.Name = "lblPrecio";
+            lblPrecio.Size = new Size(58, 17);
+            lblPrecio.TabIndex = 19;
+            lblPrecio.Text = "lblPrecio";
+            // 
+            // lblFecha
+            // 
+            lblFecha.AutoSize = true;
+            lblFecha.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblFecha.Location = new Point(243, 163);
+            lblFecha.Name = "lblFecha";
+            lblFecha.Size = new Size(55, 17);
+            lblFecha.TabIndex = 20;
+            lblFecha.Text = "lblFecha";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.ForeColor = Color.DarkCyan;
+            label6.Location = new Point(12, 192);
+            label6.Name = "label6";
+            label6.Size = new Size(168, 17);
+            label6.TabIndex = 21;
+            label6.Text = "Cantidad de habitaciones:";
+            // 
+            // lblHabitaciones
+            // 
+            lblHabitaciones.AutoSize = true;
+            lblHabitaciones.Font = new Font("Segoe UI", 9.75F, FontStyle.Regular, GraphicsUnit.Point);
+            lblHabitaciones.Location = new Point(186, 192);
+            lblHabitaciones.Name = "lblHabitaciones";
+            lblHabitaciones.Size = new Size(97, 17);
+            lblHabitaciones.TabIndex = 22;
+            lblHabitaciones.Text = "lblHabitaciones";
+            // 
+            // EliminarTipoHabitacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(373, 301);
-            Controls.Add(mskCmbFecha);
-            Controls.Add(nroPrecio);
+            ClientSize = new Size(373, 294);
+            Controls.Add(lblHabitaciones);
+            Controls.Add(label6);
+            Controls.Add(lblFecha);
+            Controls.Add(lblPrecio);
+            Controls.Add(lblDescripcion);
+            Controls.Add(lblCamas);
             Controls.Add(label5);
-            Controls.Add(txtDescipcion);
             Controls.Add(panel1);
             Controls.Add(cmbId);
-            Controls.Add(lblFecha);
+            Controls.Add(label4);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
-            Controls.Add(nroNumero);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
-            Name = "DatosTipoHabitacion";
+            Name = "EliminarTipoHabitacion";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "DatosTipoHabitacion";
+            Text = "Eliminar Tipo de Habitacion";
             Load += DatosTipoHabitacion_Load;
-            ((System.ComponentModel.ISupportInitialize)nroNumero).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nroPrecio).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -220,15 +245,17 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private NumericUpDown nroNumero;
         private Button btnAceptar;
         private Button btnCancelar;
-        private Label lblFecha;
+        private Label label4;
         private ComboBox cmbId;
         private Panel panel1;
-        private TextBox txtDescipcion;
         private Label label5;
-        private NumericUpDown nroPrecio;
-        private MaskedTextBox mskCmbFecha;
+        private Label lblCamas;
+        private Label lblDescripcion;
+        private Label lblPrecio;
+        private Label lblFecha;
+        private Label label6;
+        private Label lblHabitaciones;
     }
 }

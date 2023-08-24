@@ -50,7 +50,7 @@ namespace WindowsForm
                         prcTpHbt.FechaPrecio = DateTime.Now;
                         tpHbt.PrecioTipoHabitacions.Add(prcTpHbt);
 
-                        Negocio.TipoHabitacion.Update(tpHbt);
+                        Negocio.TipoHabitacion.Create(tpHbt);
                         MessageBox.Show("Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " cargado con exito.");
                     }
                     catch
@@ -77,6 +77,27 @@ namespace WindowsForm
                         //throw ex;
                     }
 
+                    break;
+
+                case 3:
+                    try
+                    {
+                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+                        PrecioTipoHabitacion prc = new PrecioTipoHabitacion();
+                        prc.IdTipoHabitacion = tpHbt.IdTipoHabitacion;
+                        prc.IdTipoHabitacionNavigation = tpHbt;
+                        prc.FechaPrecio = DateTime.Now;
+                        prc.PrecioHabitacion = (double)nroPrecio.Value;
+                        tpHbt.PrecioTipoHabitacions.Add(prc);
+
+                        Negocio.TipoHabitacion.Update(tpHbt);
+                        MessageBox.Show("Precio del Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " actualizado con exito.");
+                    }
+                    catch
+                    {
+                        MessageBox.Show("Hubo un problema al actualizar el precio del tipo de habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //throw ex;
+                    }
                     break;
             }
 
@@ -112,6 +133,28 @@ namespace WindowsForm
                         }
                         cmbId.SelectedIndex = 0;
                         nroPrecio.Enabled = false;
+                        cmbId_SelectionChangeCommitted(sender, e);
+                    }
+                    break;
+
+                case 3:
+                    this.Text = "Actualizar precio";
+                    nroNumero.Enabled = false;
+                    txtDescipcion.Enabled = false;
+                    if (_lstTpHbt.Count <= 0)
+                    {
+                        MessageBox.Show("No hay Tipos de Habitaciones registradas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.Close();
+                    }
+                    else
+                    {
+                        foreach (TipoHabitacion _tpHbt in _lstTpHbt)
+                        {
+                            string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
+                            _tmpTpHbt[tmp] = _tpHbt;
+                            cmbId.Items.Add(tmp);
+                        }
+                        cmbId.SelectedIndex = 0;
                         cmbId_SelectionChangeCommitted(sender, e);
                     }
                     break;
