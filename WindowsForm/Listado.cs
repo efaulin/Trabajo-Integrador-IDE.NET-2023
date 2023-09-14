@@ -1,4 +1,5 @@
 ﻿using Entidad.Models;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -91,13 +92,39 @@ namespace WindowsForm
                     MessageBox.Show("tmp: " + tmp);
                     break;
                 case 1:
-                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
                     break;
                 case 2:
-                    List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
-                    dgvHabitaciones.DataSource = _lstHspd;
-                    //Se remueve la columna de reserva debido a la falta de ABM
-                    dgvHabitaciones.Columns.RemoveAt(5);
+                    break;
+            }
+        }
+
+        private void btnEliminar_Click(object sender, EventArgs e)
+        {
+            switch (opcion)
+            {
+                case 0:
+                    try
+                    {
+                        int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        Habitacion hbt = Negocio.Habitacion.GetOne(tmpId);
+                        if (Negocio.Habitacion.Delete(hbt))
+                        {
+                            MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
+                            listar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, intente nuevamente");
+                        }
+                    }
+                    catch(Exception ex)
+                    {
+                        MessageBox.Show("Error: " + ex);
+                    }
+                    break;
+                case 1:
+                    break;
+                case 2:
                     break;
             }
         }

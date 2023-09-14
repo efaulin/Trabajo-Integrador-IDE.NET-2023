@@ -7,7 +7,7 @@ namespace WindowsForm
     {
         List<Habitacion> lstHbt = Negocio.Habitacion.GetAll();
         List<TipoHabitacion> lstTpHbt = Negocio.TipoHabitacion.GetAll();
-        private Form activeForm = null;
+        private Listado activeForm = null;
         public Form1()
         {
             InitializeComponent();
@@ -184,7 +184,7 @@ namespace WindowsForm
             //..
         }
 
-        private void openChildForm(Form childForm)
+        private void openChildForm(Listado childForm)
         {
             if (activeForm != null)
             {

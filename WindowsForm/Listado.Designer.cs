@@ -31,10 +31,10 @@
             label1 = new Label();
             toolStripContainer1 = new ToolStripContainer();
             tlHabitaciones = new TableLayoutPanel();
-            dgvHabitaciones = new DataGridView();
-            btnActualizar = new Button();
-            btnSalir = new Button();
             btnEditar = new Button();
+            dgvHabitaciones = new DataGridView();
+            btnSalir = new Button();
+            btnActualizar = new Button();
             btnEliminar = new Button();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -92,6 +92,17 @@
             tlHabitaciones.TabIndex = 0;
             tlHabitaciones.Paint += tlHabitaciones_Paint;
             // 
+            // btnEditar
+            // 
+            btnEditar.Location = new Point(40, 526);
+            btnEditar.Margin = new Padding(40, 3, 3, 3);
+            btnEditar.Name = "btnEditar";
+            btnEditar.Size = new Size(55, 23);
+            btnEditar.TabIndex = 1;
+            btnEditar.Text = "Editar";
+            btnEditar.UseVisualStyleBackColor = true;
+            btnEditar.Click += btnEditar_Click;
+            // 
             // dgvHabitaciones
             // 
             dgvHabitaciones.AllowUserToResizeColumns = false;
@@ -111,6 +122,19 @@
             dgvHabitaciones.TabIndex = 0;
             dgvHabitaciones.CellContentClick += dgvHabitaciones_CellContentClick;
             // 
+            // btnSalir
+            // 
+            btnSalir.BackColor = Color.White;
+            btnSalir.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            btnSalir.Location = new Point(846, 526);
+            btnSalir.Margin = new Padding(3, 3, 15, 3);
+            btnSalir.Name = "btnSalir";
+            btnSalir.Size = new Size(89, 23);
+            btnSalir.TabIndex = 2;
+            btnSalir.Text = "Salir";
+            btnSalir.UseVisualStyleBackColor = false;
+            btnSalir.Click += btnSalir_Click;
+            // 
             // btnActualizar
             // 
             btnActualizar.Anchor = AnchorStyles.Top | AnchorStyles.Right;
@@ -126,30 +150,6 @@
             btnActualizar.UseVisualStyleBackColor = false;
             btnActualizar.Click += btnActualizar_Click;
             // 
-            // btnSalir
-            // 
-            btnSalir.BackColor = Color.White;
-            btnSalir.Font = new Font("Segoe UI Semibold", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            btnSalir.Location = new Point(846, 526);
-            btnSalir.Margin = new Padding(3, 3, 15, 3);
-            btnSalir.Name = "btnSalir";
-            btnSalir.Size = new Size(89, 23);
-            btnSalir.TabIndex = 2;
-            btnSalir.Text = "Salir";
-            btnSalir.UseVisualStyleBackColor = false;
-            btnSalir.Click += btnSalir_Click;
-            // 
-            // btnEditar
-            // 
-            btnEditar.Location = new Point(40, 526);
-            btnEditar.Margin = new Padding(40, 3, 3, 3);
-            btnEditar.Name = "btnEditar";
-            btnEditar.Size = new Size(55, 23);
-            btnEditar.TabIndex = 1;
-            btnEditar.Text = "Editar";
-            btnEditar.UseVisualStyleBackColor = true;
-            btnEditar.Click += btnEditar_Click;
-            // 
             // btnEliminar
             // 
             btnEliminar.Location = new Point(113, 526);
@@ -159,6 +159,7 @@
             btnEliminar.TabIndex = 3;
             btnEliminar.Text = "Eliminar";
             btnEliminar.UseVisualStyleBackColor = true;
+            btnEliminar.Click += btnEliminar_Click;
             // 
             // Listado
             // 
