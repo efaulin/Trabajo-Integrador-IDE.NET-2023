@@ -14,7 +14,7 @@ namespace Negocio
             Entidad.Models.Habitacion? hbt = dBContext.Habitacions.Find(id);
             if (hbt != null)
             {
-                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion);
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
                 hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
             }
             return hbt;
@@ -24,7 +24,7 @@ namespace Negocio
             List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.ToList();
             foreach (Entidad.Models.Habitacion hbt in habitaciones)
             {
-                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion);
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
                 hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
             }
             return habitaciones;
@@ -68,9 +68,9 @@ namespace Negocio
             }
             return lstTipHbt;
         }
-        public static Entidad.Models.TipoHabitacion GetOne(int id)
+        public static Entidad.Models.TipoHabitacion? GetOne(int id)
         {
-            Entidad.Models.TipoHabitacion tipHbt = dBContext.TipoHabitacions.Find(id);
+            Entidad.Models.TipoHabitacion? tipHbt = dBContext.TipoHabitacions.Find(id);
             if (tipHbt != null)
             {
                 tipHbt.PrecioTipoHabitacions = dBContext.PrecioTipoHabitacions.Where(tip => tip.IdTipoHabitacion == tipHbt.IdTipoHabitacion).ToList();
@@ -102,7 +102,7 @@ namespace Negocio
             }
         }
         //Devuelve entidad precioTipoHabitacion de un tipoHabitacion especifico que pertenezca a la fecha ingresada
-        public static Entidad.Models.PrecioTipoHabitacion DevPrecioFecha(DateTime fecha, Entidad.Models.TipoHabitacion tipHbt)
+        public static Entidad.Models.PrecioTipoHabitacion? DevPrecioFecha(DateTime fecha, Entidad.Models.TipoHabitacion tipHbt)
         {
             Entidad.Models.PrecioTipoHabitacion? precioBuscado = null;
             foreach (var preTipHbt in tipHbt.PrecioTipoHabitacions)
@@ -132,17 +132,17 @@ namespace Negocio
             List<Entidad.Models.PrecioTipoHabitacion> lstPresTipHbt = dBContext.PrecioTipoHabitacions.ToList();
             foreach (Entidad.Models.PrecioTipoHabitacion PresTipHbt in lstPresTipHbt)
             {
-                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion);
+                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion)!;
             }
             return lstPresTipHbt;
         }
 
-        public static Entidad.Models.PrecioTipoHabitacion GetOne(int id)
+        public static Entidad.Models.PrecioTipoHabitacion? GetOne(int id)
         {
-            Entidad.Models.PrecioTipoHabitacion PresTipHbt = dBContext.PrecioTipoHabitacions.Find(id);
+            Entidad.Models.PrecioTipoHabitacion? PresTipHbt = dBContext.PrecioTipoHabitacions.Find(id);
             if (PresTipHbt != null)
             {
-                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion);
+                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion)!;
             }
             return PresTipHbt;
         }

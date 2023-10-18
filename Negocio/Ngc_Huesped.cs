@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Entidad.Models;
 using Datos;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 
 namespace Negocio
 {
@@ -19,6 +20,15 @@ namespace Negocio
                 hpd.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHuesped == hpd.IdHuesped).ToList();
             }
             return huespeds;
+        }
+        public static Entidad.Models.Huesped? GetOne(int id)
+        {
+            Entidad.Models.Huesped? hpd = dBContext.Huespeds.Find(id);
+            if (hpd != null)
+            {
+                hpd.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHuesped == hpd.IdHuesped).ToList();
+            }
+            return hpd;
         }
         public static void Create(Entidad.Models.Huesped hpd)
         {
