@@ -41,6 +41,7 @@
             label5 = new Label();
             nroPrecio = new NumericUpDown();
             mskCmbFecha = new MaskedTextBox();
+            btnEditarPrecio = new Button();
             ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nroPrecio).BeginInit();
             SuspendLayout();
@@ -186,12 +187,23 @@
             mskCmbFecha.TextAlign = HorizontalAlignment.Center;
             mskCmbFecha.ValidatingType = typeof(DateTime);
             // 
+            // btnEditarPrecio
+            // 
+            btnEditarPrecio.Location = new Point(261, 126);
+            btnEditarPrecio.Name = "btnEditarPrecio";
+            btnEditarPrecio.Size = new Size(82, 23);
+            btnEditarPrecio.TabIndex = 17;
+            btnEditarPrecio.Text = "🔑🔒";
+            btnEditarPrecio.UseVisualStyleBackColor = true;
+            btnEditarPrecio.Click += btnEditarPrecio_Click;
+            // 
             // DatosTipoHabitacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(373, 301);
+            Controls.Add(btnEditarPrecio);
             Controls.Add(mskCmbFecha);
             Controls.Add(nroPrecio);
             Controls.Add(label5);
@@ -231,5 +243,6 @@
         private Label label5;
         private NumericUpDown nroPrecio;
         private MaskedTextBox mskCmbFecha;
+        private Button btnEditarPrecio;
     }
 }

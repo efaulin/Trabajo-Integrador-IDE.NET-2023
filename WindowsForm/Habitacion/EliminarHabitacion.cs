@@ -15,7 +15,7 @@ namespace WindowsForm
     public partial class EliminarHabitacion : Form
     {
         int? op;
-        Habitacion hbt;
+        Habitacion? hbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
         List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
@@ -39,15 +39,15 @@ namespace WindowsForm
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
             int tmpId = tmpHbt.IdHabitacion;
             try
             {
                 if (MessageBox.Show("¿Seguro que quiere borrar la habitacion?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == System.Windows.Forms.DialogResult.Yes)
                 {
-                    if (Negocio.Habitacion.Delete(hbt))
+                    if (Negocio.Habitacion.Delete(hbt!))
                     {
-                        MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " eliminada con exito.");
+                        MessageBox.Show("Habitacion ID: " + hbt!.IdHabitacion + " eliminada con exito.");
                     }
                     else
                     {
@@ -55,7 +55,7 @@ namespace WindowsForm
                     }
                 }
             }
-            catch (Exception ex)
+            catch
             {
                 if (tmpHbt.Reservas.Count() != 0)
                 {
@@ -114,7 +114,7 @@ namespace WindowsForm
 
         private void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+            hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
             lblNumero.Text = hbt.NumeroHabitacion.ToString();
             lblPiso.Text = hbt.PisoHabitacion.ToString();
             if (hbt.Estado)

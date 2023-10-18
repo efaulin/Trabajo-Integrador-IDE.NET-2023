@@ -15,7 +15,7 @@ namespace WindowsForm.Huespedes
     public partial class DatosHuesped : Form
     {
         int? op;
-        Huesped hspd;
+        Huesped? hspd;
         List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
         Hashtable _tmpHspd = new Hashtable();
         public DatosHuesped(int opcion)
@@ -66,7 +66,7 @@ namespace WindowsForm.Huespedes
                 case 2:
                     try
                     {
-                        hspd = (Huesped)_tmpHspd[cmbId.SelectedItem];
+                        hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
                         hspd.Nombre = txtNombre.Text;
                         hspd.Apellido = txtApellido.Text;
                         hspd.NumeroDocumento = txtDNI.Text;
@@ -132,7 +132,7 @@ namespace WindowsForm.Huespedes
 
         private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            hspd = (Huesped)_tmpHspd[cmbId.SelectedItem];
+            hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
             txtNombre.Text = hspd.Nombre;
             txtApellido.Text = hspd.Apellido;
             txtDNI.Text = hspd.NumeroDocumento.ToString();

@@ -217,7 +217,6 @@
 
         #endregion
 
-        private MaskedTextBox mskCmbFecha;
         private Label label5;
         private Panel panel1;
         private ComboBox cmbId;

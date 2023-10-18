@@ -15,7 +15,7 @@ namespace WindowsForm
     public partial class DatosTipoHabitacion : Form
     {
         int? op;
-        TipoHabitacion tpHbt;
+        TipoHabitacion? tpHbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
         Hashtable _tmpTpHbt = new Hashtable();
 
@@ -64,7 +64,7 @@ namespace WindowsForm
                 case 2:
                     try
                     {
-                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
                         tpHbt.NumeroCamas = (int)nroNumero.Value;
                         tpHbt.Descripcion = txtDescipcion.Text;
 
@@ -82,7 +82,7 @@ namespace WindowsForm
                 case 3:
                     try
                     {
-                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
                         PrecioTipoHabitacion prc = new PrecioTipoHabitacion();
                         prc.IdTipoHabitacion = tpHbt.IdTipoHabitacion;
                         prc.IdTipoHabitacionNavigation = tpHbt;
@@ -194,7 +194,7 @@ namespace WindowsForm
         private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //nroCamas, descripcion, precio, fecha
-            tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+            tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
             nroNumero.Value = tpHbt.NumeroCamas;
             txtDescipcion.Text = tpHbt.Descripcion;
             nroPrecio.Value = (decimal)tpHbt.PrecioTipoHabitacions.Last().PrecioHabitacion;
@@ -202,6 +202,11 @@ namespace WindowsForm
         }
 
         private void txtDescipcion_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEditarPrecio_Click(object sender, EventArgs e)
         {
 
         }

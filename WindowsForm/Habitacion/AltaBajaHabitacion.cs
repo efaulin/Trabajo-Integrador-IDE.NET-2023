@@ -15,7 +15,7 @@ namespace WindowsForm
     public partial class AltaBajaHabitacion : Form
     {
         int? op;
-        Habitacion hbt;
+        Habitacion? hbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
         List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
@@ -69,7 +69,7 @@ namespace WindowsForm
 
         private void btnAlta_Click(object sender, EventArgs e)
         {
-            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
             if (!tmpHbt.Estado)
             {
                 tmpHbt.Estado = true;
@@ -79,7 +79,7 @@ namespace WindowsForm
 
         private void btnBaja_Click(object sender, EventArgs e)
         {
-            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
             if (tmpHbt.Estado)
             {
                 tmpHbt.Estado = false;
@@ -149,7 +149,7 @@ namespace WindowsForm
 
         private void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem];
+            hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
             lblNumero.Text = hbt.NumeroHabitacion.ToString();
             lblPiso.Text = hbt.PisoHabitacion.ToString();
             if (hbt.Estado)

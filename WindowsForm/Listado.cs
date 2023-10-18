@@ -1,6 +1,7 @@
 ﻿using Entidad.Models;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,9 +17,16 @@ namespace WindowsForm
     public partial class Listado : Form
     {
         int opcion;
-        public Listado(int op)
+        public Listado(string op)
         {
-            opcion = op;
+            Hashtable ht = new Hashtable()
+            {
+                { "Habitacion", 0 },
+                { "TipoHabitacion", 1 },
+                { "Huesped", 2 },
+                { "Reserva", 3 }
+            };
+            opcion = (int)ht[op]!;
             InitializeComponent();
             listar();
         }
@@ -38,6 +46,10 @@ namespace WindowsForm
                     dgvHabitaciones.DataSource = _lstHspd;
                     //Se remueve la columna de reserva debido a la falta de ABM
                     dgvHabitaciones.Columns.RemoveAt(5);
+                    break;
+                case 3:
+                    List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
+                    dgvHabitaciones.DataSource = _lstRsv;
                     break;
             }
 
@@ -106,7 +118,7 @@ namespace WindowsForm
                     try
                     {
                         int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Habitacion hbt = Negocio.Habitacion.GetOne(tmpId);
+                        Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
                         if (Negocio.Habitacion.Delete(hbt))
                         {
                             MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");

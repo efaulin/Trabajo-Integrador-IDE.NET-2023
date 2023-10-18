@@ -141,6 +141,7 @@
             cmbTipoHabitacion.Name = "cmbTipoHabitacion";
             cmbTipoHabitacion.Size = new Size(191, 23);
             cmbTipoHabitacion.TabIndex = 4;
+            cmbTipoHabitacion.SelectedIndexChanged += cmbTipoHabitacion_SelectedIndexChanged;
             // 
             // cmbIdHabitacion
             // 

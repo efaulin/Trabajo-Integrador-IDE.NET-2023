@@ -7,7 +7,7 @@ namespace WindowsForm
     {
         List<Habitacion> lstHbt = Negocio.Habitacion.GetAll();
         List<TipoHabitacion> lstTpHbt = Negocio.TipoHabitacion.GetAll();
-        private Listado activeForm = null;
+        private Listado? activeForm = null;
         public Form1()
         {
             InitializeComponent();
@@ -35,6 +35,7 @@ namespace WindowsForm
             {
                 panelHspdSubmenu.Visible = false;
             }
+            actualizarListado();
         }
         private void mostrarSubmenu(Panel submenu)
         {
@@ -57,7 +58,7 @@ namespace WindowsForm
         private void mostrarHbt_Click(object sender, EventArgs e)
         {
             //..          
-            openChildForm(new Listado(0));
+            openChildForm(new Listado("Habitacion"));
             ocultarSubmenu();
         }
 
@@ -98,7 +99,7 @@ namespace WindowsForm
         private void mostrarTpHbt_Click(object sender, EventArgs e)
         {
             //..
-            openChildForm(new Listado(1));
+            openChildForm(new Listado("TipoHabitacion"));
             ocultarSubmenu();
         }
 
@@ -133,7 +134,7 @@ namespace WindowsForm
         private void mostrarHspd_Click(object sender, EventArgs e)
         {
             //..
-            openChildForm(new Listado(2));
+            openChildForm(new Listado("Huesped"));
             ocultarSubmenu();
         }
 
@@ -181,7 +182,10 @@ namespace WindowsForm
 
         private void actualizarListado()
         {
-            //..
+            if (activeForm != null)
+            {
+                activeForm.listar();
+            }
         }
 
         private void openChildForm(Listado childForm)
@@ -198,6 +202,12 @@ namespace WindowsForm
             panelChildForm.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
+        }
+
+        private void mostrarRsv_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Reserva"));
+            ocultarSubmenu();
         }
     }
 }
