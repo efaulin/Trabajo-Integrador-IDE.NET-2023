@@ -34,9 +34,7 @@
             btnCancelar = new Button();
             cmbIdReserva = new ComboBox();
             panel1 = new Panel();
-            mskCmbFechaInicio = new MaskedTextBox();
             label3 = new Label();
-            mskCmbFechaFin = new MaskedTextBox();
             label4 = new Label();
             mskCmbCantPersonas = new MaskedTextBox();
             label5 = new Label();
@@ -44,8 +42,10 @@
             cmbHabitacion = new ComboBox();
             cmbHuesped = new ComboBox();
             label7 = new Label();
-            lblEstado = new Label();
             label9 = new Label();
+            dtFechaInicio = new DateTimePicker();
+            dtFechaFin = new DateTimePicker();
+            cmbEstado = new ComboBox();
             SuspendLayout();
             // 
             // label1
@@ -79,7 +79,7 @@
             btnAceptar.FlatStyle = FlatStyle.Flat;
             btnAceptar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             btnAceptar.ForeColor = Color.White;
-            btnAceptar.Location = new Point(12, 279);
+            btnAceptar.Location = new Point(12, 446);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
             btnAceptar.TabIndex = 5;
@@ -89,7 +89,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(12, 315);
+            btnCancelar.Location = new Point(12, 482);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
             btnCancelar.TabIndex = 6;
@@ -116,19 +116,8 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(377, 11);
+            panel1.Size = new Size(381, 11);
             panel1.TabIndex = 14;
-            // 
-            // mskCmbFechaInicio
-            // 
-            mskCmbFechaInicio.Enabled = false;
-            mskCmbFechaInicio.Location = new Point(210, 62);
-            mskCmbFechaInicio.Mask = "00/00/0000";
-            mskCmbFechaInicio.Name = "mskCmbFechaInicio";
-            mskCmbFechaInicio.Size = new Size(100, 23);
-            mskCmbFechaInicio.TabIndex = 15;
-            mskCmbFechaInicio.TextAlign = HorizontalAlignment.Center;
-            mskCmbFechaInicio.ValidatingType = typeof(DateTime);
             // 
             // label3
             // 
@@ -140,17 +129,6 @@
             label3.Size = new Size(139, 17);
             label3.TabIndex = 16;
             label3.Text = "Fecha fin de reserva:";
-            // 
-            // mskCmbFechaFin
-            // 
-            mskCmbFechaFin.Enabled = false;
-            mskCmbFechaFin.Location = new Point(210, 91);
-            mskCmbFechaFin.Mask = "00/00/0000";
-            mskCmbFechaFin.Name = "mskCmbFechaFin";
-            mskCmbFechaFin.Size = new Size(100, 23);
-            mskCmbFechaFin.TabIndex = 17;
-            mskCmbFechaFin.TextAlign = HorizontalAlignment.Center;
-            mskCmbFechaFin.ValidatingType = typeof(DateTime);
             // 
             // label4
             // 
@@ -178,7 +156,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(34, 156);
+            label5.Location = new Point(34, 163);
             label5.Name = "label5";
             label5.Size = new Size(79, 17);
             label5.TabIndex = 20;
@@ -189,7 +167,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(47, 185);
+            label6.Location = new Point(47, 253);
             label6.Name = "label6";
             label6.Size = new Size(66, 17);
             label6.TabIndex = 21;
@@ -197,18 +175,20 @@
             // 
             // cmbHabitacion
             // 
+            cmbHabitacion.DropDownStyle = ComboBoxStyle.Simple;
             cmbHabitacion.FormattingEnabled = true;
-            cmbHabitacion.Location = new Point(119, 150);
+            cmbHabitacion.Location = new Point(119, 157);
             cmbHabitacion.Name = "cmbHabitacion";
-            cmbHabitacion.Size = new Size(191, 23);
+            cmbHabitacion.Size = new Size(191, 83);
             cmbHabitacion.TabIndex = 22;
             // 
             // cmbHuesped
             // 
+            cmbHuesped.DropDownStyle = ComboBoxStyle.Simple;
             cmbHuesped.FormattingEnabled = true;
-            cmbHuesped.Location = new Point(119, 179);
+            cmbHuesped.Location = new Point(119, 247);
             cmbHuesped.Name = "cmbHuesped";
-            cmbHuesped.Size = new Size(191, 23);
+            cmbHuesped.Size = new Size(191, 83);
             cmbHuesped.TabIndex = 23;
             // 
             // label7
@@ -216,44 +196,61 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(151, 214);
+            label7.Location = new Point(130, 342);
             label7.Name = "label7";
             label7.Size = new Size(53, 17);
             label7.TabIndex = 24;
             label7.Text = "Estado:";
             label7.Click += label7_Click;
             // 
-            // lblEstado
-            // 
-            lblEstado.AutoSize = true;
-            lblEstado.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            lblEstado.ForeColor = SystemColors.ControlText;
-            lblEstado.Location = new Point(210, 214);
-            lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(65, 17);
-            lblEstado.TabIndex = 25;
-            lblEstado.Text = "lblEstado";
-            lblEstado.TextAlign = ContentAlignment.MiddleLeft;
-            // 
             // label9
             // 
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(143, 244);
+            label9.Location = new Point(143, 392);
             label9.Name = "label9";
             label9.Size = new Size(76, 17);
             label9.TabIndex = 26;
             label9.Text = "Servicios...";
+            // 
+            // dtFechaInicio
+            // 
+            dtFechaInicio.Checked = false;
+            dtFechaInicio.Format = DateTimePickerFormat.Short;
+            dtFechaInicio.Location = new Point(210, 62);
+            dtFechaInicio.Name = "dtFechaInicio";
+            dtFechaInicio.Size = new Size(100, 23);
+            dtFechaInicio.TabIndex = 27;
+            // 
+            // dtFechaFin
+            // 
+            dtFechaFin.Format = DateTimePickerFormat.Short;
+            dtFechaFin.Location = new Point(210, 91);
+            dtFechaFin.Name = "dtFechaFin";
+            dtFechaFin.Size = new Size(100, 23);
+            dtFechaFin.TabIndex = 28;
+            // 
+            // cmbEstado
+            // 
+            cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbEstado.FormattingEnabled = true;
+            cmbEstado.Items.AddRange(new object[] { "En espera", "En curso", "Finalizada", "Cancelada" });
+            cmbEstado.Location = new Point(189, 336);
+            cmbEstado.Name = "cmbEstado";
+            cmbEstado.Size = new Size(121, 23);
+            cmbEstado.TabIndex = 29;
             // 
             // DatosReserva
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(377, 355);
+            ClientSize = new Size(381, 521);
+            Controls.Add(cmbEstado);
+            Controls.Add(dtFechaFin);
+            Controls.Add(dtFechaInicio);
             Controls.Add(label9);
-            Controls.Add(lblEstado);
             Controls.Add(label7);
             Controls.Add(cmbHuesped);
             Controls.Add(cmbHabitacion);
@@ -261,9 +258,7 @@
             Controls.Add(label5);
             Controls.Add(mskCmbCantPersonas);
             Controls.Add(label4);
-            Controls.Add(mskCmbFechaFin);
             Controls.Add(label3);
-            Controls.Add(mskCmbFechaInicio);
             Controls.Add(panel1);
             Controls.Add(cmbIdReserva);
             Controls.Add(btnCancelar);
@@ -287,9 +282,7 @@
         private Button btnCancelar;
         private ComboBox cmbIdReserva;
         private Panel panel1;
-        private MaskedTextBox mskCmbFechaInicio;
         private Label label3;
-        private MaskedTextBox mskCmbFechaFin;
         private Label label4;
         private MaskedTextBox mskCmbCantPersonas;
         private Label label5;
@@ -297,7 +290,9 @@
         private ComboBox cmbHabitacion;
         private ComboBox cmbHuesped;
         private Label label7;
-        private Label lblEstado;
         private Label label9;
+        private DateTimePicker dtFechaInicio;
+        private DateTimePicker dtFechaFin;
+        private ComboBox cmbEstado;
     }
 }

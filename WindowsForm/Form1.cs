@@ -209,5 +209,12 @@ namespace WindowsForm
             openChildForm(new Listado("Reserva"));
             ocultarSubmenu();
         }
+
+        private void addRsv_Click(object sender, EventArgs e)
+        {
+            Form form = new DatosReserva();
+            form.ShowDialog();
+            ocultarSubmenu();
+        }
     }
 }

@@ -97,15 +97,22 @@ namespace WindowsForm
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
+            int tmp;
+            Form form;
             switch (opcion)
             {
                 case 0:
-                    var tmp = dgvHabitaciones.SelectedCells[0].Value;
+                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
                     MessageBox.Show("tmp: " + tmp);
                     break;
                 case 1:
                     break;
                 case 2:
+                    break;
+                case 3:
+                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    form = new DatosReserva(tmp);
+                    form.ShowDialog();
                     break;
             }
         }

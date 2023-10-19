@@ -30,8 +30,22 @@ namespace WindowsForm
         {
             InitializeComponent();
         }
+        //Probar si es viable (*/ω\*)
+        public DatosReserva(Habitacion hbt)
+        {
+            _hbt = hbt;
+        }
 
-        //constructor con parametro del listado
+        public DatosReserva(Huesped hpd)
+        {
+            _hpd = hpd;
+        }
+
+        public DatosReserva(Reserva rsv)
+        {
+            _rsv = rsv;
+        }
+
         public DatosReserva(int id, bool esUnaHabitacion)
         {
             if (esUnaHabitacion)
@@ -62,7 +76,8 @@ namespace WindowsForm
             InitializeComponent();
         }
 #warning Pasar el objeto por parametro, nos ahorramos la busqueda con el id y podemos discriminarlo en el constructor ¯\_(ツ)_/¯
-        public DatosReserva(int id, string a)
+#warning Faltan validaciones, ademas de filtrar las habitaciones por fecha de reserva
+        public DatosReserva(int id)
         {
             try
             {
@@ -111,6 +126,7 @@ namespace WindowsForm
                 cmbIdReserva.Items.Add("Nuevo");
                 cmbIdReserva.SelectedItem = "Nuevo";
                 cmbIdReserva.Enabled = false;
+                cmbEstado.SelectedIndex = 0;
             }
 
             if (_hbt != null)
@@ -127,27 +143,47 @@ namespace WindowsForm
         private void cmbIdReserva_SelectionChangeCommitted(object sender, EventArgs e)
         {
             _rsv = (Reserva)_hashRsv[cmbIdReserva.SelectedItem]!;
-            mskCmbFechaInicio.Text = _rsv.FechaInicioReserva.ToString("dd/MM/yyyy");
-            mskCmbFechaFin.Text = _rsv.FechaFinReserva.ToString("dd/MM/yyyy");
+            dtFechaInicio.Value = _rsv.FechaInicioReserva;
+            dtFechaFin.Value = _rsv.FechaFinReserva;
             mskCmbCantPersonas.Text = _rsv.CantidadPersonas.ToString();
             cmbHabitacion.SelectedItem = _rsv.IdHabitacionNavigation.IdHabitacion + " - Piso: " + _rsv.IdHabitacionNavigation.PisoHabitacion + " Nro: " + _rsv.IdHabitacionNavigation.NumeroHabitacion;
             cmbHuesped.SelectedItem = _rsv.IdHuespedNavigation.NumeroDocumento + " - " + _rsv.IdHuespedNavigation.Nombre + " " + _rsv.IdHuespedNavigation.Apellido;
-            lblEstado.Text = _rsv.EstadoReserva;
+            cmbEstado.SelectedItem = _rsv.EstadoReserva;
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            //¿Reserva existente o nueva?
             if (_rsv != null)
             {
-                _rsv.FechaInicioReserva = DateTime.Parse(mskCmbFechaInicio.Text);
-                _rsv.FechaFinReserva = DateTime.Parse(mskCmbFechaFin.Text);
-                _rsv.CantidadPersonas = int.Parse(mskCmbCantPersonas.Text);
-                _rsv.IdHabitacionNavigation = (Habitacion)_hashHbt[cmbHabitacion.SelectedItem]!;
-                _rsv.IdHuespedNavigation = (Huesped)_hashHpd[cmbHuesped.SelectedItem]!;
-                _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
-                _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
-                #warning Falta modificar estado de reserva
+                //Se modifica una reserva existente
+                asignarValores();
+                try
+                {
+                    Negocio.Reserva.Update(_rsv);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hubo un error al guardar la reserva\n" + ex);
+                }
             }
+            else
+            {
+                //Se crea una nueva reserva
+                _rsv = new Reserva();
+                _rsv.FechaInscripcion = DateTime.Now.Date;
+                _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
+                asignarValores();
+                try
+                {
+                    Negocio.Reserva.Create(_rsv);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Hubo un error al guardar la reserva\n" + ex);
+                }
+            }
+
             this.Close();
         }
 
@@ -155,6 +191,18 @@ namespace WindowsForm
         {
             this.Close();
         }
+
+        private void asignarValores()
+        {
+            _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
+            _rsv.FechaFinReserva = dtFechaFin.Value.Date;
+            _rsv.CantidadPersonas = int.Parse(mskCmbCantPersonas.Text);
+            _rsv.IdHabitacionNavigation = (Habitacion)_hashHbt[cmbHabitacion.SelectedItem]!;
+            _rsv.IdHuespedNavigation = (Huesped)_hashHpd[cmbHuesped.SelectedItem]!;
+            _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
+            _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
+        }
+
         #region A borrar
         private void label1_Click(object sender, EventArgs e)
         {

@@ -160,6 +160,7 @@
             addRsv.Text = "Agregar ";
             addRsv.TextAlign = ContentAlignment.MiddleLeft;
             addRsv.UseVisualStyleBackColor = true;
+            addRsv.Click += addRsv_Click;
             // 
             // mostrarRsv
             // 
