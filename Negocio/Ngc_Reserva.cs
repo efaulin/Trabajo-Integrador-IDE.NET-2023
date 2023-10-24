@@ -39,24 +39,47 @@ namespace Negocio
             return rsv;
         }
 
-        public static void Create(Entidad.Models.Reserva rsv)
+        public static bool Create(Entidad.Models.Reserva rsv)
         {
-            //Preferible pasar un booleano y encerrar Add(), SaveChanges() y Update() en un TryCatch
-            dBContext.Reservas.Add(rsv);
-            dBContext.SaveChanges();
-            dBContext.Update(rsv);
+            try
+            {
+                dBContext.Reservas.Add(rsv);
+                dBContext.SaveChanges();
+                dBContext.Update(rsv);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public static void Update(Entidad.Models.Reserva rsv)
+        public static bool Update(Entidad.Models.Reserva rsv)
         {
-            dBContext.Update(rsv);
-            dBContext.SaveChanges();
+            try
+            {
+                dBContext.Update(rsv);
+                dBContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
-        public static void Delete(Entidad.Models.Reserva rsv)
+        public static bool Delete(Entidad.Models.Reserva rsv)
         {
-            dBContext.Remove(rsv);
-            dBContext.SaveChanges();
+            try
+            {
+                dBContext.Remove(rsv);
+                dBContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }

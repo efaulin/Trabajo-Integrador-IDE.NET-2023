@@ -216,5 +216,11 @@ namespace WindowsForm
             form.ShowDialog();
             ocultarSubmenu();
         }
+
+        private void mostrarSrv_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Servicio"));
+            ocultarSubmenu();
+        }
     }
 }

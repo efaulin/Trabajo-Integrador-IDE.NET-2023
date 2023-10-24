@@ -30,27 +30,43 @@ namespace Negocio
             }
             return hpd;
         }
-        public static void Create(Entidad.Models.Huesped hpd)
+        public static bool Create(Entidad.Models.Huesped hpd)
         {
-            dBContext.Huespeds.Add(hpd);
-            dBContext.SaveChanges();
-            dBContext.Update(hpd);
+            try
+            {
+                dBContext.Huespeds.Add(hpd);
+                dBContext.SaveChanges();
+                dBContext.Update(hpd);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
-        public static void Update(Entidad.Models.Huesped hpd)
+        public static bool Update(Entidad.Models.Huesped hpd)
         {
-            dBContext.Update(hpd);
-            dBContext.SaveChanges();
+            try
+            {
+                dBContext.Update(hpd);
+                dBContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
         }
         public static bool Delete(Entidad.Models.Huesped hpd)
         {
             //return Datos.Habitacion.Delete(id);
-            if (hpd != null)
+            try
             {
                 dBContext.Huespeds.Remove(hpd);
                 dBContext.SaveChanges();
                 return true;
             }
-            else
+            catch
             {
                 return false;
             }

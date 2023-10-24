@@ -24,7 +24,8 @@ namespace WindowsForm
                 { "Habitacion", 0 },
                 { "TipoHabitacion", 1 },
                 { "Huesped", 2 },
-                { "Reserva", 3 }
+                { "Reserva", 3 },
+                { "Servicio", 4 }
             };
             opcion = (int)ht[op]!;
             InitializeComponent();
@@ -50,6 +51,10 @@ namespace WindowsForm
                 case 3:
                     List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
                     dgvHabitaciones.DataSource = _lstRsv;
+                    break;
+                case 4:
+                    List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
+                    dgvHabitaciones.DataSource = _lstSrv;
                     break;
             }
 
@@ -101,6 +106,7 @@ namespace WindowsForm
             Form form;
             switch (opcion)
             {
+#warning Falta implementacion boton "Editar"
                 case 0:
                     tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
                     MessageBox.Show("tmp: " + tmp);
@@ -114,6 +120,8 @@ namespace WindowsForm
                     form = new DatosReserva(tmp);
                     form.ShowDialog();
                     break;
+                case 4:
+                    break;
             }
         }
 
@@ -121,24 +129,18 @@ namespace WindowsForm
         {
             switch (opcion)
             {
+#warning Falta implementacion boton "Eliminar"
                 case 0:
-                    try
+                    int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
+                    if (Negocio.Habitacion.Delete(hbt))
                     {
-                        int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
-                        if (Negocio.Habitacion.Delete(hbt))
-                        {
-                            MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
+                        MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
+                        listar();
                     }
-                    catch(Exception ex)
+                    else
                     {
-                        MessageBox.Show("Error: " + ex);
+                        MessageBox.Show("Error, intente nuevamente");
                     }
                     break;
                 case 1:

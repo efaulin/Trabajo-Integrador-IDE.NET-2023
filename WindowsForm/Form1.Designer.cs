@@ -67,6 +67,12 @@
             panel4 = new Panel();
             label1 = new Label();
             panelChildForm = new Panel();
+            panel7 = new Panel();
+            deleteSrv = new Button();
+            editarSrv = new Button();
+            addSrv = new Button();
+            mostrarSrv = new Button();
+            btnServicio = new Button();
             panel1.SuspendLayout();
             panel6.SuspendLayout();
             panelHspdSubmenu.SuspendLayout();
@@ -77,12 +83,15 @@
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel3.SuspendLayout();
             panelChildForm.SuspendLayout();
+            panel7.SuspendLayout();
             SuspendLayout();
             // 
             // panel1
             // 
             panel1.AutoScroll = true;
             panel1.BackColor = Color.DarkCyan;
+            panel1.Controls.Add(panel7);
+            panel1.Controls.Add(btnServicio);
             panel1.Controls.Add(panel6);
             panel1.Controls.Add(btnReserva);
             panel1.Controls.Add(panelHspdSubmenu);
@@ -648,6 +657,101 @@
             panelChildForm.Size = new Size(808, 623);
             panelChildForm.TabIndex = 4;
             // 
+            // panel7
+            // 
+            panel7.BackColor = Color.MediumTurquoise;
+            panel7.Controls.Add(deleteSrv);
+            panel7.Controls.Add(editarSrv);
+            panel7.Controls.Add(addSrv);
+            panel7.Controls.Add(mostrarSrv);
+            panel7.Dock = DockStyle.Top;
+            panel7.Location = new Point(0, 832);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(234, 111);
+            panel7.TabIndex = 24;
+            // 
+            // deleteSrv
+            // 
+            deleteSrv.Dock = DockStyle.Top;
+            deleteSrv.FlatAppearance.BorderSize = 0;
+            deleteSrv.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            deleteSrv.FlatStyle = FlatStyle.Flat;
+            deleteSrv.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            deleteSrv.ForeColor = Color.Firebrick;
+            deleteSrv.Location = new Point(0, 75);
+            deleteSrv.Name = "deleteSrv";
+            deleteSrv.Padding = new Padding(8, 0, 0, 0);
+            deleteSrv.Size = new Size(234, 25);
+            deleteSrv.TabIndex = 23;
+            deleteSrv.Text = "Eliminar";
+            deleteSrv.TextAlign = ContentAlignment.MiddleLeft;
+            deleteSrv.UseVisualStyleBackColor = true;
+            // 
+            // editarSrv
+            // 
+            editarSrv.Dock = DockStyle.Top;
+            editarSrv.FlatAppearance.BorderSize = 0;
+            editarSrv.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            editarSrv.FlatStyle = FlatStyle.Flat;
+            editarSrv.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            editarSrv.Location = new Point(0, 50);
+            editarSrv.Name = "editarSrv";
+            editarSrv.Padding = new Padding(8, 0, 0, 0);
+            editarSrv.Size = new Size(234, 25);
+            editarSrv.TabIndex = 22;
+            editarSrv.Text = "Editar";
+            editarSrv.TextAlign = ContentAlignment.MiddleLeft;
+            editarSrv.UseVisualStyleBackColor = true;
+            // 
+            // addSrv
+            // 
+            addSrv.Dock = DockStyle.Top;
+            addSrv.FlatAppearance.BorderSize = 0;
+            addSrv.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            addSrv.FlatStyle = FlatStyle.Flat;
+            addSrv.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            addSrv.Location = new Point(0, 25);
+            addSrv.Name = "addSrv";
+            addSrv.Padding = new Padding(8, 0, 0, 0);
+            addSrv.Size = new Size(234, 25);
+            addSrv.TabIndex = 21;
+            addSrv.Text = "Agregar ";
+            addSrv.TextAlign = ContentAlignment.MiddleLeft;
+            addSrv.UseVisualStyleBackColor = true;
+            // 
+            // mostrarSrv
+            // 
+            mostrarSrv.Dock = DockStyle.Top;
+            mostrarSrv.FlatAppearance.BorderSize = 0;
+            mostrarSrv.FlatAppearance.MouseOverBackColor = Color.LightSeaGreen;
+            mostrarSrv.FlatStyle = FlatStyle.Flat;
+            mostrarSrv.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            mostrarSrv.Location = new Point(0, 0);
+            mostrarSrv.Name = "mostrarSrv";
+            mostrarSrv.Padding = new Padding(8, 0, 0, 0);
+            mostrarSrv.Size = new Size(234, 25);
+            mostrarSrv.TabIndex = 20;
+            mostrarSrv.Text = "Listar";
+            mostrarSrv.TextAlign = ContentAlignment.MiddleLeft;
+            mostrarSrv.UseVisualStyleBackColor = true;
+            mostrarSrv.Click += mostrarSrv_Click;
+            // 
+            // btnServicio
+            // 
+            btnServicio.BackColor = Color.LightSeaGreen;
+            btnServicio.Dock = DockStyle.Top;
+            btnServicio.FlatAppearance.BorderColor = Color.DarkCyan;
+            btnServicio.FlatAppearance.BorderSize = 2;
+            btnServicio.FlatStyle = FlatStyle.Flat;
+            btnServicio.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnServicio.ForeColor = Color.White;
+            btnServicio.Location = new Point(0, 797);
+            btnServicio.Name = "btnServicio";
+            btnServicio.Size = new Size(234, 35);
+            btnServicio.TabIndex = 23;
+            btnServicio.Text = "Servicio";
+            btnServicio.UseVisualStyleBackColor = false;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(6F, 13F);
@@ -676,6 +780,7 @@
             panel3.ResumeLayout(false);
             panelChildForm.ResumeLayout(false);
             panelChildForm.PerformLayout();
+            panel7.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -719,5 +824,11 @@
         private Button addRsv;
         private Button mostrarRsv;
         private Button btnReserva;
+        private Panel panel7;
+        private Button deleteSrv;
+        private Button editarSrv;
+        private Button addSrv;
+        private Button mostrarSrv;
+        private Button btnServicio;
     }
 }

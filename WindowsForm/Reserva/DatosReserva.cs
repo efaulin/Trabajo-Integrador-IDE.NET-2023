@@ -75,7 +75,7 @@ namespace WindowsForm
 
             InitializeComponent();
         }
-#warning Pasar el objeto por parametro, nos ahorramos la busqueda con el id y podemos discriminarlo en el constructor ¯\_(ツ)_/¯
+#warning Pasar el objeto por parametro, nos ahorramos la busqueda con el id y podemos discriminarlo en el constructor
 #warning Faltan validaciones, ademas de filtrar las habitaciones por fecha de reserva
         public DatosReserva(int id)
         {
@@ -153,18 +153,16 @@ namespace WindowsForm
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+            bool stop = false;
             //¿Reserva existente o nueva?
             if (_rsv != null)
             {
                 //Se modifica una reserva existente
                 asignarValores();
-                try
+                if (!Negocio.Reserva.Update(_rsv))
                 {
-                    Negocio.Reserva.Update(_rsv);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Hubo un error al guardar la reserva\n" + ex);
+                    stop = true;
+                    MessageBox.Show("Hubo un error al guardar la reserva");
                 }
             }
             else
@@ -174,17 +172,17 @@ namespace WindowsForm
                 _rsv.FechaInscripcion = DateTime.Now.Date;
                 _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
                 asignarValores();
-                try
+                if (!Negocio.Reserva.Create(_rsv))
                 {
-                    Negocio.Reserva.Create(_rsv);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Hubo un error al guardar la reserva\n" + ex);
+                    stop = true;
+                    MessageBox.Show("Hubo un error al guardar la reserva");
                 }
             }
 
-            this.Close();
+            if (!stop)
+            {
+                this.Close();
+            }
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
