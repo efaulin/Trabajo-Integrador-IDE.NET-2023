@@ -34,49 +34,24 @@ namespace WindowsForm
         public DatosReserva(Habitacion hbt)
         {
             _hbt = hbt;
+            InitializeComponent();
         }
 
         public DatosReserva(Huesped hpd)
         {
             _hpd = hpd;
+            InitializeComponent();
         }
 
         public DatosReserva(Reserva rsv)
         {
             _rsv = rsv;
-        }
-
-        public DatosReserva(int id, bool esUnaHabitacion)
-        {
-            if (esUnaHabitacion)
-            {
-                try
-                {
-                    _hbt = Negocio.Habitacion.GetOne(id)!;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("¡La habitacion no existe!\n" + ex);
-                    this.Close();
-                }
-            }
-            else
-            {
-                try
-                {
-                    _hpd = Negocio.Huesped.GetOne(id)!;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("¡El huesped no existe!\n" + ex);
-                    this.Close();
-                }
-            }
-
             InitializeComponent();
         }
+
 #warning Pasar el objeto por parametro, nos ahorramos la busqueda con el id y podemos discriminarlo en el constructor
 #warning Faltan validaciones, ademas de filtrar las habitaciones por fecha de reserva
+
         public DatosReserva(int id)
         {
             try
@@ -93,6 +68,17 @@ namespace WindowsForm
 
         private void DatosHabitacion_Load(object sender, EventArgs e)
         {
+            if (_lstHbt.Count <= 0)
+            {
+                MessageBox.Show("¡No hay habitaciones registradas!\nAgrege una habitacion, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+            else if (_lstHpd.Count <= 0)
+            {
+                MessageBox.Show("¡No hay huespedes registrados!\nAgrege un huesped, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                this.Close();
+            }
+
             foreach (Habitacion _tmpHbt in _lstHbt)
             {
                 string tmp = _tmpHbt.IdHabitacion + " - Piso: " + _tmpHbt.PisoHabitacion + " Nro: " + _tmpHbt.NumeroHabitacion;

@@ -1,0 +1,12 @@
+# vscode
+.vs/*
+Consola/obj/*
+Consola/bin/*
+Datos/obj/*
+Datos/bin/*
+Entidad/obj/*
+Entidad/bin/*
+Negocio/obj/*
+Negocio/bin/*
+WindowsForm/obj/*
+WindowsForm/bin/*

@@ -19,6 +19,8 @@ namespace WindowsForm
             panelHbtSubmenu.Visible = false;
             panelTpHbtSubmenu.Visible = false;
             panelHspdSubmenu.Visible = false;
+            panelRsvSubmenu.Visible = false;
+            panelSrvSubmenu.Visible = false;
         }
 
         private void ocultarSubmenu()
@@ -34,6 +36,14 @@ namespace WindowsForm
             if (panelHspdSubmenu.Visible == true)
             {
                 panelHspdSubmenu.Visible = false;
+            }
+            if (panelRsvSubmenu.Visible == true)
+            {
+                panelRsvSubmenu.Visible = false;
+            }
+            if (panelSrvSubmenu.Visible == true)
+            {
+                panelSrvSubmenu.Visible = false;
             }
             actualizarListado();
         }
@@ -176,6 +186,16 @@ namespace WindowsForm
             mostrarSubmenu(panelHspdSubmenu);
         }
 
+        private void btnReserva_Click(object sender, EventArgs e)
+        {
+            mostrarSubmenu(panelRsvSubmenu);
+        }
+
+        private void btnServicio_Click(object sender, EventArgs e)
+        {
+            mostrarSubmenu(panelSrvSubmenu);
+        }
+
         private void panel3_Paint_1(object sender, PaintEventArgs e)
         {
         }
@@ -221,6 +241,20 @@ namespace WindowsForm
         {
             openChildForm(new Listado("Servicio"));
             ocultarSubmenu();
+        }
+
+        private void editarRsv_Click(object sender, EventArgs e)
+        {
+            if (Negocio.Reserva.GetAll().Count != 0)
+            {
+                Form form = new DatosReserva(Negocio.Reserva.GetAll().First());
+                form.ShowDialog();
+                ocultarSubmenu();
+            }
+            else
+            {
+                MessageBox.Show("¡No hay reservas registradas!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
     }
 }

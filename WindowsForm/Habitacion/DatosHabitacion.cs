@@ -97,7 +97,7 @@ namespace WindowsForm
         {
             if (_lstTpHbt.Count <= 0)
             {
-                MessageBox.Show("No hay tipos de habitaciones registradas\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("¡No hay tipos de habitaciones registradas!\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
             else
