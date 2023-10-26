@@ -39,13 +39,21 @@
             mskCmbCantPersonas = new MaskedTextBox();
             label5 = new Label();
             label6 = new Label();
-            cmbHabitacion = new ComboBox();
             cmbHuesped = new ComboBox();
             label7 = new Label();
             label9 = new Label();
             dtFechaInicio = new DateTimePicker();
             dtFechaFin = new DateTimePicker();
             cmbEstado = new ComboBox();
+            btnBuscar = new Button();
+            label8 = new Label();
+            panel2 = new Panel();
+            dataGridView1 = new DataGridView();
+            txtNro = new TextBox();
+            label10 = new Label();
+            txtPiso = new TextBox();
+            panel2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -79,7 +87,7 @@
             btnAceptar.FlatStyle = FlatStyle.Flat;
             btnAceptar.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             btnAceptar.ForeColor = Color.White;
-            btnAceptar.Location = new Point(12, 446);
+            btnAceptar.Location = new Point(12, 586);
             btnAceptar.Name = "btnAceptar";
             btnAceptar.Size = new Size(349, 30);
             btnAceptar.TabIndex = 5;
@@ -89,7 +97,7 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.Location = new Point(12, 482);
+            btnCancelar.Location = new Point(12, 622);
             btnCancelar.Name = "btnCancelar";
             btnCancelar.Size = new Size(349, 25);
             btnCancelar.TabIndex = 6;
@@ -116,7 +124,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(381, 11);
+            panel1.Size = new Size(649, 11);
             panel1.TabIndex = 14;
             // 
             // label3
@@ -156,7 +164,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(34, 163);
+            label5.Location = new Point(34, 154);
             label5.Name = "label5";
             label5.Size = new Size(79, 17);
             label5.TabIndex = 20;
@@ -167,26 +175,17 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(47, 253);
+            label6.Location = new Point(47, 393);
             label6.Name = "label6";
             label6.Size = new Size(66, 17);
             label6.TabIndex = 21;
             label6.Text = "Huesped:";
             // 
-            // cmbHabitacion
-            // 
-            cmbHabitacion.DropDownStyle = ComboBoxStyle.Simple;
-            cmbHabitacion.FormattingEnabled = true;
-            cmbHabitacion.Location = new Point(119, 157);
-            cmbHabitacion.Name = "cmbHabitacion";
-            cmbHabitacion.Size = new Size(191, 83);
-            cmbHabitacion.TabIndex = 22;
-            // 
             // cmbHuesped
             // 
             cmbHuesped.DropDownStyle = ComboBoxStyle.Simple;
             cmbHuesped.FormattingEnabled = true;
-            cmbHuesped.Location = new Point(119, 247);
+            cmbHuesped.Location = new Point(119, 387);
             cmbHuesped.Name = "cmbHuesped";
             cmbHuesped.Size = new Size(191, 83);
             cmbHuesped.TabIndex = 23;
@@ -196,7 +195,7 @@
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label7.ForeColor = Color.DarkCyan;
-            label7.Location = new Point(130, 342);
+            label7.Location = new Point(130, 482);
             label7.Name = "label7";
             label7.Size = new Size(53, 17);
             label7.TabIndex = 24;
@@ -208,7 +207,7 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(143, 392);
+            label9.Location = new Point(143, 532);
             label9.Name = "label9";
             label9.Size = new Size(76, 17);
             label9.TabIndex = 26;
@@ -236,24 +235,94 @@
             cmbEstado.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbEstado.FormattingEnabled = true;
             cmbEstado.Items.AddRange(new object[] { "En espera", "En curso", "Finalizada", "Cancelada" });
-            cmbEstado.Location = new Point(189, 336);
+            cmbEstado.Location = new Point(189, 476);
             cmbEstado.Name = "cmbEstado";
             cmbEstado.Size = new Size(121, 23);
             cmbEstado.TabIndex = 29;
+            // 
+            // btnBuscar
+            // 
+            btnBuscar.Location = new Point(243, 3);
+            btnBuscar.Name = "btnBuscar";
+            btnBuscar.Size = new Size(75, 23);
+            btnBuscar.TabIndex = 31;
+            btnBuscar.Text = "Buscar";
+            btnBuscar.UseVisualStyleBackColor = true;
+            // 
+            // label8
+            // 
+            label8.AutoSize = true;
+            label8.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label8.ForeColor = Color.DarkCyan;
+            label8.Location = new Point(8, 9);
+            label8.Name = "label8";
+            label8.Size = new Size(39, 17);
+            label8.TabIndex = 32;
+            label8.Text = "Piso:";
+            // 
+            // panel2
+            // 
+            panel2.BorderStyle = BorderStyle.Fixed3D;
+            panel2.Controls.Add(dataGridView1);
+            panel2.Controls.Add(btnBuscar);
+            panel2.Controls.Add(txtNro);
+            panel2.Controls.Add(label10);
+            panel2.Controls.Add(txtPiso);
+            panel2.Controls.Add(label8);
+            panel2.Location = new Point(119, 149);
+            panel2.Name = "panel2";
+            panel2.Size = new Size(334, 190);
+            panel2.TabIndex = 33;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(-2, 32);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowTemplate.Height = 25;
+            dataGridView1.Size = new Size(334, 156);
+            dataGridView1.TabIndex = 36;
+            // 
+            // txtNro
+            // 
+            txtNro.Location = new Point(160, 3);
+            txtNro.Name = "txtNro";
+            txtNro.Size = new Size(58, 23);
+            txtNro.TabIndex = 35;
+            txtNro.KeyPress += txtNro_KeyPress;
+            // 
+            // label10
+            // 
+            label10.AutoSize = true;
+            label10.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label10.ForeColor = Color.DarkCyan;
+            label10.Location = new Point(117, 9);
+            label10.Name = "label10";
+            label10.Size = new Size(37, 17);
+            label10.TabIndex = 34;
+            label10.Text = "Nro:";
+            // 
+            // txtPiso
+            // 
+            txtPiso.Location = new Point(53, 3);
+            txtPiso.Name = "txtPiso";
+            txtPiso.Size = new Size(58, 23);
+            txtPiso.TabIndex = 33;
+            txtPiso.KeyPress += txtPiso_KeyPress;
             // 
             // DatosReserva
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(381, 521);
+            ClientSize = new Size(649, 663);
+            Controls.Add(panel2);
             Controls.Add(cmbEstado);
             Controls.Add(dtFechaFin);
             Controls.Add(dtFechaInicio);
             Controls.Add(label9);
             Controls.Add(label7);
             Controls.Add(cmbHuesped);
-            Controls.Add(cmbHabitacion);
             Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(mskCmbCantPersonas);
@@ -270,6 +339,9 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosReserva";
             Load += DatosHabitacion_Load;
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -287,12 +359,18 @@
         private MaskedTextBox mskCmbCantPersonas;
         private Label label5;
         private Label label6;
-        private ComboBox cmbHabitacion;
         private ComboBox cmbHuesped;
         private Label label7;
         private Label label9;
         private DateTimePicker dtFechaInicio;
         private DateTimePicker dtFechaFin;
         private ComboBox cmbEstado;
+        private Button btnBuscar;
+        private Label label8;
+        private Panel panel2;
+        private DataGridView dataGridView1;
+        private TextBox txtNro;
+        private Label label10;
+        private TextBox txtPiso;
     }
 }

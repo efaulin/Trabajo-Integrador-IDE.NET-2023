@@ -14,8 +14,6 @@ namespace WindowsForm
 {
     public partial class DatosReserva : Form
     {
-#warning Se podria discriminar con los propios tipos Habitacion y Huesped, pero para no cambiar lo que tenemos hasta ahora agrego un booleano para discriminar entre tipos.
-        bool _controlHbt;
         Reserva? _rsv;
         Habitacion? _hbt;
         Huesped? _hpd;
@@ -49,7 +47,6 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-#warning Pasar el objeto por parametro, nos ahorramos la busqueda con el id y podemos discriminarlo en el constructor
 #warning Faltan validaciones, ademas de filtrar las habitaciones por fecha de reserva
 
         public DatosReserva(int id)
@@ -83,7 +80,7 @@ namespace WindowsForm
             {
                 string tmp = _tmpHbt.IdHabitacion + " - Piso: " + _tmpHbt.PisoHabitacion + " Nro: " + _tmpHbt.NumeroHabitacion;
                 _hashHbt[tmp] = _tmpHbt;
-                cmbHabitacion.Items.Add(tmp);
+                //cmbHabitacion.Items.Add(tmp);
             }
 
             foreach (Huesped _tmpHpd in _lstHpd)
@@ -117,7 +114,7 @@ namespace WindowsForm
 
             if (_hbt != null)
             {
-                cmbHabitacion.SelectedItem = _hbt.IdHabitacion + " - Piso: " + _hbt.PisoHabitacion + " Nro: " + _hbt.NumeroHabitacion;
+                //cmbHabitacion.SelectedItem = _hbt.IdHabitacion + " - Piso: " + _hbt.PisoHabitacion + " Nro: " + _hbt.NumeroHabitacion;
             }
 
             if (_hpd != null)
@@ -132,7 +129,7 @@ namespace WindowsForm
             dtFechaInicio.Value = _rsv.FechaInicioReserva;
             dtFechaFin.Value = _rsv.FechaFinReserva;
             mskCmbCantPersonas.Text = _rsv.CantidadPersonas.ToString();
-            cmbHabitacion.SelectedItem = _rsv.IdHabitacionNavigation.IdHabitacion + " - Piso: " + _rsv.IdHabitacionNavigation.PisoHabitacion + " Nro: " + _rsv.IdHabitacionNavigation.NumeroHabitacion;
+            //cmbHabitacion.SelectedItem = _rsv.IdHabitacionNavigation.IdHabitacion + " - Piso: " + _rsv.IdHabitacionNavigation.PisoHabitacion + " Nro: " + _rsv.IdHabitacionNavigation.NumeroHabitacion;
             cmbHuesped.SelectedItem = _rsv.IdHuespedNavigation.NumeroDocumento + " - " + _rsv.IdHuespedNavigation.Nombre + " " + _rsv.IdHuespedNavigation.Apellido;
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
         }
@@ -181,7 +178,7 @@ namespace WindowsForm
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
             _rsv.CantidadPersonas = int.Parse(mskCmbCantPersonas.Text);
-            _rsv.IdHabitacionNavigation = (Habitacion)_hashHbt[cmbHabitacion.SelectedItem]!;
+            //_rsv.IdHabitacionNavigation = (Habitacion)_hashHbt[cmbHabitacion.SelectedItem]!;
             _rsv.IdHuespedNavigation = (Huesped)_hashHpd[cmbHuesped.SelectedItem]!;
             _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
             _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
@@ -208,5 +205,33 @@ namespace WindowsForm
 
         }
         #endregion
+
+        private void txtPiso_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private void txtNro_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            // only allow one decimal point
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
     }
 }

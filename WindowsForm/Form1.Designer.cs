@@ -233,6 +233,7 @@
             deleteRsv.Text = "Eliminar";
             deleteRsv.TextAlign = ContentAlignment.MiddleLeft;
             deleteRsv.UseVisualStyleBackColor = true;
+            deleteRsv.Click += deleteRsv_Click;
             // 
             // editarRsv
             // 
@@ -722,7 +723,6 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(808, 97);
             panel3.TabIndex = 3;
-            panel3.Paint += panel3_Paint_1;
             // 
             // panel4
             // 
