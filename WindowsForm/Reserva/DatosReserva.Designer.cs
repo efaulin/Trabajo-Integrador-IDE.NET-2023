@@ -36,7 +36,6 @@
             panel1 = new Panel();
             label3 = new Label();
             label4 = new Label();
-            mskCmbCantPersonas = new MaskedTextBox();
             label5 = new Label();
             label6 = new Label();
             cmbHuesped = new ComboBox();
@@ -48,12 +47,13 @@
             btnBuscar = new Button();
             label8 = new Label();
             panel2 = new Panel();
-            dataGridView1 = new DataGridView();
+            dtGrHabitacion = new DataGridView();
             txtNro = new TextBox();
             label10 = new Label();
             txtPiso = new TextBox();
+            txtCantidadPersonas = new TextBox();
             panel2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)dtGrHabitacion).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -149,16 +149,6 @@
             label4.TabIndex = 18;
             label4.Text = "Cantidad de personas:";
             // 
-            // mskCmbCantPersonas
-            // 
-            mskCmbCantPersonas.Location = new Point(210, 120);
-            mskCmbCantPersonas.Mask = "99";
-            mskCmbCantPersonas.Name = "mskCmbCantPersonas";
-            mskCmbCantPersonas.Size = new Size(100, 23);
-            mskCmbCantPersonas.TabIndex = 19;
-            mskCmbCantPersonas.TextAlign = HorizontalAlignment.Center;
-            mskCmbCantPersonas.ValidatingType = typeof(int);
-            // 
             // label5
             // 
             label5.AutoSize = true;
@@ -248,6 +238,7 @@
             btnBuscar.TabIndex = 31;
             btnBuscar.Text = "Buscar";
             btnBuscar.UseVisualStyleBackColor = true;
+            btnBuscar.Click += btnBuscar_Click;
             // 
             // label8
             // 
@@ -263,7 +254,7 @@
             // panel2
             // 
             panel2.BorderStyle = BorderStyle.Fixed3D;
-            panel2.Controls.Add(dataGridView1);
+            panel2.Controls.Add(dtGrHabitacion);
             panel2.Controls.Add(btnBuscar);
             panel2.Controls.Add(txtNro);
             panel2.Controls.Add(label10);
@@ -274,14 +265,14 @@
             panel2.Size = new Size(334, 190);
             panel2.TabIndex = 33;
             // 
-            // dataGridView1
+            // dtGrHabitacion
             // 
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(-2, 32);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.RowTemplate.Height = 25;
-            dataGridView1.Size = new Size(334, 156);
-            dataGridView1.TabIndex = 36;
+            dtGrHabitacion.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dtGrHabitacion.Location = new Point(-2, 32);
+            dtGrHabitacion.Name = "dtGrHabitacion";
+            dtGrHabitacion.RowTemplate.Height = 25;
+            dtGrHabitacion.Size = new Size(334, 156);
+            dtGrHabitacion.TabIndex = 36;
             // 
             // txtNro
             // 
@@ -289,7 +280,7 @@
             txtNro.Name = "txtNro";
             txtNro.Size = new Size(58, 23);
             txtNro.TabIndex = 35;
-            txtNro.KeyPress += txtNro_KeyPress;
+            txtNro.KeyPress += textBox_KeyPress;
             // 
             // label10
             // 
@@ -308,7 +299,15 @@
             txtPiso.Name = "txtPiso";
             txtPiso.Size = new Size(58, 23);
             txtPiso.TabIndex = 33;
-            txtPiso.KeyPress += txtPiso_KeyPress;
+            txtPiso.KeyPress += textBox_KeyPress;
+            // 
+            // txtCantidadPersonas
+            // 
+            txtCantidadPersonas.Location = new Point(210, 120);
+            txtCantidadPersonas.Name = "txtCantidadPersonas";
+            txtCantidadPersonas.Size = new Size(100, 23);
+            txtCantidadPersonas.TabIndex = 34;
+            txtCantidadPersonas.KeyPress += textBox_KeyPress;
             // 
             // DatosReserva
             // 
@@ -316,6 +315,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(649, 663);
+            Controls.Add(txtCantidadPersonas);
             Controls.Add(panel2);
             Controls.Add(cmbEstado);
             Controls.Add(dtFechaFin);
@@ -325,7 +325,6 @@
             Controls.Add(cmbHuesped);
             Controls.Add(label6);
             Controls.Add(label5);
-            Controls.Add(mskCmbCantPersonas);
             Controls.Add(label4);
             Controls.Add(label3);
             Controls.Add(panel1);
@@ -341,7 +340,7 @@
             Load += DatosHabitacion_Load;
             panel2.ResumeLayout(false);
             panel2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)dtGrHabitacion).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -356,7 +355,6 @@
         private Panel panel1;
         private Label label3;
         private Label label4;
-        private MaskedTextBox mskCmbCantPersonas;
         private Label label5;
         private Label label6;
         private ComboBox cmbHuesped;
@@ -368,9 +366,10 @@
         private Button btnBuscar;
         private Label label8;
         private Panel panel2;
-        private DataGridView dataGridView1;
+        private DataGridView dtGrHabitacion;
         private TextBox txtNro;
         private Label label10;
         private TextBox txtPiso;
+        private TextBox txtCantidadPersonas;
     }
 }

@@ -110,6 +110,7 @@ namespace WindowsForm
                 cmbIdReserva.SelectedItem = "Nuevo";
                 cmbIdReserva.Enabled = false;
                 cmbEstado.SelectedIndex = 0;
+                dtFechaFin.Value = dtFechaInicio.Value.AddDays(1);
             }
 
             if (_hbt != null)
@@ -128,7 +129,7 @@ namespace WindowsForm
             _rsv = (Reserva)_hashRsv[cmbIdReserva.SelectedItem]!;
             dtFechaInicio.Value = _rsv.FechaInicioReserva;
             dtFechaFin.Value = _rsv.FechaFinReserva;
-            mskCmbCantPersonas.Text = _rsv.CantidadPersonas.ToString();
+            txtCantidadPersonas.Text = _rsv.CantidadPersonas.ToString();
             //cmbHabitacion.SelectedItem = _rsv.IdHabitacionNavigation.IdHabitacion + " - Piso: " + _rsv.IdHabitacionNavigation.PisoHabitacion + " Nro: " + _rsv.IdHabitacionNavigation.NumeroHabitacion;
             cmbHuesped.SelectedItem = _rsv.IdHuespedNavigation.NumeroDocumento + " - " + _rsv.IdHuespedNavigation.Nombre + " " + _rsv.IdHuespedNavigation.Apellido;
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
@@ -177,7 +178,7 @@ namespace WindowsForm
         {
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
-            _rsv.CantidadPersonas = int.Parse(mskCmbCantPersonas.Text);
+            _rsv.CantidadPersonas = int.Parse(txtCantidadPersonas.Text);
             //_rsv.IdHabitacionNavigation = (Habitacion)_hashHbt[cmbHabitacion.SelectedItem]!;
             _rsv.IdHuespedNavigation = (Huesped)_hashHpd[cmbHuesped.SelectedItem]!;
             _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
@@ -206,32 +207,41 @@ namespace WindowsForm
         }
         #endregion
 
-        private void txtPiso_KeyPress(object sender, KeyPressEventArgs e)
+        //Esta funcion controla que solo se puedan ingresar numeros enteros en los textBoxs
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
-            {
-                e.Handled = true;
-            }
-
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true;
             }
         }
 
-        private void txtNro_KeyPress(object sender, KeyPressEventArgs e)
+        private void btnBuscar_Click(object sender, EventArgs e)
         {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            List<Habitacion>? lstHbt = null;
+            DateTime start = dtFechaInicio.Value;
+            DateTime end = dtFechaFin.Value;
+
+            if (txtCantidadPersonas.Text.Length > 0 && start.CompareTo(end) < 0)
             {
-                e.Handled = true;
+                lstHbt = Negocio.Habitacion.GetForAmountOfPeople(int.Parse(txtCantidadPersonas.Text));
+                lstHbt = Negocio.Habitacion.TakeAvailable(lstHbt, start, end);
+
+                if (txtPiso.Text.Length > 0)
+                {
+                    int piso = int.Parse(txtPiso.Text);
+                    if (txtNro.Text.Length > 0)
+                    {
+                        lstHbt = lstHbt.FindAll(hbt => hbt.PisoHabitacion == piso && hbt.NumeroHabitacion == int.Parse(txtNro.Text));
+                    }
+                    else
+                    {
+                        lstHbt = lstHbt.FindAll(hbt => hbt.PisoHabitacion == piso);
+                    }
+                }
             }
 
-            // only allow one decimal point
-            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
-            {
-                e.Handled = true;
-            }
+            dtGrHabitacion.DataSource = lstHbt;
         }
     }
 }

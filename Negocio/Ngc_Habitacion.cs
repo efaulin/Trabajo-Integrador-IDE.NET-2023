@@ -2,6 +2,7 @@
 using Entidad.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Data.SqlTypes;
 
 namespace Negocio
@@ -70,6 +71,42 @@ namespace Negocio
                 return false;
             }
         }
+        public static List<Entidad.Models.Habitacion> GetAvailableBetween(DateTime start, DateTime end)
+        {
+            //Devuelve una lista de habitaciones disponibles para un intervalo de fechas
+            return TakeAvailable(GetAll(), start, end);
+        }
+        public static List<Entidad.Models.Habitacion> TakeAvailable(List<Entidad.Models.Habitacion> lstHbt, DateTime start, DateTime end)
+        {
+            //Toma una lista de habitaciones y devuelve las habitaciones disponibles para un intervalo de fechas
+            return lstHbt.FindAll(hbt =>
+                hbt.Reservas.ToList().Find(rsv =>
+                    (rsv.EstadoReserva == "En espera" || rsv.EstadoReserva == "En curso") && !(rsv.FechaInicioReserva.CompareTo(end) >= 0 || rsv.FechaFinReserva.CompareTo(start) <= 0)
+                ) == null
+            );
+        }
+        public static List<Entidad.Models.Habitacion> GetForAmountOfPeople(int amountPeople)
+        {
+            List<Entidad.Models.Habitacion> lstHbt = dBContext.Habitacions.Where(hbt => hbt.IdTipoHabitacionNavigation.NumeroCamas >= amountPeople).ToList();
+            foreach (Entidad.Models.Habitacion hbt in lstHbt)
+            {
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+                hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
+            }
+            return lstHbt;
+        }
+        public static List<Entidad.Models.Habitacion> GetByPiso(int piso)
+        {
+            return GetAll().FindAll(hbt => hbt.PisoHabitacion == piso);
+        }
+        public static List<Entidad.Models.Habitacion> GetByNro(int nro)
+        {
+            return GetAll().FindAll(hbt => hbt.NumeroHabitacion == nro);
+        }
+        public static Entidad.Models.Habitacion? GetByPiso_Nro(int piso, int nro)
+        {
+            return GetAll().Find(hbt => hbt.PisoHabitacion == piso && hbt.NumeroHabitacion == nro);
+        }
     }
 
     public class TipoHabitacion
@@ -106,7 +143,6 @@ namespace Negocio
         }
         public static bool Delete(Entidad.Models.TipoHabitacion tipHbt)
         {
-            try { 
             if (tipHbt != null)
             {
                 dBContext.TipoHabitacions.Remove(tipHbt);
@@ -117,8 +153,6 @@ namespace Negocio
             {
                 return false;
             }
-            }
-            catch { return false; }
         }
         //Devuelve entidad precioTipoHabitacion de un tipoHabitacion especifico que pertenezca a la fecha ingresada
         public static Entidad.Models.PrecioTipoHabitacion? DevPrecioFecha(DateTime fecha, Entidad.Models.TipoHabitacion tipHbt)
