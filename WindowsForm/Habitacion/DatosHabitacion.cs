@@ -48,7 +48,6 @@ namespace WindowsForm
                 case 1:
                     try
                     {
-                        // Crear if para validar el ingreso de parametro id y editar a partir del mismo
                         TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
                         hbt!.Estado = true;
                         hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
@@ -69,8 +68,15 @@ namespace WindowsForm
                 case 2:
                     try
                     {
-                        Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
-                        hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt == tmpHbt; })!;
+                        if (_id != null)
+                        {
+                            hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt.IdHabitacion == _id; })!;
+                        }
+                        else
+                        {
+                            Habitacion tmpHbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
+                            hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt == tmpHbt; })!;                         
+                        }
                         TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
                         hbt.Estado = true;
                         hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
@@ -130,14 +136,22 @@ namespace WindowsForm
                     }
                     else
                     {
-                        foreach (Habitacion _hbt in _lstHbt)
+                        if (_id != null)
                         {
-                            string tmp = "Nro: " + _hbt.NumeroHabitacion + " -  Piso: " + _hbt.PisoHabitacion;
-                            _tmpHbt[tmp] = _hbt;
-                            cmbIdHabitacion.Items.Add(tmp);
+                            cmbIdHabitacion.Items.Add(_id.ToString());
+                            cmbIdHabitacion.Enabled = false;
+                        }
+                        else { 
+                            foreach (Habitacion _hbt in _lstHbt)
+                            {
+                                string tmp = "Nro: " + _hbt.NumeroHabitacion + " -  Piso: " + _hbt.PisoHabitacion;
+                                _tmpHbt[tmp] = _hbt;
+                                cmbIdHabitacion.Items.Add(tmp);
+                            }                         
                         }
                         cmbIdHabitacion.SelectedIndex = 0;
                         cmbIdHabitacion_SelectionChangeCommitted(sender, e);
+
                     }
                     break;
             }
@@ -170,10 +184,17 @@ namespace WindowsForm
 
         private void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;
+            if (_id != null)
+            {
+                hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt.IdHabitacion == _id; })!;
+            }
+            else {
+                hbt = (Habitacion)_tmpHbt[cmbIdHabitacion.SelectedItem]!;         
+            }
             nroNumero.Value = hbt.NumeroHabitacion;
             nroPiso.Value = hbt.PisoHabitacion;
             cmbTipoHabitacion.SelectedItem = hbt.IdTipoHabitacionNavigation.IdTipoHabitacion + " - " + hbt.IdTipoHabitacionNavigation.Descripcion;
+
         }
 
         private void cmbTipoHabitacion_SelectedIndexChanged(object sender, EventArgs e)

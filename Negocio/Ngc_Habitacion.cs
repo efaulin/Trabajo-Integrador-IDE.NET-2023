@@ -106,6 +106,7 @@ namespace Negocio
         }
         public static bool Delete(Entidad.Models.TipoHabitacion tipHbt)
         {
+            try { 
             if (tipHbt != null)
             {
                 dBContext.TipoHabitacions.Remove(tipHbt);
@@ -116,6 +117,8 @@ namespace Negocio
             {
                 return false;
             }
+            }
+            catch { return false; }
         }
         //Devuelve entidad precioTipoHabitacion de un tipoHabitacion especifico que pertenezca a la fecha ingresada
         public static Entidad.Models.PrecioTipoHabitacion? DevPrecioFecha(DateTime fecha, Entidad.Models.TipoHabitacion tipHbt)

@@ -15,12 +15,20 @@ namespace WindowsForm.Huespedes
     public partial class DatosHuesped : Form
     {
         int? op;
+        int? _id;
         Huesped? hspd;
         List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
         Hashtable _tmpHspd = new Hashtable();
         public DatosHuesped(int opcion)
         {
             op = opcion;
+            InitializeComponent();
+        }
+
+        public DatosHuesped(int opcion, int id)
+        {
+            op = opcion;
+            _id = id;
             InitializeComponent();
         }
 
@@ -66,7 +74,14 @@ namespace WindowsForm.Huespedes
                 case 2:
                     try
                     {
-                        hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
+                        if(_id != null)
+                        {
+                            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
+                        }
+                        else
+                        {
+                            hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
+                        }                   
                         hspd.Nombre = txtNombre.Text;
                         hspd.Apellido = txtApellido.Text;
                         hspd.NumeroDocumento = txtDNI.Text;
@@ -111,12 +126,21 @@ namespace WindowsForm.Huespedes
                     }
                     else
                     {
-                        foreach (Huesped _Hspd in _lstHspd)
+                        if(_id != null)
                         {
-                            string tmp = _Hspd.IdHuesped + " - " + _Hspd.Nombre + " " + _Hspd.Apellido;
-                            _tmpHspd[tmp] = _Hspd;
-                            cmbId.Items.Add(tmp);
+                            cmbId.Items.Add(_id.ToString());
+                            cmbId.Enabled = false;
                         }
+                        else
+                        {
+                            foreach (Huesped _Hspd in _lstHspd)
+                            {
+                                string tmp = _Hspd.IdHuesped + " - " + _Hspd.Nombre + " " + _Hspd.Apellido;
+                                _tmpHspd[tmp] = _Hspd;
+                                cmbId.Items.Add(tmp);
+                            }
+                        }
+                        
                         cmbId.SelectedIndex = 0;
                         cmbId_SelectionChangeCommitted(sender, e);
                     }
@@ -132,7 +156,14 @@ namespace WindowsForm.Huespedes
 
         private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
+            if(_id != null)
+            {
+                hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
+            }
+            else
+            {
+                hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
+            }           
             txtNombre.Text = hspd.Nombre;
             txtApellido.Text = hspd.Apellido;
             txtDNI.Text = hspd.NumeroDocumento.ToString();

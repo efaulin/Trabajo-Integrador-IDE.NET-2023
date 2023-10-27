@@ -15,6 +15,7 @@ namespace WindowsForm
     public partial class DatosTipoHabitacion : Form
     {
         int? op;
+        int? _id;
         TipoHabitacion? tpHbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
         Hashtable _tmpTpHbt = new Hashtable();
@@ -27,6 +28,13 @@ namespace WindowsForm
         public DatosTipoHabitacion(int opcion)
         {
             op = opcion;
+            InitializeComponent();
+        }
+
+        public DatosTipoHabitacion(int opcion, int id)
+        {
+            op = opcion;
+            _id = id;
             InitializeComponent();
         }
 
@@ -64,7 +72,14 @@ namespace WindowsForm
                 case 2:
                     try
                     {
-                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
+                        if(_id != null)
+                        {
+                            tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
+                        }
+                        else
+                        {
+                            tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
+                        }                       
                         tpHbt.NumeroCamas = (int)nroNumero.Value;
                         tpHbt.Descripcion = txtDescipcion.Text;
 
@@ -82,7 +97,14 @@ namespace WindowsForm
                 case 3:
                     try
                     {
-                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
+                        if (_id != null)
+                        {
+                            tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
+                        }
+                        else
+                        {
+                            tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
+                        }                       
                         PrecioTipoHabitacion prc = new PrecioTipoHabitacion();
                         prc.IdTipoHabitacion = tpHbt.IdTipoHabitacion;
                         prc.IdTipoHabitacionNavigation = tpHbt;
@@ -125,12 +147,21 @@ namespace WindowsForm
                     }
                     else
                     {
-                        foreach (TipoHabitacion _tpHbt in _lstTpHbt)
+                        if(_id != null)
                         {
-                            string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
-                            _tmpTpHbt[tmp] = _tpHbt;
-                            cmbId.Items.Add(tmp);
+                            cmbId.Items.Add(_id.ToString());
+                            cmbId.Enabled = false;
                         }
+                        else
+                        {
+                            foreach (TipoHabitacion _tpHbt in _lstTpHbt)
+                            {
+                                string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
+                                _tmpTpHbt[tmp] = _tpHbt;
+                                cmbId.Items.Add(tmp);
+                            }
+                        }
+                        
                         cmbId.SelectedIndex = 0;
                         nroPrecio.Enabled = false;
                         cmbId_SelectionChangeCommitted(sender, e);
@@ -148,12 +179,21 @@ namespace WindowsForm
                     }
                     else
                     {
-                        foreach (TipoHabitacion _tpHbt in _lstTpHbt)
+                        if(_id != null)
                         {
-                            string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
-                            _tmpTpHbt[tmp] = _tpHbt;
-                            cmbId.Items.Add(tmp);
+                            cmbId.Items.Add(_id.ToString());
+                            cmbId.Enabled = false;
                         }
+                        else
+                        {
+                            foreach (TipoHabitacion _tpHbt in _lstTpHbt)
+                            {
+                                string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
+                                _tmpTpHbt[tmp] = _tpHbt;
+                                cmbId.Items.Add(tmp);
+                            }
+                        }
+                        
                         cmbId.SelectedIndex = 0;
                         cmbId_SelectionChangeCommitted(sender, e);
                     }
@@ -194,7 +234,12 @@ namespace WindowsForm
         private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //nroCamas, descripcion, precio, fecha
-            tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
+            if(_id != null){
+                tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
+            }
+            else {
+                tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem]!;
+            }           
             nroNumero.Value = tpHbt.NumeroCamas;
             txtDescipcion.Text = tpHbt.Descripcion;
             nroPrecio.Value = (decimal)tpHbt.PrecioTipoHabitacions.Last().PrecioHabitacion;

@@ -66,6 +66,7 @@
             label6 = new Label();
             label3 = new Label();
             panel2 = new Panel();
+            panel7 = new Panel();
             pictureBox1 = new PictureBox();
             label4 = new Label();
             label2 = new Label();
@@ -671,6 +672,7 @@
             // panel2
             // 
             panel2.BackColor = Color.DarkCyan;
+            panel2.Controls.Add(panel7);
             panel2.Controls.Add(pictureBox1);
             panel2.Controls.Add(label4);
             panel2.Controls.Add(label2);
@@ -680,10 +682,18 @@
             panel2.Size = new Size(234, 97);
             panel2.TabIndex = 12;
             // 
+            // panel7
+            // 
+            panel7.BackColor = Color.LightSeaGreen;
+            panel7.Location = new Point(-2, 72);
+            panel7.Name = "panel7";
+            panel7.Size = new Size(253, 10);
+            panel7.TabIndex = 1;
+            // 
             // pictureBox1
             // 
             pictureBox1.Image = (Image)resources.GetObject("pictureBox1.Image");
-            pictureBox1.Location = new Point(12, 27);
+            pictureBox1.Location = new Point(12, 12);
             pictureBox1.Name = "pictureBox1";
             pictureBox1.Size = new Size(51, 41);
             pictureBox1.SizeMode = PictureBoxSizeMode.Zoom;
@@ -696,7 +706,7 @@
             label4.BackColor = Color.DarkCyan;
             label4.Font = new Font("Segoe UI Black", 12F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.White;
-            label4.Location = new Point(96, 47);
+            label4.Location = new Point(96, 32);
             label4.Name = "label4";
             label4.Size = new Size(125, 21);
             label4.TabIndex = 5;
@@ -708,7 +718,7 @@
             label2.BackColor = Color.DarkCyan;
             label2.Font = new Font("Segoe UI Semibold", 11.25F, FontStyle.Bold | FontStyle.Italic, GraphicsUnit.Point);
             label2.ForeColor = Color.White;
-            label2.Location = new Point(96, 27);
+            label2.Location = new Point(96, 12);
             label2.Name = "label2";
             label2.Size = new Size(85, 20);
             label2.TabIndex = 4;
@@ -721,15 +731,15 @@
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(251, 0);
             panel3.Name = "panel3";
-            panel3.Size = new Size(808, 97);
+            panel3.Size = new Size(859, 100);
             panel3.TabIndex = 3;
             // 
             // panel4
             // 
             panel4.BackColor = Color.White;
-            panel4.Location = new Point(0, 87);
+            panel4.Location = new Point(0, 72);
             panel4.Name = "panel4";
-            panel4.Size = new Size(808, 10);
+            panel4.Size = new Size(859, 10);
             panel4.TabIndex = 0;
             // 
             // label1
@@ -737,7 +747,7 @@
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI Black", 72F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(350, 214);
+            label1.Location = new Point(375, 213);
             label1.Name = "label1";
             label1.RightToLeft = RightToLeft.No;
             label1.Size = new Size(135, 128);
@@ -750,9 +760,9 @@
             panelChildForm.BackColor = Color.White;
             panelChildForm.Controls.Add(label1);
             panelChildForm.Dock = DockStyle.Fill;
-            panelChildForm.Location = new Point(251, 97);
+            panelChildForm.Location = new Point(251, 100);
             panelChildForm.Name = "panelChildForm";
-            panelChildForm.Size = new Size(808, 623);
+            panelChildForm.Size = new Size(859, 620);
             panelChildForm.TabIndex = 4;
             // 
             // Form1
@@ -760,7 +770,7 @@
             AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(1059, 720);
+            ClientSize = new Size(1110, 720);
             Controls.Add(panelChildForm);
             Controls.Add(panel3);
             Controls.Add(panel1);
@@ -770,6 +780,7 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Menu Principal";
+            Load += Form1_Load;
             panel1.ResumeLayout(false);
             panelSrvSubmenu.ResumeLayout(false);
             panelRsvSubmenu.ResumeLayout(false);
@@ -833,5 +844,6 @@
         private Button addSrv;
         private Button mostrarSrv;
         private Button btnServicio;
+        private Panel panel7;
     }
 }

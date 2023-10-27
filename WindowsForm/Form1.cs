@@ -218,7 +218,7 @@ namespace WindowsForm
             }
             else
             {
-                MessageBox.Show("¡No hay reservas registradas!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("ï¿½No hay reservas registradas!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
         private void deleteRsv_Click(object sender, EventArgs e)
@@ -241,5 +241,9 @@ namespace WindowsForm
 #warning Falta create, update y delete (CRUD Servicio)
         #endregion
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
