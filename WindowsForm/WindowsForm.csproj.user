@@ -13,5 +13,8 @@
     <Compile Update="Listado.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="Servicio\DatosServicio.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
 </Project>
