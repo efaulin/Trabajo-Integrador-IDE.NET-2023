@@ -72,10 +72,6 @@
             toolStripContainer1.TabIndex = 7;
             toolStripContainer1.Text = "toolStripContainer1";
             // 
-            // toolStripContainer1.TopToolStripPanel
-            // 
-            toolStripContainer1.TopToolStripPanel.Click += toolStripContainer1_TopToolStripPanel_Click;
-            // 
             // tlHabitaciones
             // 
             tlHabitaciones.ColumnCount = 7;
@@ -104,7 +100,7 @@
             tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlHabitaciones.Size = new Size(950, 575);
             tlHabitaciones.TabIndex = 0;
-            tlHabitaciones.Paint += tlHabitaciones_Paint;
+
             // 
             // dgvHabitaciones
             // 
@@ -123,7 +119,6 @@
             dgvHabitaciones.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             dgvHabitaciones.Size = new Size(944, 461);
             dgvHabitaciones.TabIndex = 0;
-            dgvHabitaciones.CellContentClick += dgvHabitaciones_CellContentClick;
             // 
             // btnSalir
             // 

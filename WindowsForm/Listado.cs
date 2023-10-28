@@ -81,35 +81,11 @@ namespace WindowsForm
         {
             listar();
         }
-
-        private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void toolStripContainer1_TopToolStripPanel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+   
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void tlHabitaciones_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -198,7 +174,7 @@ namespace WindowsForm
                     }
                     break;
                 case 1:
-                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;                    
                     TipoHabitacion tpHbt = Negocio.TipoHabitacion.GetOne(tmpId)!;
                     if (Negocio.TipoHabitacion.Delete(tpHbt))
                     {
