@@ -7,184 +7,21 @@ namespace WindowsForm
     {
         List<Habitacion> lstHbt = Negocio.Habitacion.GetAll();
         List<TipoHabitacion> lstTpHbt = Negocio.TipoHabitacion.GetAll();
-        private Form activeForm = null;
+        private Listado? activeForm = null;
         public Form1()
         {
             InitializeComponent();
-            personalizarDesign();
         }
-
-        private void personalizarDesign()
-        {
-            panelHbtSubmenu.Visible = false;
-            panelTpHbtSubmenu.Visible = false;
-            panelHspdSubmenu.Visible = false;
-        }
-
-        private void ocultarSubmenu()
-        {
-            if (panelHbtSubmenu.Visible == true)
-            {
-                panelHbtSubmenu.Visible = false;
-            }
-            if (panelTpHbtSubmenu.Visible == true)
-            {
-                panelTpHbtSubmenu.Visible = false;
-            }
-            if (panelHspdSubmenu.Visible == true)
-            {
-                panelHspdSubmenu.Visible = false;
-            }
-        }
-        private void mostrarSubmenu(Panel submenu)
-        {
-            if (submenu.Visible == false)
-            {
-                ocultarSubmenu();
-                submenu.Visible = true;
-            }
-            else
-            {
-                submenu.Visible = false;
-            }
-        }
-
-        private void btnHabitacion_Click(object sender, EventArgs e)
-        {
-            mostrarSubmenu(panelHbtSubmenu);
-        }
-
-        private void mostrarHbt_Click(object sender, EventArgs e)
-        {
-            //..          
-            openChildForm(new Listado(0));
-            ocultarSubmenu();
-        }
-
-        private void addHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new DatosHabitacion(1);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void editHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new DatosHabitacion(2);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void bajaHbt_Click(object sender, EventArgs e)
-        {
-            //..
-            ocultarSubmenu();
-        }
-
-        private void altaHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new AltaBajaHabitacion();
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void deleteHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new EliminarHabitacion();
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void mostrarTpHbt_Click(object sender, EventArgs e)
-        {
-            //..
-            openChildForm(new Listado(1));
-            ocultarSubmenu();
-        }
-
-        private void addTpHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new DatosTipoHabitacion(1);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void editarTpHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new DatosTipoHabitacion(2);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void editarPrecioTpHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new DatosTipoHabitacion(3);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void deleteTpHbt_Click(object sender, EventArgs e)
-        {
-            Form form = new EliminarTipoHabitacion();
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void mostrarHspd_Click(object sender, EventArgs e)
-        {
-            //..
-            openChildForm(new Listado(2));
-            ocultarSubmenu();
-        }
-
-        private void addHspd_Click(object sender, EventArgs e)
-        {
-            //..
-            Form form = new DatosHuesped(1);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void editarHspd_Click(object sender, EventArgs e)
-        {
-            //..
-            Form form = new DatosHuesped(2);
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void deleteHspd_Click(object sender, EventArgs e)
-        {
-            Form form = new EliminarHuesped();
-            form.ShowDialog();
-            ocultarSubmenu();
-        }
-
-        private void btnHabitacion_Click_1(object sender, EventArgs e)
-        {
-            mostrarSubmenu(panelHbtSubmenu);
-        }
-
-        private void btnTpHbt_Click(object sender, EventArgs e)
-        {
-            mostrarSubmenu(panelTpHbtSubmenu);
-        }
-
-        private void btnHuesped_Click(object sender, EventArgs e)
-        {
-            mostrarSubmenu(panelHspdSubmenu);
-        }
-
-        private void panel3_Paint_1(object sender, PaintEventArgs e)
-        {
-        }
-
+       
         private void actualizarListado()
         {
-            //..
+            if (activeForm != null)
+            {
+                activeForm.listar();
+            }
         }
 
-        private void openChildForm(Form childForm)
+        private void openChildForm(Listado childForm)
         {
             if (activeForm != null)
             {
@@ -198,6 +35,61 @@ namespace WindowsForm
             panelChildForm.Tag = childForm;
             childForm.BringToFront();
             childForm.Show();
+        }
+
+        private void btnHabitacion_Click_1(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Habitacion"));
+        }
+        private void btnTpHbt_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("TipoHabitacion"));
+        }
+
+        private void btnHuesped_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Huesped"));
+        }        
+
+        private void btnReserva_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Reserva"));
+        }
+       
+        private void editarRsv_Click(object sender, EventArgs e)
+        {
+            if (Negocio.Reserva.GetAll().Count != 0)
+            {
+                Form form = new DatosReserva(Negocio.Reserva.GetAll().First());
+                form.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("�No hay reservas registradas!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+        private void deleteRsv_Click(object sender, EventArgs e)
+        {
+
+        }
+#warning Falta delete (CRUD Reserva), mejorar filtrado de husped y habitacion
+
+
+        private void btnServicio_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Servicio"));
+        }
+
+#warning Falta create, update y delete (CRUD Servicio)
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addSrv_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -35,11 +35,8 @@ public partial class DBContext : DbContext
     public virtual DbSet<TipoHabitacion> TipoHabitacions { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-        optionsBuilder.EnableSensitiveDataLogging();
-        optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=TPI2023TM03; user id=net; password=net; Encrypt=false;");
-    }
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+        => optionsBuilder.UseSqlServer("Server=.\\SQLExpress;Database=TPI2023TM03; Trusted_Connection=True; TrustServerCertificate=True;");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -78,7 +75,7 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.Habitacions)
                 .HasForeignKey(d => d.IdTipoHabitacion)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Habitacio__idTip__2C3393D0");
         });
 
@@ -109,39 +106,39 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<PrecioServicio>(entity =>
         {
-            entity.HasKey(e => e.IdPrecioServicio).HasName("PK__PrecioSe__1C83616231C925C0");
+            entity.HasKey(e => e.IdPrecioServicio).HasName("PK__PrecioSe__1C8361628FCCEFC7");
 
             entity.ToTable("PrecioServicio");
 
             entity.Property(e => e.IdPrecioServicio).HasColumnName("idPrecioServicio");
             entity.Property(e => e.FechaPrecio)
-                .HasColumnType("date")
+                .HasColumnType("datetime")
                 .HasColumnName("fechaPrecio");
             entity.Property(e => e.IdServicio).HasColumnName("idServicio");
             entity.Property(e => e.PrecioServicio1).HasColumnName("precioServicio");
 
             entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.PrecioServicios)
                 .HasForeignKey(d => d.IdServicio)
-                .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK__PrecioSer__idSer__2F10007B");
+                .HasConstraintName("FK__PrecioSer__idSer__02FC7413");
         });
 
         modelBuilder.Entity<PrecioTipoHabitacion>(entity =>
         {
-            entity.HasKey(e => e.IdPrecioTipoHabitacion).HasName("PK__PrecioTi__6BCE3FC9630C3AC5");
+            entity.HasKey(e => new { e.IdPrecioTipoHabitacion, e.IdTipoHabitacion }).HasName("PK__PrecioTi__6BCE3FC9630C3AC5");
 
             entity.ToTable("PrecioTipoHabitacion");
 
-            entity.Property(e => e.IdPrecioTipoHabitacion).HasColumnName("idPrecioTipoHabitacion");
-            entity.Property(e => e.FechaPrecio)
-                .HasColumnType("date")
-                .HasColumnName("fechaPrecio");
+            entity.Property(e => e.IdPrecioTipoHabitacion)
+                .ValueGeneratedOnAdd()
+                .HasColumnName("idPrecioTipoHabitacion");
             entity.Property(e => e.IdTipoHabitacion).HasColumnName("idTipoHabitacion");
+            entity.Property(e => e.FechaPrecio)
+                .HasColumnType("datetime")
+                .HasColumnName("fechaPrecio");
             entity.Property(e => e.PrecioHabitacion).HasColumnName("precioHabitacion");
 
             entity.HasOne(d => d.IdTipoHabitacionNavigation).WithMany(p => p.PrecioTipoHabitacions)
                 .HasForeignKey(d => d.IdTipoHabitacion)
-                .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK__PrecioTip__idTip__31EC6D26");
         });
 
@@ -171,13 +168,13 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.IdHabitacionNavigation).WithMany(p => p.Reservas)
                 .HasForeignKey(d => d.IdHabitacion)
-                .OnDelete(DeleteBehavior.NoAction)
+                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK__Reserva__idHabit__35BCFE0A");
 
             entity.HasOne(d => d.IdHuespedNavigation).WithMany(p => p.Reservas)
                 .HasForeignKey(d => d.IdHuesped)
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("FK__Reserva__idHuesp__34C8D9D1");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Reserva__idHuesp__151B244E");
         });
 
         modelBuilder.Entity<ReservaServicio>(entity =>
@@ -191,13 +188,12 @@ public partial class DBContext : DbContext
 
             entity.HasOne(d => d.IdReservaNavigation).WithMany()
                 .HasForeignKey(d => d.IdReserva)
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("FK__Reserva_S__idRes__37A5467C");
+                .HasConstraintName("FK__Reserva_S__idRes__0A9D95DB");
 
             entity.HasOne(d => d.IdServicioNavigation).WithMany()
                 .HasForeignKey(d => d.IdServicio)
-                .OnDelete(DeleteBehavior.NoAction)
-                .HasConstraintName("FK__Reserva_S__idSer__38996AB5");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK__Reserva_S__idSer__0B91BA14");
         });
 
         modelBuilder.Entity<Servicio>(entity =>

@@ -15,7 +15,8 @@ namespace WindowsForm
     public partial class DatosTipoHabitacion : Form
     {
         int? op;
-        TipoHabitacion tpHbt;
+        int? _id;
+        TipoHabitacion? tpHbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
         Hashtable _tmpTpHbt = new Hashtable();
 
@@ -27,6 +28,13 @@ namespace WindowsForm
         public DatosTipoHabitacion(int opcion)
         {
             op = opcion;
+            InitializeComponent();
+        }
+
+        public DatosTipoHabitacion(int opcion, int id)
+        {
+            op = opcion;
+            _id = id;
             InitializeComponent();
         }
 
@@ -64,7 +72,7 @@ namespace WindowsForm
                 case 2:
                     try
                     {
-                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+                        tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
                         tpHbt.NumeroCamas = (int)nroNumero.Value;
                         tpHbt.Descripcion = txtDescipcion.Text;
 
@@ -82,7 +90,7 @@ namespace WindowsForm
                 case 3:
                     try
                     {
-                        tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+                        tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
                         PrecioTipoHabitacion prc = new PrecioTipoHabitacion();
                         prc.IdTipoHabitacion = tpHbt.IdTipoHabitacion;
                         prc.IdTipoHabitacionNavigation = tpHbt;
@@ -110,9 +118,7 @@ namespace WindowsForm
             {
                 case 1:
                     this.Text = "Agregar tipo de habitacion";
-                    cmbId.Items.Add("Nuevo");
-                    cmbId.SelectedIndex = 0;
-                    cmbId.Enabled = false;
+                    idLabel.Text = "Nuevo";
                     mskCmbFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
                     break;
 
@@ -125,15 +131,9 @@ namespace WindowsForm
                     }
                     else
                     {
-                        foreach (TipoHabitacion _tpHbt in _lstTpHbt)
-                        {
-                            string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
-                            _tmpTpHbt[tmp] = _tpHbt;
-                            cmbId.Items.Add(tmp);
-                        }
-                        cmbId.SelectedIndex = 0;
+                        idLabel.Text = _id.ToString();
                         nroPrecio.Enabled = false;
-                        cmbId_SelectionChangeCommitted(sender, e);
+                        Id_SelectionChangeCommitted(sender, e);
                     }
                     break;
 
@@ -148,22 +148,11 @@ namespace WindowsForm
                     }
                     else
                     {
-                        foreach (TipoHabitacion _tpHbt in _lstTpHbt)
-                        {
-                            string tmp = _tpHbt.IdTipoHabitacion + "  -  Desc: " + _tpHbt.Descripcion;
-                            _tmpTpHbt[tmp] = _tpHbt;
-                            cmbId.Items.Add(tmp);
-                        }
-                        cmbId.SelectedIndex = 0;
-                        cmbId_SelectionChangeCommitted(sender, e);
+                        idLabel.Text = _id.ToString();
+                        Id_SelectionChangeCommitted(sender, e);
                     }
                     break;
             }
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -171,30 +160,15 @@ namespace WindowsForm
             this.Close();
         }
 
-        private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void nroNumero_ValueChanged(object sender, EventArgs e)
         {
 
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void maskedTextBox1_MaskInputRejected(object sender, MaskInputRejectedEventArgs e)
-        {
-
-        }
-
-        private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
+        private void Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //nroCamas, descripcion, precio, fecha
-            tpHbt = (TipoHabitacion)_tmpTpHbt[cmbId.SelectedItem];
+            tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
             nroNumero.Value = tpHbt.NumeroCamas;
             txtDescipcion.Text = tpHbt.Descripcion;
             nroPrecio.Value = (decimal)tpHbt.PrecioTipoHabitacions.Last().PrecioHabitacion;
@@ -202,6 +176,16 @@ namespace WindowsForm
         }
 
         private void txtDescipcion_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnEditarPrecio_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
         }

@@ -6,7 +6,12 @@
     <Nullable>enable</Nullable>
     <UseWindowsForms>true</UseWindowsForms>
     <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>preview</LangVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Reserva\DatosReserva.Designer.cs~RF117a1e34.TMP" />
+  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Entidad\Entidad.csproj" />
@@ -14,16 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Update="Habitacion\AltaBajaHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Habitacion\EliminarHabitacion.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="Huespedes\EliminarHuesped.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Update="TipoHabitacion\EliminarTipoHabitacion.cs">
+    <Compile Update="Reserva\DatosReserva.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="TipoHabitacion\DatosTipoHabitacion.cs">

@@ -16,4 +16,9 @@ public partial class Huesped
     public string TipoDocumento { get; set; } = null!;
 
     public virtual ICollection<Reserva> Reservas { get; set; } = new List<Reserva>();
+
+    public string nombreCompleto()
+    {
+        return Nombre + " " + Apellido;
+    }
 }
