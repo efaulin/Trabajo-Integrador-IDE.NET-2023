@@ -185,62 +185,79 @@ namespace WindowsForm
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             int tmpId;
-            switch (opcion)
+            if (MessageBox.Show("¿Seguro que desea borrar?","Confirmacion",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
             {
+                switch (opcion)
+                {
 #warning Falta implementacion boton "Eliminar"
-                case 0:
-                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
-                    if (Negocio.Habitacion.Delete(hbt))
-                    {
-                        MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
-                        listar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error, intente nuevamente");
-                    }
-                    break;
-                case 1:
-                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;                    
-                    TipoHabitacion tpHbt = Negocio.TipoHabitacion.GetOne(tmpId)!;
-                    if (Negocio.TipoHabitacion.Delete(tpHbt))
-                    {
-                        MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
-                        listar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error, intente nuevamente");
-                    }
-                    break;
-                case 2:
-                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    Huesped hspd = Negocio.Huesped.GetOne(tmpId)!;
-                    if (Negocio.Huesped.Delete(hspd))
-                    {
-                        MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
-                        listar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error, intente nuevamente");
-                    }
-                    break;
-                case 4:
-                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    Servicio serv = Negocio.Servicio.GetOne(tmpId)!;
-                    if (Negocio.Servicio.Delete(serv))
-                    {
-                        MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
-                        listar();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Error, intente nuevamente");
-                    }
-                    break;
+                    case 0:
+                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
+                        if (Negocio.Habitacion.Delete(hbt))
+                        {
+                            MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
+                            listar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, intente nuevamente");
+                        }
+                        break;
+                    case 1:
+                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        TipoHabitacion tpHbt = Negocio.TipoHabitacion.GetOne(tmpId)!;
+                        if (Negocio.TipoHabitacion.Delete(tpHbt))
+                        {
+                            MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
+                            listar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, intente nuevamente");
+                        }
+                        break;
+                    case 2:
+                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        Huesped hspd = Negocio.Huesped.GetOne(tmpId)!;
+                        if (Negocio.Huesped.Delete(hspd))
+                        {
+                            MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
+                            listar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, intente nuevamente");
+                        }
+                        break;
+                    case 3:
+                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        Reserva rsv = Negocio.Reserva.GetOne(tmpId)!;
+                        if (Negocio.Reserva.Delete(rsv))
+                        {
+                            MessageBox.Show("Reserva ID:" + tmpId + " borrado con exito");
+                            listar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, intente nuevamente");
+                        }
+                        break;
+                    case 4:
+                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        Servicio serv = Negocio.Servicio.GetOne(tmpId)!;
+                        if (Negocio.Servicio.Delete(serv))
+                        {
+                            MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
+                            listar();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error, intente nuevamente");
+                        }
+                        break;
+                }
             }
+            
             listar();
         }
 
