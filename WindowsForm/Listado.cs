@@ -73,6 +73,7 @@ namespace WindowsForm
                     dgvHabitaciones.DataSource = dtRsv;
                     break;
                 case 4:
+#warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)                    
                     List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
                     dgvHabitaciones.DataSource = _lstSrv;
                     break;
@@ -85,7 +86,7 @@ namespace WindowsForm
             listar();
             btnEditPrecio.Visible = false;
             btnAltaBaja.Width = 0;
-            if (opcion == 1)
+            if (opcion == 1 || opcion == 4)
             {
                 btnEditPrecio.Visible = true;
             }
@@ -100,35 +101,11 @@ namespace WindowsForm
         {
             listar();
         }
-
-        private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
-
-        private void toolStripContainer1_TopToolStripPanel_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panel3_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
+   
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
             this.Close();
-        }
-
-        private void tlHabitaciones_Paint(object sender, PaintEventArgs e)
-        {
-
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -157,7 +134,9 @@ namespace WindowsForm
                     form.ShowDialog();
                     break;
                 case 4:
-
+                    form = new DatosServicio(1);
+                    form.ShowDialog();
+                    listar();
                     break;
             }
             listar();
@@ -194,6 +173,10 @@ namespace WindowsForm
                     form.ShowDialog();
                     break;
                 case 4:
+                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    form = new DatosServicio(2, tmp);
+                    form.ShowDialog();
+                    listar();
                     break;
             }
             listar();
@@ -219,7 +202,7 @@ namespace WindowsForm
                     }
                     break;
                 case 1:
-                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;                    
                     TipoHabitacion tpHbt = Negocio.TipoHabitacion.GetOne(tmpId)!;
                     if (Negocio.TipoHabitacion.Delete(tpHbt))
                     {
@@ -244,6 +227,19 @@ namespace WindowsForm
                         MessageBox.Show("Error, intente nuevamente");
                     }
                     break;
+                case 4:
+                    tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    Servicio serv = Negocio.Servicio.GetOne(tmpId)!;
+                    if (Negocio.Servicio.Delete(serv))
+                    {
+                        MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
+                        listar();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Error, intente nuevamente");
+                    }
+                    break;
             }
             listar();
         }
@@ -255,10 +251,21 @@ namespace WindowsForm
 
         private void btnEditPrecio_Click(object sender, EventArgs e)
         {
-            int tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-            Form form = new DatosTipoHabitacion(3, tmp);
-            form.ShowDialog();
-            listar();
+            if (opcion == 1)
+            {
+                int tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                Form form = new DatosTipoHabitacion(3, tmp);
+                form.ShowDialog();
+                listar();
+            }
+            else
+            {
+                int tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                Form form = new DatosServicio(3, tmp);
+                form.ShowDialog();
+                listar();
+            }
+            
         }
 
         private void btnAltaBaja_Click(object sender, EventArgs e)

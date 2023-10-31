@@ -35,28 +35,29 @@
             btnAceptar = new Button();
             btnCancelar = new Button();
             lblFecha = new Label();
-            cmbId = new ComboBox();
             panel1 = new Panel();
+            idLabel = new Label();
             txtDescipcion = new TextBox();
             label5 = new Label();
             nroPrecio = new NumericUpDown();
             mskCmbFecha = new MaskedTextBox();
             btnEditarPrecio = new Button();
             ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
+            panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nroPrecio).BeginInit();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = Color.White;
+            label1.BackColor = Color.DarkCyan;
             label1.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(119, 39);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(121, 11);
             label1.Name = "label1";
-            label1.Size = new Size(27, 17);
+            label1.Size = new Size(25, 17);
             label1.TabIndex = 0;
-            label1.Text = "ID:";
+            label1.Text = "Id:";
             label1.Click += label1_Click;
             // 
             // label2
@@ -64,7 +65,7 @@
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(21, 68);
+            label2.Location = new Point(21, 59);
             label2.Name = "label2";
             label2.Size = new Size(125, 17);
             label2.TabIndex = 2;
@@ -75,7 +76,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(61, 100);
+            label3.Location = new Point(61, 92);
             label3.Name = "label3";
             label3.Size = new Size(85, 17);
             label3.TabIndex = 4;
@@ -83,7 +84,7 @@
             // 
             // nroNumero
             // 
-            nroNumero.Location = new Point(152, 62);
+            nroNumero.Location = new Point(152, 59);
             nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroNumero.Name = "nroNumero";
             nroNumero.Size = new Size(103, 23);
@@ -119,38 +120,39 @@
             lblFecha.AutoSize = true;
             lblFecha.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             lblFecha.ForeColor = Color.DarkCyan;
-            lblFecha.Location = new Point(43, 163);
+            lblFecha.Location = new Point(43, 161);
             lblFecha.Name = "lblFecha";
             lblFecha.Size = new Size(194, 17);
             lblFecha.TabIndex = 11;
             lblFecha.Text = "Fecha modificacion de precio:";
-            lblFecha.Click += label4_Click;
-            // 
-            // cmbId
-            // 
-            cmbId.BackColor = Color.DarkSlateGray;
-            cmbId.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbId.ForeColor = Color.White;
-            cmbId.FormattingEnabled = true;
-            cmbId.Location = new Point(152, 33);
-            cmbId.Name = "cmbId";
-            cmbId.Size = new Size(191, 23);
-            cmbId.TabIndex = 1;
-            cmbId.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            cmbId.SelectionChangeCommitted += cmbId_SelectionChangeCommitted;
             // 
             // panel1
             // 
             panel1.BackColor = Color.DarkCyan;
+            panel1.Controls.Add(idLabel);
+            panel1.Controls.Add(label1);
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(373, 11);
+            panel1.Size = new Size(373, 35);
             panel1.TabIndex = 14;
+            panel1.Paint += panel1_Paint;
+            // 
+            // idLabel
+            // 
+            idLabel.AutoSize = true;
+            idLabel.BackColor = Color.DarkCyan;
+            idLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            idLabel.ForeColor = Color.White;
+            idLabel.Location = new Point(152, 11);
+            idLabel.Name = "idLabel";
+            idLabel.Size = new Size(20, 17);
+            idLabel.TabIndex = 18;
+            idLabel.Text = "id";
             // 
             // txtDescipcion
             // 
-            txtDescipcion.Location = new Point(152, 94);
+            txtDescipcion.Location = new Point(152, 91);
             txtDescipcion.Name = "txtDescipcion";
             txtDescipcion.Size = new Size(191, 23);
             txtDescipcion.TabIndex = 3;
@@ -161,7 +163,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(94, 132);
+            label5.Location = new Point(94, 127);
             label5.Name = "label5";
             label5.Size = new Size(52, 17);
             label5.TabIndex = 16;
@@ -170,7 +172,7 @@
             // nroPrecio
             // 
             nroPrecio.DecimalPlaces = 2;
-            nroPrecio.Location = new Point(152, 126);
+            nroPrecio.Location = new Point(152, 125);
             nroPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroPrecio.Name = "nroPrecio";
             nroPrecio.Size = new Size(103, 23);
@@ -179,7 +181,7 @@
             // mskCmbFecha
             // 
             mskCmbFecha.Enabled = false;
-            mskCmbFecha.Location = new Point(243, 157);
+            mskCmbFecha.Location = new Point(243, 160);
             mskCmbFecha.Mask = "00/00/0000";
             mskCmbFecha.Name = "mskCmbFecha";
             mskCmbFecha.Size = new Size(100, 23);
@@ -189,7 +191,7 @@
             // 
             // btnEditarPrecio
             // 
-            btnEditarPrecio.Location = new Point(261, 126);
+            btnEditarPrecio.Location = new Point(261, 125);
             btnEditarPrecio.Name = "btnEditarPrecio";
             btnEditarPrecio.Size = new Size(82, 23);
             btnEditarPrecio.TabIndex = 17;
@@ -208,21 +210,21 @@
             Controls.Add(nroPrecio);
             Controls.Add(label5);
             Controls.Add(txtDescipcion);
-            Controls.Add(panel1);
-            Controls.Add(cmbId);
             Controls.Add(lblFecha);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(nroNumero);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "DatosTipoHabitacion";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosTipoHabitacion";
             Load += DatosTipoHabitacion_Load;
             ((System.ComponentModel.ISupportInitialize)nroNumero).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)nroPrecio).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -237,12 +239,12 @@
         private Button btnAceptar;
         private Button btnCancelar;
         private Label lblFecha;
-        private ComboBox cmbId;
         private Panel panel1;
         private TextBox txtDescipcion;
         private Label label5;
         private NumericUpDown nroPrecio;
         private MaskedTextBox mskCmbFecha;
         private Button btnEditarPrecio;
+        private Label idLabel;
     }
 }

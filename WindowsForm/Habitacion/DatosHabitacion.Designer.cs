@@ -37,31 +37,31 @@
             btnCancelar = new Button();
             label4 = new Label();
             cmbTipoHabitacion = new ComboBox();
-            cmbIdHabitacion = new ComboBox();
             panel1 = new Panel();
+            idLabel = new Label();
             ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nroPiso).BeginInit();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.BackColor = Color.White;
+            label1.BackColor = Color.DarkCyan;
             label1.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(119, 39);
+            label1.ForeColor = Color.Black;
+            label1.Location = new Point(119, 9);
             label1.Name = "label1";
-            label1.Size = new Size(27, 17);
+            label1.Size = new Size(25, 17);
             label1.TabIndex = 0;
-            label1.Text = "ID:";
-            label1.Click += label1_Click;
+            label1.Text = "Id:";
             // 
             // label2
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = Color.DarkCyan;
-            label2.Location = new Point(82, 68);
+            label2.Location = new Point(82, 56);
             label2.Name = "label2";
             label2.Size = new Size(64, 17);
             label2.TabIndex = 2;
@@ -72,7 +72,7 @@
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = Color.DarkCyan;
-            label3.Location = new Point(107, 100);
+            label3.Location = new Point(107, 88);
             label3.Name = "label3";
             label3.Size = new Size(39, 17);
             label3.TabIndex = 4;
@@ -80,16 +80,15 @@
             // 
             // nroNumero
             // 
-            nroNumero.Location = new Point(152, 62);
+            nroNumero.Location = new Point(152, 56);
             nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroNumero.Name = "nroNumero";
             nroNumero.Size = new Size(103, 23);
             nroNumero.TabIndex = 2;
-            nroNumero.ValueChanged += nroNumero_ValueChanged;
             // 
             // nroPiso
             // 
-            nroPiso.Location = new Point(152, 94);
+            nroPiso.Location = new Point(152, 88);
             nroPiso.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
             nroPiso.Name = "nroPiso";
             nroPiso.Size = new Size(103, 23);
@@ -124,12 +123,11 @@
             label4.AutoSize = true;
             label4.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label4.ForeColor = Color.DarkCyan;
-            label4.Location = new Point(18, 129);
+            label4.Location = new Point(18, 124);
             label4.Name = "label4";
             label4.Size = new Size(128, 17);
             label4.TabIndex = 11;
             label4.Text = "Tipo de habitacion:";
-            label4.Click += label4_Click;
             // 
             // cmbTipoHabitacion
             // 
@@ -141,29 +139,30 @@
             cmbTipoHabitacion.Name = "cmbTipoHabitacion";
             cmbTipoHabitacion.Size = new Size(191, 23);
             cmbTipoHabitacion.TabIndex = 4;
-            cmbTipoHabitacion.SelectedIndexChanged += cmbTipoHabitacion_SelectedIndexChanged;
-            // 
-            // cmbIdHabitacion
-            // 
-            cmbIdHabitacion.BackColor = Color.DarkSlateGray;
-            cmbIdHabitacion.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbIdHabitacion.ForeColor = Color.White;
-            cmbIdHabitacion.FormattingEnabled = true;
-            cmbIdHabitacion.Location = new Point(152, 33);
-            cmbIdHabitacion.Name = "cmbIdHabitacion";
-            cmbIdHabitacion.Size = new Size(191, 23);
-            cmbIdHabitacion.TabIndex = 1;
-            cmbIdHabitacion.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            cmbIdHabitacion.SelectionChangeCommitted += cmbIdHabitacion_SelectionChangeCommitted;
             // 
             // panel1
             // 
             panel1.BackColor = Color.DarkCyan;
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
+            panel1.Controls.Add(idLabel);
+            panel1.Controls.Add(label1);
+            panel1.Location = new Point(0, 1);
             panel1.Name = "panel1";
-            panel1.Size = new Size(373, 11);
+            panel1.Size = new Size(373, 35);
             panel1.TabIndex = 14;
+
+            // 
+            // idLabel
+            // 
+            idLabel.AutoSize = true;
+            idLabel.BackColor = Color.DarkCyan;
+            idLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            idLabel.ForeColor = Color.White;
+            idLabel.Location = new Point(152, 9);
+            idLabel.Name = "idLabel";
+            idLabel.Size = new Size(20, 17);
+            idLabel.TabIndex = 15;
+            idLabel.Text = "id";
+
             // 
             // DatosHabitacion
             // 
@@ -171,8 +170,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(373, 258);
-            Controls.Add(panel1);
-            Controls.Add(cmbIdHabitacion);
             Controls.Add(cmbTipoHabitacion);
             Controls.Add(label4);
             Controls.Add(btnCancelar);
@@ -181,7 +178,7 @@
             Controls.Add(nroNumero);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
+            Controls.Add(panel1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "DatosHabitacion";
             StartPosition = FormStartPosition.CenterScreen;
@@ -189,6 +186,8 @@
             Load += DatosHabitacion_Load;
             ((System.ComponentModel.ISupportInitialize)nroNumero).EndInit();
             ((System.ComponentModel.ISupportInitialize)nroPiso).EndInit();
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -204,7 +203,7 @@
         private Button btnCancelar;
         private Label label4;
         private ComboBox cmbTipoHabitacion;
-        private ComboBox cmbIdHabitacion;
         private Panel panel1;
+        private Label idLabel;
     }
 }

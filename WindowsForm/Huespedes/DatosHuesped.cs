@@ -32,21 +32,6 @@ namespace WindowsForm.Huespedes
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void nroPrecio_ValueChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cmbId_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnAceptar_Click(object sender, EventArgs e)
         {
             switch (op)
@@ -74,14 +59,7 @@ namespace WindowsForm.Huespedes
                 case 2:
                     try
                     {
-                        if(_id != null)
-                        {
-                            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
-                        }
-                        else
-                        {
-                            hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
-                        }                   
+                        hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
                         hspd.Nombre = txtNombre.Text;
                         hspd.Apellido = txtApellido.Text;
                         hspd.NumeroDocumento = txtDNI.Text;
@@ -112,9 +90,7 @@ namespace WindowsForm.Huespedes
             {
                 case 1:
                     this.Text = "Agregar huesped";
-                    cmbId.Items.Add("Nuevo");
-                    cmbId.SelectedIndex = 0;
-                    cmbId.Enabled = false;
+                    idLabel.Text = "Nuevo";
                     break;
 
                 case 2:
@@ -126,23 +102,8 @@ namespace WindowsForm.Huespedes
                     }
                     else
                     {
-                        if(_id != null)
-                        {
-                            cmbId.Items.Add(_id.ToString());
-                            cmbId.Enabled = false;
-                        }
-                        else
-                        {
-                            foreach (Huesped _Hspd in _lstHspd)
-                            {
-                                string tmp = _Hspd.IdHuesped + " - " + _Hspd.Nombre + " " + _Hspd.Apellido;
-                                _tmpHspd[tmp] = _Hspd;
-                                cmbId.Items.Add(tmp);
-                            }
-                        }
-                        
-                        cmbId.SelectedIndex = 0;
-                        cmbId_SelectionChangeCommitted(sender, e);
+                        idLabel.Text = _id.ToString();
+                        Id_SelectionChangeCommitted(sender, e);
                     }
                     break;
             }
@@ -154,16 +115,9 @@ namespace WindowsForm.Huespedes
             this.Close();
         }
 
-        private void cmbId_SelectionChangeCommitted(object sender, EventArgs e)
+        private void Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            if(_id != null)
-            {
-                hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
-            }
-            else
-            {
-                hspd = (Huesped)_tmpHspd[cmbId.SelectedItem]!;
-            }           
+            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
             txtNombre.Text = hspd.Nombre;
             txtApellido.Text = hspd.Apellido;
             txtDNI.Text = hspd.NumeroDocumento.ToString();

@@ -173,16 +173,20 @@ namespace Negocio
         }
         public static bool Delete(Entidad.Models.TipoHabitacion tipHbt)
         {
-            if (tipHbt != null)
+            try
             {
-                dBContext.TipoHabitacions.Remove(tipHbt);
-                dBContext.SaveChanges();
-                return true;
+                if (tipHbt != null)
+                {
+                    dBContext.TipoHabitacions.Remove(tipHbt);
+                    dBContext.SaveChanges();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
-            else
-            {
-                return false;
-            }
+            catch { return false; }           
         }
 
         /// <summary>

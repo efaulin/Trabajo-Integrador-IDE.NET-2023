@@ -30,17 +30,18 @@
         {
             label5 = new Label();
             txtApellido = new TextBox();
-            panel1 = new Panel();
-            cmbId = new ComboBox();
             label4 = new Label();
             btnCancelar = new Button();
             btnAceptar = new Button();
             label3 = new Label();
             label2 = new Label();
-            label1 = new Label();
             txtNombre = new TextBox();
             cmbTipoDoc = new ComboBox();
             txtDNI = new TextBox();
+            idLabel = new Label();
+            label6 = new Label();
+            panel1 = new Panel();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // label5
@@ -60,28 +61,6 @@
             txtApellido.Name = "txtApellido";
             txtApellido.Size = new Size(191, 23);
             txtApellido.TabIndex = 3;
-            // 
-            // panel1
-            // 
-            panel1.BackColor = Color.DarkCyan;
-            panel1.Dock = DockStyle.Top;
-            panel1.Location = new Point(0, 0);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(373, 11);
-            panel1.TabIndex = 27;
-            // 
-            // cmbId
-            // 
-            cmbId.BackColor = Color.DarkSlateGray;
-            cmbId.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbId.ForeColor = Color.White;
-            cmbId.FormattingEnabled = true;
-            cmbId.Location = new Point(152, 39);
-            cmbId.Name = "cmbId";
-            cmbId.Size = new Size(191, 23);
-            cmbId.TabIndex = 1;
-            cmbId.SelectedIndexChanged += cmbId_SelectedIndexChanged;
-            cmbId.SelectionChangeCommitted += cmbId_SelectionChangeCommitted;
             // 
             // label4
             // 
@@ -139,19 +118,6 @@
             label2.Size = new Size(64, 17);
             label2.TabIndex = 20;
             label2.Text = "Nombre:";
-            label2.Click += label2_Click;
-            // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.BackColor = Color.White;
-            label1.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.ForeColor = Color.DarkCyan;
-            label1.Location = new Point(119, 45);
-            label1.Name = "label1";
-            label1.Size = new Size(27, 17);
-            label1.TabIndex = 19;
-            label1.Text = "ID:";
             // 
             // txtNombre
             // 
@@ -176,30 +142,65 @@
             txtDNI.Size = new Size(191, 23);
             txtDNI.TabIndex = 4;
             // 
+            // idLabel
+            // 
+            idLabel.AutoSize = true;
+            idLabel.BackColor = Color.DarkCyan;
+            idLabel.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            idLabel.ForeColor = Color.White;
+            idLabel.Location = new Point(152, 11);
+            idLabel.Name = "idLabel";
+            idLabel.Size = new Size(20, 17);
+            idLabel.TabIndex = 18;
+            idLabel.Text = "id";
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.BackColor = Color.DarkCyan;
+            label6.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.ForeColor = Color.Black;
+            label6.Location = new Point(121, 11);
+            label6.Name = "label6";
+            label6.Size = new Size(25, 17);
+            label6.TabIndex = 0;
+            label6.Text = "Id:";
+            // 
+            // panel1
+            // 
+            panel1.BackColor = Color.DarkCyan;
+            panel1.Controls.Add(idLabel);
+            panel1.Controls.Add(label6);
+            panel1.Dock = DockStyle.Top;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(373, 37);
+            panel1.TabIndex = 30;
+            // 
             // DatosHuesped
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(373, 301);
+            Controls.Add(panel1);
             Controls.Add(txtDNI);
             Controls.Add(cmbTipoDoc);
             Controls.Add(txtNombre);
             Controls.Add(label5);
             Controls.Add(txtApellido);
-            Controls.Add(panel1);
-            Controls.Add(cmbId);
             Controls.Add(label4);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(label3);
             Controls.Add(label2);
-            Controls.Add(label1);
             FormBorderStyle = FormBorderStyle.FixedToolWindow;
             Name = "DatosHuesped";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosHuesped";
             Load += DatosHuesped_Load;
+            panel1.ResumeLayout(false);
+            panel1.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -209,16 +210,16 @@
         private MaskedTextBox mskCmbFecha;
         private Label label5;
         private TextBox txtApellido;
-        private Panel panel1;
-        private ComboBox cmbId;
         private Label label4;
         private Button btnCancelar;
         private Button btnAceptar;
         private Label label3;
         private Label label2;
-        private Label label1;
         private TextBox txtNombre;
         private ComboBox cmbTipoDoc;
         private TextBox txtDNI;
+        private Label idLabel;
+        private Label label6;
+        private Panel panel1;
     }
 }
