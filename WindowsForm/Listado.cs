@@ -51,7 +51,26 @@ namespace WindowsForm
                     break;
                 case 3:
                     List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
-                    dgvHabitaciones.DataSource = _lstRsv;
+                    DataTable dtRsv = new DataTable();
+                    DataColumn[] dcRsv = new DataColumn[]
+                    {
+                        new DataColumn("idReserva", typeof(int)),
+                        new DataColumn("Fecha de Inscripcion", typeof(DateTime)),
+                        new DataColumn("Fecha de Inicio Reserva", typeof(DateTime)),
+                        new DataColumn("Fecha de Fin Reserva", typeof(DateTime)),
+                        new DataColumn("Estado", typeof(string)),
+                        new DataColumn("Cantidad de Personas", typeof(int)),
+                        new DataColumn("Huesped", typeof(string)),
+                        new DataColumn("Nro de habitacion", typeof(int)),
+                        new DataColumn("Piso de habitacion", typeof(int)),
+                        new DataColumn("Tipo de habitacion", typeof(string))
+                    };
+                    dtRsv.Columns.AddRange(dcRsv);
+                    foreach (Reserva rsv in _lstRsv)
+                    {
+                        dtRsv.Rows.Add(rsv.IdReserva, rsv.FechaInscripcion, rsv.FechaInicioReserva, rsv.FechaFinReserva, rsv.EstadoReserva, rsv.CantidadPersonas, rsv.IdHuespedNavigation.nombreCompleto(), rsv.IdHabitacionNavigation.NumeroHabitacion, rsv.IdHabitacionNavigation.PisoHabitacion, rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion);
+                    }
+                    dgvHabitaciones.DataSource = dtRsv;
                     break;
                 case 4:
                     List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
@@ -141,6 +160,7 @@ namespace WindowsForm
 
                     break;
             }
+            listar();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -176,6 +196,7 @@ namespace WindowsForm
                 case 4:
                     break;
             }
+            listar();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -224,6 +245,7 @@ namespace WindowsForm
                     }
                     break;
             }
+            listar();
         }
 
         private void toolStripContainer1_RightToolStripPanel_Click(object sender, EventArgs e)

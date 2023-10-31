@@ -108,6 +108,8 @@
             // 
             // dgvHabitaciones
             // 
+            dgvHabitaciones.AllowUserToAddRows = false;
+            dgvHabitaciones.AllowUserToDeleteRows = false;
             dgvHabitaciones.AllowUserToResizeColumns = false;
             dgvHabitaciones.AllowUserToResizeRows = false;
             dgvHabitaciones.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;

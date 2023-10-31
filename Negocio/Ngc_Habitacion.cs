@@ -2,6 +2,7 @@
 using Entidad.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 
@@ -46,7 +47,6 @@ namespace Negocio
         }
         public static bool Delete(Entidad.Models.Habitacion hbt)
         {
-            //return Datos.Habitacion.Delete(id);
             try
             {
                 dBContext.Habitacions.Remove(hbt);
@@ -71,20 +71,50 @@ namespace Negocio
                 return false;
             }
         }
+
+        /// <summary></summary>
+        /// <returns>Lista de habitaciones dadas de alta (hbt.estado == true)</returns>
+        public static List<Entidad.Models.Habitacion> GetAllEnabled()
+        {
+            List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.Where(hbt => hbt.Estado == true).ToList();
+            foreach (Entidad.Models.Habitacion hbt in habitaciones)
+            {
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+                hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
+            }
+            return habitaciones;
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="start">fecha de inicio</param>
+        /// <param name="end">fecha de final</param>
+        /// <returns>Lista de habitaciones disponibles para un intervalo de fechas</returns>
         public static List<Entidad.Models.Habitacion> GetAvailableBetween(DateTime start, DateTime end)
         {
-            //Devuelve una lista de habitaciones disponibles para un intervalo de fechas
-            return TakeAvailable(GetAll(), start, end);
+            return TakeAvailable(GetAllEnabled(), start, end);
         }
+
+        /// <summary>
+        /// Toma una lista de habitaciones y devuelve las habitaciones disponibles (sin reservas "En espera" o "En curso") para un intervalo de fechas
+        /// </summary>
+        /// <param name="lstHbt">listado de habitaciones a filtrar</param>
+        /// <param name="start">fecha de inicio</param>
+        /// <param name="end">fecha de fin</param>
+        /// <returns>Listado de habitaciones disponibles</returns>
         public static List<Entidad.Models.Habitacion> TakeAvailable(List<Entidad.Models.Habitacion> lstHbt, DateTime start, DateTime end)
         {
-            //Toma una lista de habitaciones y devuelve las habitaciones disponibles para un intervalo de fechas
             return lstHbt.FindAll(hbt =>
                 hbt.Reservas.ToList().Find(rsv =>
                     (rsv.EstadoReserva == "En espera" || rsv.EstadoReserva == "En curso") && !(rsv.FechaInicioReserva.CompareTo(end) >= 0 || rsv.FechaFinReserva.CompareTo(start) <= 0)
-                ) == null
+                ) == null || hbt.Reservas.Count == 0
             );
         }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="amountPeople">capacidad de personas (minima) deseada</param>
+        /// <returns>Listado de habitaciones con capacidad igual o mayor de personas</returns>
         public static List<Entidad.Models.Habitacion> GetForAmountOfPeople(int amountPeople)
         {
             List<Entidad.Models.Habitacion> lstHbt = dBContext.Habitacions.Where(hbt => hbt.IdTipoHabitacionNavigation.NumeroCamas >= amountPeople).ToList();
@@ -154,7 +184,12 @@ namespace Negocio
                 return false;
             }
         }
-        //Devuelve entidad precioTipoHabitacion de un tipoHabitacion especifico que pertenezca a la fecha ingresada
+
+        /// <summary>
+        /// </summary>
+        /// <param name="fecha">fecha a buscar</param>
+        /// <param name="tipHbt">tipoHabitacion de precio a buscar</param>
+        /// <returns>Entidad precioTipoHabitacion de un tipoHabitacion que pertenezca a la fecha ingresada</returns>
         public static Entidad.Models.PrecioTipoHabitacion? DevPrecioFecha(DateTime fecha, Entidad.Models.TipoHabitacion tipHbt)
         {
             Entidad.Models.PrecioTipoHabitacion? precioBuscado = null;

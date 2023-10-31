@@ -81,5 +81,13 @@ namespace Negocio
                 return false;
             }
         }
+
+        public static bool Validate(Entidad.Models.Reserva rsv)
+        {
+            if (rsv.CantidadPersonas <= 0) { return false; }
+            if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }
+            if (rsv.FechaInicioReserva.CompareTo(rsv.FechaFinReserva) >= 0) { return false; }
+            return true;
+        }
     }
 }

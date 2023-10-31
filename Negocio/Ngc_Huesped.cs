@@ -71,5 +71,23 @@ namespace Negocio
                 return false;
             }
         }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="tipo">ingrese uno de estos 3 valores: DNI, LE, LC</param>
+        /// <param name="nro">numero de documento de huesped a buscar</param>
+        /// <returns>Entidad Huesped correspondiente al tipo y numero de documento ingresado por parametro</returns>
+        public static Entidad.Models.Huesped? GetByTipo_NroDocumento(string tipo, string nro)
+        {
+            return dBContext.Huespeds.FirstOrDefault(hsp => hsp.TipoDocumento == tipo && hsp.NumeroDocumento == nro);
+        }
+
+        /// <summary></summary>
+        /// <param name="nro">numero de documento de huesped a buscar</param>
+        /// <returns>Lista de huespedes que contengan total o parcialmente el numero ingresado</returns>
+        public static List<Entidad.Models.Huesped> GetByNroDocumento(string nro)
+        {
+            return dBContext.Huespeds.Where(hsp => hsp.NumeroDocumento.Contains(nro)).ToList();
+        }
     }
 }

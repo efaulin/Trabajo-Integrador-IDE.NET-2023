@@ -11,6 +11,8 @@ public partial class TipoHabitacion
 
     public string Descripcion { get; set; } = null!;
 
+    public PrecioTipoHabitacion Precio { get { return PrecioTipoHabitacions.Last(); } }
+
     public virtual ICollection<Habitacion> Habitacions { get; set; } = new List<Habitacion>();
 
     public virtual ICollection<PrecioTipoHabitacion> PrecioTipoHabitacions { get; set; } = new List<PrecioTipoHabitacion>();

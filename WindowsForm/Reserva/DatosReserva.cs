@@ -1,4 +1,5 @@
-﻿using Entidad.Models;
+﻿using Accessibility;
+using Entidad.Models;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -76,20 +77,6 @@ namespace WindowsForm
                 this.Close();
             }
 
-            foreach (Habitacion _tmpHbt in _lstHbt)
-            {
-                string tmp = _tmpHbt.IdHabitacion + " - Piso: " + _tmpHbt.PisoHabitacion + " Nro: " + _tmpHbt.NumeroHabitacion;
-                _hashHbt[tmp] = _tmpHbt;
-                //cmbHabitacion.Items.Add(tmp);
-            }
-
-            foreach (Huesped _tmpHpd in _lstHpd)
-            {
-                string tmp = _tmpHpd.NumeroDocumento + " - " + _tmpHpd.Nombre + " " + _tmpHpd.Apellido;
-                _hashHpd[tmp] = _tmpHpd;
-                cmbHuesped.Items.Add(tmp);
-            }
-
             foreach (Reserva _tmpRsv in _lstRsv)
             {
                 string tmp = _tmpRsv.FechaInscripcion.ToString("dd/MM/yyyy") + " - Habitacion " + _tmpRsv.IdHabitacionNavigation.NumeroHabitacion + " piso " + _tmpRsv.IdHabitacionNavigation.PisoHabitacion;
@@ -110,17 +97,20 @@ namespace WindowsForm
                 cmbIdReserva.SelectedItem = "Nuevo";
                 cmbIdReserva.Enabled = false;
                 cmbEstado.SelectedIndex = 0;
+                dtFechaInicio.Value = DateTime.Now;
+                dtFechaInicio.MinDate = DateTime.Now;
                 dtFechaFin.Value = dtFechaInicio.Value.AddDays(1);
+                dtFechaFin.MinDate = DateTime.Now.AddDays(1);
             }
 
             if (_hbt != null)
             {
-                //cmbHabitacion.SelectedItem = _hbt.IdHabitacion + " - Piso: " + _hbt.PisoHabitacion + " Nro: " + _hbt.NumeroHabitacion;
+                SetDataGridHabitacion(_hbt);
             }
 
             if (_hpd != null)
             {
-                cmbHuesped.SelectedItem = _hpd.NumeroDocumento + " - " + _hpd.Nombre + " " + _hpd.Apellido;
+                SetDataGridHuesped(_hpd);
             }
         }
 
@@ -129,10 +119,14 @@ namespace WindowsForm
             _rsv = (Reserva)_hashRsv[cmbIdReserva.SelectedItem]!;
             dtFechaInicio.Value = _rsv.FechaInicioReserva;
             dtFechaFin.Value = _rsv.FechaFinReserva;
+            dtFechaInicio.MinDate = _rsv.FechaInicioReserva;
+            dtFechaFin.MinDate = _rsv.FechaFinReserva;
             txtCantidadPersonas.Text = _rsv.CantidadPersonas.ToString();
-            //cmbHabitacion.SelectedItem = _rsv.IdHabitacionNavigation.IdHabitacion + " - Piso: " + _rsv.IdHabitacionNavigation.PisoHabitacion + " Nro: " + _rsv.IdHabitacionNavigation.NumeroHabitacion;
-            cmbHuesped.SelectedItem = _rsv.IdHuespedNavigation.NumeroDocumento + " - " + _rsv.IdHuespedNavigation.Nombre + " " + _rsv.IdHuespedNavigation.Apellido;
+            txtNro.Text = _rsv.IdHabitacionNavigation.NumeroHabitacion.ToString();
+            txtPiso.Text = _rsv.IdHabitacionNavigation.PisoHabitacion.ToString();
+            txtNroDocumento.Text = _rsv.IdHuespedNavigation.NumeroDocumento;
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
+            SetDataGridsEditando(_rsv.IdHabitacionNavigation, _rsv.IdHuespedNavigation);
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
@@ -143,10 +137,18 @@ namespace WindowsForm
             {
                 //Se modifica una reserva existente
                 asignarValores();
-                if (!Negocio.Reserva.Update(_rsv))
+                if (Negocio.Reserva.Validate(_rsv))
+                {
+                    if (!Negocio.Reserva.Update(_rsv))
+                    {
+                        stop = true;
+                        MessageBox.Show("Hubo un error al guardar la reserva");
+                    }
+                }
+                else
                 {
                     stop = true;
-                    MessageBox.Show("Hubo un error al guardar la reserva");
+                    MessageBox.Show("Hay un error en los datos de la reserva");
                 }
             }
             else
@@ -156,10 +158,18 @@ namespace WindowsForm
                 _rsv.FechaInscripcion = DateTime.Now.Date;
                 _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
                 asignarValores();
-                if (!Negocio.Reserva.Create(_rsv))
+                if (Negocio.Reserva.Validate(_rsv))
+                {
+                    if (!Negocio.Reserva.Create(_rsv))
+                    {
+                        stop = true;
+                        MessageBox.Show("Hubo un error al guardar la reserva");
+                    }
+                }
+                else
                 {
                     stop = true;
-                    MessageBox.Show("Hubo un error al guardar la reserva");
+                    MessageBox.Show("Hay un error en los datos de la reserva");
                 }
             }
 
@@ -179,8 +189,8 @@ namespace WindowsForm
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
             _rsv.CantidadPersonas = int.Parse(txtCantidadPersonas.Text);
-            //_rsv.IdHabitacionNavigation = (Habitacion)_hashHbt[cmbHabitacion.SelectedItem]!;
-            _rsv.IdHuespedNavigation = (Huesped)_hashHpd[cmbHuesped.SelectedItem]!;
+            _rsv.IdHabitacionNavigation = Negocio.Habitacion.GetOne((int)dtGrHabitacion.SelectedRows[0].Cells[0].Value)!;
+            _rsv.IdHuespedNavigation = Negocio.Huesped.GetOne((int)dtGrHuesped.SelectedRows[0].Cells[0].Value)!;
             _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
             _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
         }
@@ -216,9 +226,10 @@ namespace WindowsForm
             }
         }
 
-        private void btnBuscar_Click(object sender, EventArgs e)
+        private void btnBuscarHabitacion_Click(object sender, EventArgs e)
         {
-            List<Habitacion>? lstHbt = null;
+            List<Habitacion> lstHbt;
+            DataTable? dt = null;
             DateTime start = dtFechaInicio.Value;
             DateTime end = dtFechaFin.Value;
 
@@ -239,9 +250,115 @@ namespace WindowsForm
                         lstHbt = lstHbt.FindAll(hbt => hbt.PisoHabitacion == piso);
                     }
                 }
+                else if (txtNro.Text.Length > 0)
+                {
+                    lstHbt = lstHbt.FindAll(hbt => hbt.NumeroHabitacion == int.Parse(txtNro.Text));
+                }
+
+                dt = new DataTable();
+                DataColumn[] dcArray =
+                [
+                    new DataColumn("id", typeof(int)),
+                    new DataColumn("Nro", typeof(int)),
+                    new DataColumn("Piso", typeof(int)),
+                    new DataColumn("Numero de camas", typeof(int)),
+                    new DataColumn("Descripcion", typeof(string)),
+                    new DataColumn("Precio", typeof(double))
+                ];
+                dt.Columns.AddRange(dcArray);
+
+                foreach (Habitacion tmp in lstHbt)
+                {
+                    dt.Rows.Add(tmp.IdHabitacion, tmp.NumeroHabitacion, tmp.PisoHabitacion, tmp.IdTipoHabitacionNavigation.NumeroCamas, tmp.IdTipoHabitacionNavigation.Descripcion, tmp.IdTipoHabitacionNavigation.Precio.PrecioHabitacion);
+                }
+
+                if (_rsv != null)
+                {
+                    Habitacion tmpHbt = _rsv!.IdHabitacionNavigation;
+                    dt.Rows.Add(tmpHbt.IdHabitacion, tmpHbt.NumeroHabitacion, tmpHbt.PisoHabitacion, tmpHbt.IdTipoHabitacionNavigation.NumeroCamas, tmpHbt.IdTipoHabitacionNavigation.Descripcion, tmpHbt.IdTipoHabitacionNavigation.Precio.PrecioHabitacion);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Antes de buscar, ingrese cantidad de personas y un rango de fechas valido", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            dtGrHabitacion.DataSource = lstHbt;
+            dtGrHabitacion.DataSource = dt;
+
+            if (dtGrHabitacion.DataSource != null)
+            {
+                dtGrHabitacion.Columns["id"].Visible = false;
+            }
+
+            dtGrHabitacion.Select();
+        }
+
+        private void btnBuscarHuesped_Click(object sender, EventArgs e)
+        {
+            List<Huesped>? lstHpd = null;
+
+            if (txtNroDocumento.Text.Length > 0)
+            {
+                lstHpd = Negocio.Huesped.GetByNroDocumento(txtNroDocumento.Text);
+            }
+            else
+            {
+                lstHpd = Negocio.Huesped.GetAll();
+            }
+
+            dtGrHuesped.DataSource = lstHpd;
+
+            if (dtGrHuesped.DataSource != null)
+            {
+                dtGrHuesped.Columns[0].Visible = false;
+                dtGrHuesped.Columns[5].Visible = false;
+            }
+
+            dtGrHuesped.Select();
+        }
+
+        private void SetDataGridHabitacion(Habitacion hbt)
+        {
+            DataTable dtHbt = new DataTable();
+            DataColumn[] dcArrayHbt =
+            [
+                new DataColumn("id", typeof(int)),
+                new DataColumn("Nro", typeof(int)),
+                new DataColumn("Piso", typeof(int)),
+                new DataColumn("Numero de camas", typeof(int)),
+                new DataColumn("Descripcion", typeof(string)),
+                new DataColumn("Precio", typeof(double))
+            ];
+            dtHbt.Columns.AddRange(dcArrayHbt);
+            dtHbt.Rows.Add(hbt.IdHabitacion, hbt.NumeroHabitacion, hbt.PisoHabitacion, hbt.IdTipoHabitacionNavigation.NumeroCamas, hbt.IdTipoHabitacionNavigation.Descripcion, hbt.IdTipoHabitacionNavigation.Precio.PrecioHabitacion);
+
+            dtGrHabitacion.DataSource = dtHbt;
+
+            if (dtGrHabitacion.DataSource != null)
+            {
+                dtGrHabitacion.Columns["id"].Visible = false;
+            }
+
+            dtGrHabitacion.Select();
+        }
+
+        private void SetDataGridHuesped(Huesped hpd)
+        {
+            dtGrHuesped.DataSource = new List<Huesped> { hpd };
+
+            if (dtGrHuesped.DataSource != null)
+            {
+                dtGrHuesped.Columns[0].Visible = false;
+                dtGrHuesped.Columns[5].Visible = false;
+            }
+
+            dtGrHuesped.Select();
+        }
+
+        private void SetDataGridsEditando(Habitacion hbt, Huesped hpd)
+        {
+            SetDataGridHabitacion(hbt);
+            SetDataGridHuesped(hpd);
         }
     }
 }
