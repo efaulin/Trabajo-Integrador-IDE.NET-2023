@@ -38,52 +38,59 @@ namespace WindowsForm
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            switch (op)
+            if (validate())
             {
-                case 1:
-                    try
-                    {
-                        TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
+                TipoHabitacion tmpTpHbt;
+                bool stop = false;
+                switch (op)
+                {
+                    case 1:
+                        tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
                         hbt!.Estado = true;
                         hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
                         hbt.IdTipoHabitacionNavigation = tmpTpHbt;
-                        hbt.NumeroHabitacion = (int)this.nroNumero.Value;
-                        hbt.PisoHabitacion = (int)this.nroPiso.Value;
-                        Negocio.Habitacion.Create(hbt);
-                        MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " cargada con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al cargar la habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
+                        hbt.NumeroHabitacion = int.Parse(txtNumero.Text);
+                        hbt.PisoHabitacion = int.Parse(txtPiso.Text);
+                        if (Negocio.Habitacion.Create(hbt))
+                        {
+                            MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " cargada con exito.");
+                        }
+                        else
+                        {
+                            stop = true;
+                        }
+                        break;
 
-                    break;
-
-                case 2:
-                    try
-                    {
+                    case 2:
                         hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt.IdHabitacion == _id; })!;
-                        TipoHabitacion tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
+                        tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
                         hbt.Estado = true;
                         hbt.IdTipoHabitacion = tmpTpHbt.IdTipoHabitacion;
                         hbt.IdTipoHabitacionNavigation = tmpTpHbt;
-                        hbt.NumeroHabitacion = (int)this.nroNumero.Value;
-                        hbt.PisoHabitacion = (int)this.nroPiso.Value;
-
-                        Negocio.Habitacion.Update(hbt);
-                        MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " editada con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al editar la habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
-
-                    break;
+                        hbt.NumeroHabitacion = int.Parse(txtNumero.Text);
+                        hbt.PisoHabitacion = int.Parse(txtPiso.Text);
+                        if (Negocio.Habitacion.Update(hbt))
+                        {
+                            MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " editada con exito.");
+                        }
+                        else
+                        {
+                            stop = true;
+                        }
+                        break;
+                }
+                if (!stop) { this.Close(); }
+                else
+                {
+                    MessageBox.Show("Hubo un problema al cargar la habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Hay errores en los datos de la habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            this.Close();
+            
         }
 
         private void DatosHabitacion_Load(object sender, EventArgs e)
@@ -139,15 +146,27 @@ namespace WindowsForm
             this.Close();
         }
 
-
         private void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
         {
             hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt.IdHabitacion == _id; })!;
-            nroNumero.Value = hbt.NumeroHabitacion;
-            nroPiso.Value = hbt.PisoHabitacion;
+            txtNumero.Text = hbt.NumeroHabitacion.ToString();
+            txtPiso.Text = hbt.PisoHabitacion.ToString();
             cmbTipoHabitacion.SelectedItem = hbt.IdTipoHabitacionNavigation.IdTipoHabitacion + " - " + hbt.IdTipoHabitacionNavigation.Descripcion;
-
         }
 
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        public bool validate()
+        {
+            if (txtNumero.Text.Length == 0 || txtNumero.Text == "0") { return false; }
+            if (txtPiso.Text.Length == 0 || txtPiso.Text == "0") { return false; }
+            return true;
+        }
     }
 }

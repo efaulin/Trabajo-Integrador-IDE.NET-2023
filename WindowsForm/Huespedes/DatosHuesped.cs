@@ -34,50 +34,64 @@ namespace WindowsForm.Huespedes
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            switch (op)
+            bool stop = false;
+            if (validate())
             {
-                case 1:
-                    try
-                    {
-                        hspd = new Huesped();
-                        hspd.Nombre = txtNombre.Text;
-                        hspd.Apellido = txtApellido.Text;
-                        hspd.NumeroDocumento = txtDNI.Text;
-                        hspd.TipoDocumento = cmbTipoDoc.Text;
+                switch (op)
+                {
+                    case 1:
+                        try
+                        {
+                            hspd = new Huesped();
+                            hspd.Nombre = txtNombre.Text;
+                            hspd.Apellido = txtApellido.Text;
+                            hspd.NumeroDocumento = txtDNI.Text;
+                            hspd.TipoDocumento = cmbTipoDoc.Text;
 
-                        Negocio.Huesped.Create(hspd);
-                        MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " cargado con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al crear el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
+                            Negocio.Huesped.Create(hspd);
+                            MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " cargado con exito.");
+                        }
+                        catch
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un problema al crear el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //throw ex;
+                        }
 
-                    break;
+                        break;
 
-                case 2:
-                    try
-                    {
-                        hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
-                        hspd.Nombre = txtNombre.Text;
-                        hspd.Apellido = txtApellido.Text;
-                        hspd.NumeroDocumento = txtDNI.Text;
-                        hspd.TipoDocumento = cmbTipoDoc.Text;
+                    case 2:
+                        try
+                        {
+                            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
+                            hspd.Nombre = txtNombre.Text;
+                            hspd.Apellido = txtApellido.Text;
+                            hspd.NumeroDocumento = txtDNI.Text;
+                            hspd.TipoDocumento = cmbTipoDoc.Text;
 
-                        Negocio.Huesped.Update(hspd);
-                        MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " editado con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al editar el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
+                            Negocio.Huesped.Update(hspd);
+                            MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " editado con exito.");
+                        }
+                        catch
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un problema al editar el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //throw ex;
+                        }
 
-                    break;
+                        break;
+                }
             }
-
-            this.Close();
+            else
+            {
+                stop = true;
+                MessageBox.Show("Hay errores en los datos del huesped", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            
+            if (!stop)
+            {
+                this.Close();
+            }
         }
 
         private void DatosHuesped_Load(object sender, EventArgs e)
@@ -122,6 +136,22 @@ namespace WindowsForm.Huespedes
             txtApellido.Text = hspd.Apellido;
             txtDNI.Text = hspd.NumeroDocumento.ToString();
             cmbTipoDoc.SelectedItem = hspd.TipoDocumento;
+        }
+
+        private void textBox_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool validate()
+        {
+            if (txtNombre.Text.Length == 0 || txtNombre.Text[0].ToString() == " ") { return false; }
+            if (txtApellido.Text.Length == 0 || txtApellido.Text[0].ToString() == " ") { return false; }
+            if (txtDNI.Text.Length == 0 || txtDNI.Text[0].ToString() == " ") { return false; }
+            return true;
         }
     }
 }

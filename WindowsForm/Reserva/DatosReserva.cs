@@ -52,8 +52,6 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-#warning Faltan validaciones, ademas de filtrar las habitaciones por fecha de reserva
-
         public DatosReserva(int id)
         {
             try
@@ -146,16 +144,23 @@ namespace WindowsForm
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-#warning Falta validar entradas vacias
-            bool stop = false;
-            //¿Reserva existente o nueva?
-            if (_rsv != null)
+            if (validate())
             {
-                //Se modifica una reserva existente
-                asignarValores();
-                if (Negocio.Reserva.Validate(_rsv))
+                bool stop = false;
+                //¿Reserva existente o nueva?
+                if (_rsv != null)
                 {
-                    if (!Negocio.Reserva.Update(_rsv, lstSrvTemporal))
+                    //Se modifica una reserva existente
+                    asignarValores();
+                    if (Negocio.Reserva.Validate(_rsv))
+                    {
+                        if (!Negocio.Reserva.Update(_rsv, lstSrvTemporal))
+                        {
+                            stop = true;
+                            MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else
                     {
                         stop = true;
                         MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -163,35 +168,34 @@ namespace WindowsForm
                 }
                 else
                 {
-                    stop = true;
-                    MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    //Se crea una nueva reserva
+                    _rsv = new Reserva();
+                    _rsv.FechaInscripcion = DateTime.Now.Date;
+                    _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
+                    asignarValores();
+                    if (Negocio.Reserva.Validate(_rsv))
+                    {
+                        if (!Negocio.Reserva.Create(_rsv, lstSrvTemporal))
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                    }
+                    else
+                    {
+                        stop = true;
+                        MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                }
+
+                if (!stop)
+                {
+                    this.Close();
                 }
             }
             else
             {
-                //Se crea una nueva reserva
-                _rsv = new Reserva();
-                _rsv.FechaInscripcion = DateTime.Now.Date;
-                _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
-                asignarValores();
-                if (Negocio.Reserva.Validate(_rsv))
-                {
-                    if (!Negocio.Reserva.Create(_rsv, lstSrvTemporal))
-                    {
-                        stop = true;
-                        MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                }
-                else
-                {
-                    stop = true;
-                    MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-            }
-
-            if (!stop)
-            {
-                this.Close();
+                MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
@@ -386,9 +390,13 @@ namespace WindowsForm
             SetDataGridHuesped(hpd);
         }
 
-        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        private bool validate()
         {
-
+            if (txtCantidadPersonas.Text.Length == 0) { return false; }
+            if (dtFechaInicio.Value.CompareTo(dtFechaFin.Value) >= 0) { return false; }
+            if (dtGrHabitacion.SelectedRows.Count == 0) { return false; }
+            if (dtGrHuesped.SelectedRows.Count == 0) { return false; }
+            return true;
         }
     }
 }

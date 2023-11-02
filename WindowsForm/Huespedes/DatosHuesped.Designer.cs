@@ -141,6 +141,7 @@
             txtDNI.Name = "txtDNI";
             txtDNI.Size = new Size(191, 23);
             txtDNI.TabIndex = 4;
+            txtDNI.KeyPress += textBox_KeyPress;
             // 
             // idLabel
             // 

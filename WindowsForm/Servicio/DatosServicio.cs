@@ -39,69 +39,84 @@ namespace WindowsForm
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            switch (op)
+            bool stop = false;
+            if (validate())
             {
-                case 1:
-                    try
-                    {
-                        serv = new Entidad.Models.Servicio();
-                        serv.Descripcion = txtDescipcion.Text;
-                        Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                        prcServ.PrecioServicio1 = (double)nroPrecio.Value;
-                        prcServ.FechaPrecio = DateTime.Now;
-                        serv.PrecioServicios.Add(prcServ);
+                switch (op)
+                {
+                    case 1:
+                        try
+                        {
+                            serv = new Entidad.Models.Servicio();
+                            serv.Descripcion = txtDescipcion.Text;
+                            Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
+                            prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
+                            prcServ.FechaPrecio = DateTime.Now;
+                            serv.PrecioServicios.Add(prcServ);
 
-                        Negocio.Servicio.Create(serv);
-                        MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al cargar el Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
+                            Negocio.Servicio.Create(serv);
+                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
+                        }
+                        catch
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un problema al cargar el Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //throw ex;
+                        }
 
-                    break;
+                        break;
 
-                case 2:
-                    try
-                    {
-                        serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
-                        serv.Descripcion = txtDescipcion.Text;
+                    case 2:
+                        try
+                        {
+                            serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
+                            serv.Descripcion = txtDescipcion.Text;
 
-                        Negocio.Servicio.Update(serv);
-                        MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al editar el Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
+                            Negocio.Servicio.Update(serv);
+                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
+                        }
+                        catch
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un problema al editar el Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //throw ex;
+                        }
 
-                    break;
+                        break;
 
-                case 3:
-                    try
-                    {
-                        serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
-                        Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                        serv.IdServicio = serv.IdServicio;
-                        prcServ.IdServicioNavigation = serv;
-                        prcServ.FechaPrecio = DateTime.Now;
-                        prcServ.PrecioServicio1 = (double)nroPrecio.Value;
-                        serv.PrecioServicios.Add(prcServ);
+                    case 3:
+                        try
+                        {
+                            serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
+                            Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
+                            serv.IdServicio = serv.IdServicio;
+                            prcServ.IdServicioNavigation = serv;
+                            prcServ.FechaPrecio = DateTime.Now;
+                            prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
+                            serv.PrecioServicios.Add(prcServ);
 
-                        Negocio.Servicio.Update(serv);
-                        MessageBox.Show("Precio del Servicio ID: " + prcServ.IdPrecioServicio + " actualizado con exito.");
-                    }
-                    catch
-                    {
-                        MessageBox.Show("Hubo un problema al actualizar el precio del Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //throw ex;
-                    }
-                    break;
+                            Negocio.Servicio.Update(serv);
+                            MessageBox.Show("Precio del Servicio ID: " + prcServ.IdPrecioServicio + " actualizado con exito.");
+                        }
+                        catch
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un problema al actualizar el precio del Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            //throw ex;
+                        }
+                        break;
+                }
+            }
+            else
+            {
+                stop = true;
+                MessageBox.Show("Hay errores en los datos del servicio", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
-            this.Close();
+            if (!stop)
+            {
+                this.Close();
+            }
         }
 
         private void DatosServicio_Load(object sender, EventArgs e)
@@ -124,7 +139,7 @@ namespace WindowsForm
                     else
                     {
                         idLabel.Text = _id.ToString();
-                        nroPrecio.Enabled = false;
+                        txtPrecio.Enabled = false;
                         Id_SelectionChangeCommitted(sender, e);
                     }
                     break;
@@ -155,8 +170,29 @@ namespace WindowsForm
         {
             serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
             txtDescipcion.Text = serv.Descripcion;
-            nroPrecio.Value = (decimal)serv.PrecioServicios.Last().PrecioServicio1;
+            txtPrecio.Text = serv.PrecioServicios.Last().PrecioServicio1.ToString();
             mskCmbFecha.Text = serv.PrecioServicios.Last().FechaPrecio.ToString("dd/MM/yyyy");
+        }
+
+        private void textBoxPrecio_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) &&
+                (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
+
+            if ((e.KeyChar == '.') && ((sender as TextBox)!.Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
+        }
+
+        private bool validate()
+        {
+            if (txtDescipcion.Text.Length == 0 || txtDescipcion.Text[0].ToString() == " ") { return false; }
+            if (txtPrecio.Text.Length == 0 || double.Parse(txtPrecio.Text) == 0) { return false; }
+            return true;
         }
     }
 }
