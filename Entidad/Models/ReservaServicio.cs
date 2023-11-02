@@ -5,6 +5,8 @@ namespace Entidad.Models;
 
 public partial class ReservaServicio
 {
+    public int IdReservaServicio { get; set; }
+
     public int IdReserva { get; set; }
 
     public int IdServicio { get; set; }

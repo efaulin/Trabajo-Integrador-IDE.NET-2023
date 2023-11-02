@@ -10,4 +10,6 @@ public partial class Servicio
     public string Descripcion { get; set; } = null!;
 
     public virtual ICollection<PrecioServicio> PrecioServicios { get; set; } = new List<PrecioServicio>();
+
+    public virtual ICollection<ReservaServicio> ReservaServicios { get; set; } = new List<ReservaServicio>();
 }

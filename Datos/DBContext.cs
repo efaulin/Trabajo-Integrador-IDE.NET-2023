@@ -7,6 +7,8 @@ namespace Datos;
 
 public partial class DBContext : DbContext
 {
+    public static DBContext db = new DBContext();
+    public static DBContext dBContext { get { return db; } }
     public DBContext()
     {
     }
@@ -46,6 +48,8 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Empleado");
 
+            entity.HasIndex(e => e.NombreUsuario, "IX_Empleado").IsUnique();
+
             entity.Property(e => e.IdEmpleado).HasColumnName("idEmpleado");
             entity.Property(e => e.NombreUsuario)
                 .HasMaxLength(50)
@@ -67,6 +71,8 @@ public partial class DBContext : DbContext
 
             entity.ToTable("Habitacion");
 
+            entity.HasIndex(e => new { e.PisoHabitacion, e.NumeroHabitacion }, "IX_Habitacion").IsUnique();
+
             entity.Property(e => e.IdHabitacion).HasColumnName("idHabitacion");
             entity.Property(e => e.Estado).HasColumnName("estado");
             entity.Property(e => e.IdTipoHabitacion).HasColumnName("idTipoHabitacion");
@@ -84,6 +90,8 @@ public partial class DBContext : DbContext
             entity.HasKey(e => e.IdHuesped).HasName("PK__Huesped__4B73CF97FA535F02");
 
             entity.ToTable("Huesped");
+
+            entity.HasIndex(e => new { e.NumeroDocumento, e.TipoDocumento }, "IX_Huesped").IsUnique();
 
             entity.Property(e => e.IdHuesped).HasColumnName("idHuesped");
             entity.Property(e => e.Apellido)
@@ -179,21 +187,27 @@ public partial class DBContext : DbContext
 
         modelBuilder.Entity<ReservaServicio>(entity =>
         {
-            entity
-                .HasNoKey()
-                .ToTable("Reserva_Servicio");
+            entity.HasKey(e => e.IdReservaServicio);
 
+            entity.ToTable("Reserva_Servicio");
+
+            entity.HasIndex(e => new { e.IdReserva, e.IdServicio }, "IX_Reserva_Servicio").IsUnique();
+
+            entity.Property(e => e.IdReservaServicio)
+                .ValueGeneratedNever()
+                .HasColumnName("idReservaServicio");
             entity.Property(e => e.IdReserva).HasColumnName("idReserva");
             entity.Property(e => e.IdServicio).HasColumnName("idServicio");
 
-            entity.HasOne(d => d.IdReservaNavigation).WithMany()
+            entity.HasOne(d => d.IdReservaNavigation).WithMany(p => p.ReservaServicios)
                 .HasForeignKey(d => d.IdReserva)
-                .HasConstraintName("FK__Reserva_S__idRes__0A9D95DB");
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_Reserva_Servicio_Reserva");
 
-            entity.HasOne(d => d.IdServicioNavigation).WithMany()
+            entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.ReservaServicios)
                 .HasForeignKey(d => d.IdServicio)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Reserva_S__idSer__0B91BA14");
+                .HasConstraintName("FK_Reserva_Servicio_Servicio");
         });
 
         modelBuilder.Entity<Servicio>(entity =>
@@ -201,6 +215,8 @@ public partial class DBContext : DbContext
             entity.HasKey(e => e.IdServicio).HasName("PK__Servicio__CEB98119BC81600E");
 
             entity.ToTable("Servicio");
+
+            entity.HasIndex(e => e.Descripcion, "IX_Servicio").IsUnique();
 
             entity.Property(e => e.IdServicio).HasColumnName("idServicio");
             entity.Property(e => e.Descripcion)
@@ -214,6 +230,8 @@ public partial class DBContext : DbContext
             entity.HasKey(e => e.IdTipoHabitacion).HasName("PK__TipoHabi__64CD3F697225179A");
 
             entity.ToTable("TipoHabitacion");
+
+            entity.HasIndex(e => e.Descripcion, "IX_TipoHabitacion").IsUnique();
 
             entity.Property(e => e.IdTipoHabitacion).HasColumnName("idTipoHabitacion");
             entity.Property(e => e.Descripcion)

@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class Habitacion
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
         public static Entidad.Models.Habitacion? GetOne(int id)
         {
             Entidad.Models.Habitacion? hbt = dBContext.Habitacions.Find(id);
@@ -141,7 +141,7 @@ namespace Negocio
 
     public class TipoHabitacion
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
         public static List<Entidad.Models.TipoHabitacion> GetAll()
         {
             List<Entidad.Models.TipoHabitacion> lstTipHbt = dBContext.TipoHabitacions.ToList();
@@ -218,7 +218,7 @@ namespace Negocio
 
     public class PrecioTipoHabitacion
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
         public static List<Entidad.Models.PrecioTipoHabitacion> GetAll()
         {
             List<Entidad.Models.PrecioTipoHabitacion> lstPresTipHbt = dBContext.PrecioTipoHabitacions.ToList();

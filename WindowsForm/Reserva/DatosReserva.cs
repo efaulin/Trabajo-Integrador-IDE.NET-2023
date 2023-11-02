@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 
 namespace WindowsForm
 {
@@ -21,6 +22,9 @@ namespace WindowsForm
         List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
         List<Huesped> _lstHpd = Negocio.Huesped.GetAll();
         List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
+        List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
+        List<Servicio> lstSrvGuardados = new List<Servicio>();
+        List<Servicio> lstSrvTemporal = new List<Servicio>();
         Hashtable _hashHbt = new Hashtable();
         Hashtable _hashHpd = new Hashtable();
         Hashtable _hashRsv = new Hashtable();
@@ -29,7 +33,7 @@ namespace WindowsForm
         {
             InitializeComponent();
         }
-        //Probar si es viable (*/ω\*)
+
         public DatosReserva(Habitacion hbt)
         {
             _hbt = hbt;
@@ -101,6 +105,11 @@ namespace WindowsForm
                 dtFechaInicio.MinDate = DateTime.Now;
                 dtFechaFin.Value = dtFechaInicio.Value.AddDays(1);
                 dtFechaFin.MinDate = DateTime.Now.AddDays(1);
+
+                foreach (Servicio _tmpSrv in _lstSrv)
+                {
+                    chkBoxListServicio.Items.Add(_tmpSrv.Descripcion);
+                }
             }
 
             if (_hbt != null)
@@ -117,20 +126,27 @@ namespace WindowsForm
         private void cmbIdReserva_SelectionChangeCommitted(object sender, EventArgs e)
         {
             _rsv = (Reserva)_hashRsv[cmbIdReserva.SelectedItem]!;
-            dtFechaInicio.Value = _rsv.FechaInicioReserva;
-            dtFechaFin.Value = _rsv.FechaFinReserva;
             dtFechaInicio.MinDate = _rsv.FechaInicioReserva;
             dtFechaFin.MinDate = _rsv.FechaFinReserva;
+            dtFechaInicio.Value = _rsv.FechaInicioReserva;
+            dtFechaFin.Value = _rsv.FechaFinReserva;
             txtCantidadPersonas.Text = _rsv.CantidadPersonas.ToString();
             txtNro.Text = _rsv.IdHabitacionNavigation.NumeroHabitacion.ToString();
             txtPiso.Text = _rsv.IdHabitacionNavigation.PisoHabitacion.ToString();
             txtNroDocumento.Text = _rsv.IdHuespedNavigation.NumeroDocumento;
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
             SetDataGridsEditando(_rsv.IdHabitacionNavigation, _rsv.IdHuespedNavigation);
+            chkBoxListServicio.Items.Clear();
+            lstSrvGuardados = Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
+            foreach (Servicio _tmpSrv in _lstSrv)
+            {
+                chkBoxListServicio.Items.Add(_tmpSrv.Descripcion, lstSrvGuardados.Contains(_tmpSrv));
+            }
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
+#warning Falta validar entradas vacias
             bool stop = false;
             //¿Reserva existente o nueva?
             if (_rsv != null)
@@ -139,16 +155,16 @@ namespace WindowsForm
                 asignarValores();
                 if (Negocio.Reserva.Validate(_rsv))
                 {
-                    if (!Negocio.Reserva.Update(_rsv))
+                    if (!Negocio.Reserva.Update(_rsv, lstSrvTemporal))
                     {
                         stop = true;
-                        MessageBox.Show("Hubo un error al guardar la reserva");
+                        MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
                     stop = true;
-                    MessageBox.Show("Hay un error en los datos de la reserva");
+                    MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
             else
@@ -160,16 +176,16 @@ namespace WindowsForm
                 asignarValores();
                 if (Negocio.Reserva.Validate(_rsv))
                 {
-                    if (!Negocio.Reserva.Create(_rsv))
+                    if (!Negocio.Reserva.Create(_rsv, lstSrvTemporal))
                     {
                         stop = true;
-                        MessageBox.Show("Hubo un error al guardar la reserva");
+                        MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
                 else
                 {
                     stop = true;
-                    MessageBox.Show("Hay un error en los datos de la reserva");
+                    MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
 
@@ -193,6 +209,15 @@ namespace WindowsForm
             _rsv.IdHuespedNavigation = Negocio.Huesped.GetOne((int)dtGrHuesped.SelectedRows[0].Cells[0].Value)!;
             _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
             _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
+
+            //Guardo las relaciones de la reserva con los servicios
+            for (int i = 0; i < _lstSrv.Count; i++)
+            {
+                if (chkBoxListServicio.GetItemChecked(i))
+                {
+                    lstSrvTemporal.Add(_lstSrv[i]);
+                }
+            }
         }
 
         #region A borrar
@@ -359,6 +384,11 @@ namespace WindowsForm
         {
             SetDataGridHabitacion(hbt);
             SetDataGridHuesped(hpd);
+        }
+
+        private void listView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
