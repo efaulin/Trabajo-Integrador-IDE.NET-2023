@@ -285,15 +285,15 @@ namespace WindowsForm
                 }
 
                 dt = new DataTable();
-                DataColumn[] dcArray =
-                [
+                DataColumn[] dcArray = new DataColumn[]
+                {
                     new DataColumn("id", typeof(int)),
                     new DataColumn("Nro", typeof(int)),
                     new DataColumn("Piso", typeof(int)),
                     new DataColumn("Numero de camas", typeof(int)),
                     new DataColumn("Descripcion", typeof(string)),
                     new DataColumn("Precio", typeof(double))
-                ];
+                };
                 dt.Columns.AddRange(dcArray);
 
                 foreach (Habitacion tmp in lstHbt)
@@ -349,15 +349,15 @@ namespace WindowsForm
         private void SetDataGridHabitacion(Habitacion hbt)
         {
             DataTable dtHbt = new DataTable();
-            DataColumn[] dcArrayHbt =
-            [
+            DataColumn[] dcArrayHbt = new DataColumn[]
+            {
                 new DataColumn("id", typeof(int)),
                 new DataColumn("Nro", typeof(int)),
                 new DataColumn("Piso", typeof(int)),
                 new DataColumn("Numero de camas", typeof(int)),
                 new DataColumn("Descripcion", typeof(string)),
                 new DataColumn("Precio", typeof(double))
-            ];
+            };
             dtHbt.Columns.AddRange(dcArrayHbt);
             dtHbt.Rows.Add(hbt.IdHabitacion, hbt.NumeroHabitacion, hbt.PisoHabitacion, hbt.IdTipoHabitacionNavigation.NumeroCamas, hbt.IdTipoHabitacionNavigation.Descripcion, hbt.IdTipoHabitacionNavigation.Precio.PrecioHabitacion);
 
