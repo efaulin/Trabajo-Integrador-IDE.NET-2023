@@ -193,20 +193,16 @@ public partial class DBContext : DbContext
 
             entity.HasIndex(e => new { e.IdReserva, e.IdServicio }, "IX_Reserva_Servicio").IsUnique();
 
-            entity.Property(e => e.IdReservaServicio)
-                .ValueGeneratedNever()
-                .HasColumnName("idReservaServicio");
+            entity.Property(e => e.IdReservaServicio).HasColumnName("idReservaServicio");
             entity.Property(e => e.IdReserva).HasColumnName("idReserva");
             entity.Property(e => e.IdServicio).HasColumnName("idServicio");
 
             entity.HasOne(d => d.IdReservaNavigation).WithMany(p => p.ReservaServicios)
                 .HasForeignKey(d => d.IdReserva)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Reserva_Servicio_Reserva");
 
             entity.HasOne(d => d.IdServicioNavigation).WithMany(p => p.ReservaServicios)
                 .HasForeignKey(d => d.IdServicio)
-                .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("FK_Reserva_Servicio_Servicio");
         });
 
