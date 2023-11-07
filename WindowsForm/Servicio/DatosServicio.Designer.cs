@@ -51,6 +51,7 @@
             btnEditarPrecio.TabIndex = 29;
             btnEditarPrecio.Text = "🔑🔒";
             btnEditarPrecio.UseVisualStyleBackColor = true;
+            btnEditarPrecio.Click += btnEditarPrecio_Click;
             // 
             // mskCmbFecha
             // 

@@ -194,5 +194,10 @@ namespace WindowsForm
             if (txtPrecio.Text.Length == 0 || double.Parse(txtPrecio.Text) == 0) { return false; }
             return true;
         }
+
+        private void btnEditarPrecio_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

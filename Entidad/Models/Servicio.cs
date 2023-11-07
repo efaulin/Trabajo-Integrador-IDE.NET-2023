@@ -9,7 +9,20 @@ public partial class Servicio
 
     public string Descripcion { get; set; } = null!;
 
-    public PrecioServicio Precio { get { return PrecioServicios.Last(); } }
+    public PrecioServicio Precio
+    {
+        get
+        {
+            if (PrecioServicios.Count == 0)
+            {
+                return new PrecioServicio();
+            }
+            else
+            {
+                return PrecioServicios.Last();
+            }
+        }
+    }
 
     public virtual ICollection<PrecioServicio> PrecioServicios { get; set; } = new List<PrecioServicio>();
 
