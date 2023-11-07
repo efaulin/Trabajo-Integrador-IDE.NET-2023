@@ -85,8 +85,7 @@ namespace Negocio
             return habitaciones;
         }
 
-        /// <summary>
-        /// </summary>
+        /// <summary></summary>
         /// <param name="start">fecha de inicio</param>
         /// <param name="end">fecha de final</param>
         /// <returns>Lista de habitaciones disponibles para un intervalo de fechas</returns>
@@ -111,8 +110,7 @@ namespace Negocio
             );
         }
 
-        /// <summary>
-        /// </summary>
+        /// <summary></summary>
         /// <param name="amountPeople">capacidad de personas (minima) deseada</param>
         /// <returns>Listado de habitaciones con capacidad igual o mayor de personas</returns>
         public static List<Entidad.Models.Habitacion> GetForAmountOfPeople(int amountPeople)
