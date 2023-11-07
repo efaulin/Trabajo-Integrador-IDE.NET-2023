@@ -10,8 +10,8 @@ namespace Servicios.Controllers
     [Route("api/[controller]/[action]")]
     public class HabitacionController : ControllerBase
     {
-        private readonly Datos.DBContext _dbContext;
-        public HabitacionController(Datos.DBContext dBContext)
+        private readonly DBContext _dbContext;
+        public HabitacionController(DBContext dBContext)
         {
             _dbContext = dBContext;
         }
@@ -171,6 +171,19 @@ namespace Servicios.Controllers
                     return NotFound();
                 }
                 return tmpHbt;
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: 500, detail: ex.Message);
+            }
+        }
+
+        [HttpGet("{idTipoHabitacion}")]
+        public ActionResult<IEnumerable<Habitacion>> GetAllOfTipoHabitacion(int idTipoHabitacion)
+        {
+            try
+            {
+                return _dbContext.Habitacions.Where(e => e.IdTipoHabitacion == idTipoHabitacion).ToList();
             }
             catch (Exception ex)
             {
