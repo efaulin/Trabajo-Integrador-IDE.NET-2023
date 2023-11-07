@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Consola", "Consola\Consola.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WindowsForm", "WindowsForm\WindowsForm.csproj", "{8A4784F9-F18C-4DC3-B06D-C25AAE5E3BBB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Servicios", "Servicios\Servicios.csproj", "{72ECE92E-EEA5-427C-A493-B059B3302E3D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{8A4784F9-F18C-4DC3-B06D-C25AAE5E3BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8A4784F9-F18C-4DC3-B06D-C25AAE5E3BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8A4784F9-F18C-4DC3-B06D-C25AAE5E3BBB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72ECE92E-EEA5-427C-A493-B059B3302E3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72ECE92E-EEA5-427C-A493-B059B3302E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72ECE92E-EEA5-427C-A493-B059B3302E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72ECE92E-EEA5-427C-A493-B059B3302E3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

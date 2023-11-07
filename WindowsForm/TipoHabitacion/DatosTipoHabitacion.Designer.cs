@@ -31,7 +31,6 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            nroNumero = new NumericUpDown();
             btnAceptar = new Button();
             btnCancelar = new Button();
             lblFecha = new Label();
@@ -39,12 +38,11 @@
             idLabel = new Label();
             txtDescipcion = new TextBox();
             label5 = new Label();
-            nroPrecio = new NumericUpDown();
             mskCmbFecha = new MaskedTextBox();
             btnEditarPrecio = new Button();
-            ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
+            txtNumero = new TextBox();
+            txtPrecio = new TextBox();
             panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)nroPrecio).BeginInit();
             SuspendLayout();
             // 
             // label1
@@ -81,15 +79,6 @@
             label3.Size = new Size(85, 17);
             label3.TabIndex = 4;
             label3.Text = "Descripcion:";
-            // 
-            // nroNumero
-            // 
-            nroNumero.Location = new Point(152, 59);
-            nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroNumero.Name = "nroNumero";
-            nroNumero.Size = new Size(103, 23);
-            nroNumero.TabIndex = 2;
-            nroNumero.ValueChanged += nroNumero_ValueChanged;
             // 
             // btnAceptar
             // 
@@ -169,15 +158,6 @@
             label5.TabIndex = 16;
             label5.Text = "Precio:";
             // 
-            // nroPrecio
-            // 
-            nroPrecio.DecimalPlaces = 2;
-            nroPrecio.Location = new Point(152, 125);
-            nroPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroPrecio.Name = "nroPrecio";
-            nroPrecio.Size = new Size(103, 23);
-            nroPrecio.TabIndex = 4;
-            // 
             // mskCmbFecha
             // 
             mskCmbFecha.Enabled = false;
@@ -199,21 +179,37 @@
             btnEditarPrecio.UseVisualStyleBackColor = true;
             btnEditarPrecio.Click += btnEditarPrecio_Click;
             // 
+            // txtNumero
+            // 
+            txtNumero.Location = new Point(152, 58);
+            txtNumero.Name = "txtNumero";
+            txtNumero.Size = new Size(103, 23);
+            txtNumero.TabIndex = 18;
+            txtNumero.KeyPress += textBox_KeyPress;
+            // 
+            // txtPrecio
+            // 
+            txtPrecio.Location = new Point(152, 126);
+            txtPrecio.Name = "txtPrecio";
+            txtPrecio.Size = new Size(103, 23);
+            txtPrecio.TabIndex = 19;
+            txtPrecio.KeyPress += textBoxPrecio_KeyPress;
+            // 
             // DatosTipoHabitacion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(373, 301);
+            Controls.Add(txtPrecio);
+            Controls.Add(txtNumero);
             Controls.Add(btnEditarPrecio);
             Controls.Add(mskCmbFecha);
-            Controls.Add(nroPrecio);
             Controls.Add(label5);
             Controls.Add(txtDescipcion);
             Controls.Add(lblFecha);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
-            Controls.Add(nroNumero);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(panel1);
@@ -222,10 +218,8 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosTipoHabitacion";
             Load += DatosTipoHabitacion_Load;
-            ((System.ComponentModel.ISupportInitialize)nroNumero).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nroPrecio).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -235,16 +229,16 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private NumericUpDown nroNumero;
         private Button btnAceptar;
         private Button btnCancelar;
         private Label lblFecha;
         private Panel panel1;
         private TextBox txtDescipcion;
         private Label label5;
-        private NumericUpDown nroPrecio;
         private MaskedTextBox mskCmbFecha;
         private Button btnEditarPrecio;
         private Label idLabel;
+        private TextBox txtNumero;
+        private TextBox txtPrecio;
     }
 }

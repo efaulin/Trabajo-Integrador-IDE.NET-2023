@@ -56,10 +56,13 @@
             btnBuscarHuesped = new Button();
             label11 = new Label();
             dtGrHuesped = new DataGridView();
+            chkBoxListServicio = new CheckedListBox();
+            panel4 = new Panel();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtGrHabitacion).BeginInit();
             panel3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dtGrHuesped).BeginInit();
+            panel4.SuspendLayout();
             SuspendLayout();
             // 
             // label1
@@ -93,7 +96,7 @@
             btnAceptar.ForeColor = Color.White;
             btnAceptar.Location = new Point(12, 586);
             btnAceptar.Name = "btnAceptar";
-            btnAceptar.Size = new Size(773, 30);
+            btnAceptar.Size = new Size(830, 30);
             btnAceptar.TabIndex = 5;
             btnAceptar.Text = "Aceptar";
             btnAceptar.UseVisualStyleBackColor = false;
@@ -103,7 +106,7 @@
             // 
             btnCancelar.Location = new Point(12, 622);
             btnCancelar.Name = "btnCancelar";
-            btnCancelar.Size = new Size(773, 25);
+            btnCancelar.Size = new Size(830, 25);
             btnCancelar.TabIndex = 6;
             btnCancelar.Text = "Cancelar";
             btnCancelar.UseVisualStyleBackColor = true;
@@ -128,7 +131,7 @@
             panel1.Dock = DockStyle.Top;
             panel1.Location = new Point(0, 0);
             panel1.Name = "panel1";
-            panel1.Size = new Size(797, 11);
+            panel1.Size = new Size(854, 11);
             panel1.TabIndex = 14;
             // 
             // label3
@@ -158,7 +161,7 @@
             label5.AutoSize = true;
             label5.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label5.ForeColor = Color.DarkCyan;
-            label5.Location = new Point(23, 144);
+            label5.Location = new Point(12, 119);
             label5.Name = "label5";
             label5.Size = new Size(79, 17);
             label5.TabIndex = 20;
@@ -169,7 +172,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label6.ForeColor = Color.DarkCyan;
-            label6.Location = new Point(36, 312);
+            label6.Location = new Point(12, 312);
             label6.Name = "label6";
             label6.Size = new Size(66, 17);
             label6.TabIndex = 21;
@@ -191,11 +194,11 @@
             label9.AutoSize = true;
             label9.Font = new Font("Segoe UI Black", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
             label9.ForeColor = Color.DarkCyan;
-            label9.Location = new Point(200, 537);
+            label9.Location = new Point(575, 119);
             label9.Name = "label9";
-            label9.Size = new Size(76, 17);
+            label9.Size = new Size(68, 17);
             label9.TabIndex = 26;
-            label9.Text = "Servicios...";
+            label9.Text = "Servicios:";
             // 
             // dtFechaInicio
             // 
@@ -254,9 +257,9 @@
             panel2.Controls.Add(label10);
             panel2.Controls.Add(txtPiso);
             panel2.Controls.Add(label8);
-            panel2.Location = new Point(108, 139);
+            panel2.Location = new Point(12, 139);
             panel2.Name = "panel2";
-            panel2.Size = new Size(637, 160);
+            panel2.Size = new Size(557, 160);
             panel2.TabIndex = 33;
             // 
             // dtGrHabitacion
@@ -270,7 +273,7 @@
             dtGrHabitacion.ReadOnly = true;
             dtGrHabitacion.RowTemplate.Height = 25;
             dtGrHabitacion.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtGrHabitacion.Size = new Size(637, 126);
+            dtGrHabitacion.Size = new Size(557, 126);
             dtGrHabitacion.TabIndex = 36;
             // 
             // txtNro
@@ -315,9 +318,9 @@
             panel3.Controls.Add(btnBuscarHuesped);
             panel3.Controls.Add(label11);
             panel3.Controls.Add(dtGrHuesped);
-            panel3.Location = new Point(108, 305);
+            panel3.Location = new Point(12, 332);
             panel3.Name = "panel3";
-            panel3.Size = new Size(637, 163);
+            panel3.Size = new Size(557, 163);
             panel3.TabIndex = 35;
             // 
             // txtNroDocumento
@@ -360,15 +363,33 @@
             dtGrHuesped.ReadOnly = true;
             dtGrHuesped.RowTemplate.Height = 25;
             dtGrHuesped.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-            dtGrHuesped.Size = new Size(637, 129);
+            dtGrHuesped.Size = new Size(557, 129);
             dtGrHuesped.TabIndex = 0;
+            // 
+            // chkBoxListServicio
+            // 
+            chkBoxListServicio.FormattingEnabled = true;
+            chkBoxListServicio.Location = new Point(3, 3);
+            chkBoxListServicio.Name = "chkBoxListServicio";
+            chkBoxListServicio.Size = new Size(257, 346);
+            chkBoxListServicio.TabIndex = 0;
+            // 
+            // panel4
+            // 
+            panel4.BorderStyle = BorderStyle.Fixed3D;
+            panel4.Controls.Add(chkBoxListServicio);
+            panel4.Location = new Point(575, 139);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(267, 356);
+            panel4.TabIndex = 36;
             // 
             // DatosReserva
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(797, 663);
+            ClientSize = new Size(854, 663);
+            Controls.Add(panel4);
             Controls.Add(panel3);
             Controls.Add(txtCantidadPersonas);
             Controls.Add(panel2);
@@ -398,6 +419,7 @@
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dtGrHuesped).EndInit();
+            panel4.ResumeLayout(false);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -432,5 +454,7 @@
         private Label label11;
         private DataGridView dtGrHuesped;
         private TextBox txtNroDocumento;
+        private CheckedListBox chkBoxListServicio;
+        private Panel panel4;
     }
 }

@@ -5,12 +5,14 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
+using Datos;
+using System.Security.Cryptography;
 
 namespace Negocio
 {
     public class Reserva
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static DBContext dBContext = DBContext.dBContext;
         public static List<Entidad.Models.Reserva> GetAll()
         {
             List<Entidad.Models.Reserva> lstRsv = dBContext.Reservas.ToList();
@@ -39,14 +41,15 @@ namespace Negocio
             return rsv;
         }
 
-        public static bool Create(Entidad.Models.Reserva rsv)
+        public static bool Create(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
             try
             {
                 dBContext.Reservas.Add(rsv);
                 dBContext.SaveChanges();
                 dBContext.Update(rsv);
-                return true;
+                if (SaveServicios(rsv, lstSrv)) { return true; }
+                else { return false; }
             }
             catch
             {
@@ -54,13 +57,14 @@ namespace Negocio
             }
         }
 
-        public static bool Update(Entidad.Models.Reserva rsv)
+        public static bool Update(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
             try
             {
                 dBContext.Update(rsv);
                 dBContext.SaveChanges();
-                return true;
+                if (SaveServicios(rsv, lstSrv)) { return true; }
+                else { return false; }
             }
             catch
             {
@@ -88,6 +92,49 @@ namespace Negocio
             if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }
             if (rsv.FechaInicioReserva.CompareTo(rsv.FechaFinReserva) >= 0) { return false; }
             return true;
+        }
+
+        public static List<Entidad.Models.Reserva> GetAllOfServicio(int idServicio)
+        {
+            List<Entidad.Models.ReservaServicio> lstRsvSrv = ReservaServicio.GetAllOfServicio(idServicio);
+            List<Entidad.Models.Reserva> lstRsv = new List<Entidad.Models.Reserva>();
+            lstRsvSrv.ForEach(r => { lstRsv.Add(Reserva.GetOne(r.IdReserva)!); });
+            return lstRsv;
+        }
+
+        private static bool SaveServicios(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+        {
+            bool control = true;
+            List<Entidad.Models.Servicio> lstGuardada = Servicio.GetAllOfReserva(rsv.IdReserva);
+
+            //Guardo las nuevas relaciones
+            foreach (Entidad.Models.Servicio tmpSrv in lstSrv)
+            {
+                if (!lstGuardada.Contains(tmpSrv))
+                {
+                    Entidad.Models.ReservaServicio newRsvSrv = new Entidad.Models.ReservaServicio();
+                    newRsvSrv.IdReserva = rsv.IdReserva;
+                    newRsvSrv.IdServicio = tmpSrv.IdServicio;
+                    if (!ReservaServicio.Create(newRsvSrv))
+                    {
+                        control = false;
+                    }
+                }
+            }
+            //Borro las que ya no se relacionan
+            foreach (Entidad.Models.Servicio dbSrv in lstGuardada)
+            {
+                if (!lstSrv.Contains(dbSrv))
+                {
+                    Entidad.Models.ReservaServicio delRsrSrv = ReservaServicio.GetByReserva_Servicio(rsv.IdReserva, dbSrv.IdServicio)!;
+                    if (!ReservaServicio.Delete(delRsrSrv))
+                    {
+                        control = false;
+                    }
+                }
+            }
+
+            return control;
         }
     }
 }

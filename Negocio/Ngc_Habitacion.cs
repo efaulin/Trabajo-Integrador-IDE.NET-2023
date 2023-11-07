@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class Habitacion
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
         public static Entidad.Models.Habitacion? GetOne(int id)
         {
             Entidad.Models.Habitacion? hbt = dBContext.Habitacions.Find(id);
@@ -85,8 +85,7 @@ namespace Negocio
             return habitaciones;
         }
 
-        /// <summary>
-        /// </summary>
+        /// <summary></summary>
         /// <param name="start">fecha de inicio</param>
         /// <param name="end">fecha de final</param>
         /// <returns>Lista de habitaciones disponibles para un intervalo de fechas</returns>
@@ -111,8 +110,7 @@ namespace Negocio
             );
         }
 
-        /// <summary>
-        /// </summary>
+        /// <summary></summary>
         /// <param name="amountPeople">capacidad de personas (minima) deseada</param>
         /// <returns>Listado de habitaciones con capacidad igual o mayor de personas</returns>
         public static List<Entidad.Models.Habitacion> GetForAmountOfPeople(int amountPeople)
@@ -141,7 +139,7 @@ namespace Negocio
 
     public class TipoHabitacion
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
         public static List<Entidad.Models.TipoHabitacion> GetAll()
         {
             List<Entidad.Models.TipoHabitacion> lstTipHbt = dBContext.TipoHabitacions.ToList();
@@ -218,7 +216,7 @@ namespace Negocio
 
     public class PrecioTipoHabitacion
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
         public static List<Entidad.Models.PrecioTipoHabitacion> GetAll()
         {
             List<Entidad.Models.PrecioTipoHabitacion> lstPresTipHbt = dBContext.PrecioTipoHabitacions.ToList();

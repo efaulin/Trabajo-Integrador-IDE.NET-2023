@@ -30,7 +30,6 @@
         {
             btnEditarPrecio = new Button();
             mskCmbFecha = new MaskedTextBox();
-            nroPrecio = new NumericUpDown();
             label5 = new Label();
             txtDescipcion = new TextBox();
             lblFecha = new Label();
@@ -40,7 +39,7 @@
             panel1 = new Panel();
             idLabel = new Label();
             label1 = new Label();
-            ((System.ComponentModel.ISupportInitialize)nroPrecio).BeginInit();
+            txtPrecio = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -63,15 +62,6 @@
             mskCmbFecha.TabIndex = 23;
             mskCmbFecha.TextAlign = HorizontalAlignment.Center;
             mskCmbFecha.ValidatingType = typeof(DateTime);
-            // 
-            // nroPrecio
-            // 
-            nroPrecio.DecimalPlaces = 2;
-            nroPrecio.Location = new Point(152, 95);
-            nroPrecio.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroPrecio.Name = "nroPrecio";
-            nroPrecio.Size = new Size(103, 23);
-            nroPrecio.TabIndex = 21;
             // 
             // label5
             // 
@@ -172,6 +162,14 @@
             label1.TabIndex = 0;
             label1.Text = "Id:";
             // 
+            // txtPrecio
+            // 
+            txtPrecio.Location = new Point(152, 95);
+            txtPrecio.Name = "txtPrecio";
+            txtPrecio.Size = new Size(103, 23);
+            txtPrecio.TabIndex = 30;
+            txtPrecio.KeyPress += textBoxPrecio_KeyPress;
+            // 
             // DatosServicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -179,9 +177,9 @@
             AutoValidate = AutoValidate.EnablePreventFocusChange;
             BackColor = Color.White;
             ClientSize = new Size(373, 258);
+            Controls.Add(txtPrecio);
             Controls.Add(btnEditarPrecio);
             Controls.Add(mskCmbFecha);
-            Controls.Add(nroPrecio);
             Controls.Add(label5);
             Controls.Add(txtDescipcion);
             Controls.Add(lblFecha);
@@ -194,7 +192,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosServicio";
             Load += DatosServicio_Load;
-            ((System.ComponentModel.ISupportInitialize)nroPrecio).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -205,7 +202,6 @@
 
         private Button btnEditarPrecio;
         private MaskedTextBox mskCmbFecha;
-        private NumericUpDown nroPrecio;
         private Label label5;
         private TextBox txtDescipcion;
         private Label lblFecha;
@@ -215,5 +211,6 @@
         private Panel panel1;
         private Label idLabel;
         private Label label1;
+        private TextBox txtPrecio;
     }
 }

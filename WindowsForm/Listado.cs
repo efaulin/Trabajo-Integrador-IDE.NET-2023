@@ -61,6 +61,7 @@ namespace WindowsForm
                         new DataColumn("Estado", typeof(string)),
                         new DataColumn("Cantidad de Personas", typeof(int)),
                         new DataColumn("Huesped", typeof(string)),
+                        new DataColumn("Precio", typeof(double)),
                         new DataColumn("Nro de habitacion", typeof(int)),
                         new DataColumn("Piso de habitacion", typeof(int)),
                         new DataColumn("Tipo de habitacion", typeof(string))
@@ -68,14 +69,30 @@ namespace WindowsForm
                     dtRsv.Columns.AddRange(dcRsv);
                     foreach (Reserva rsv in _lstRsv)
                     {
-                        dtRsv.Rows.Add(rsv.IdReserva, rsv.FechaInscripcion, rsv.FechaInicioReserva, rsv.FechaFinReserva, rsv.EstadoReserva, rsv.CantidadPersonas, rsv.IdHuespedNavigation.nombreCompleto(), rsv.IdHabitacionNavigation.NumeroHabitacion, rsv.IdHabitacionNavigation.PisoHabitacion, rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion);
+                        double precio = rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Precio.PrecioHabitacion;
+                        List<Servicio> lstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
+                        lstRsvSrv.ForEach(e => precio += e.Precio.PrecioServicio1);
+                        dtRsv.Rows.Add(rsv.IdReserva, rsv.FechaInscripcion, rsv.FechaInicioReserva, rsv.FechaFinReserva, rsv.EstadoReserva, rsv.CantidadPersonas, rsv.IdHuespedNavigation.nombreCompleto(), precio, rsv.IdHabitacionNavigation.NumeroHabitacion, rsv.IdHabitacionNavigation.PisoHabitacion, rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion);
                     }
                     dgvHabitaciones.DataSource = dtRsv;
                     break;
                 case 4:
-#warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)                    
+    #warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)
                     List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
-                    dgvHabitaciones.DataSource = _lstSrv;
+                    DataTable dtSrv = new DataTable();
+                    DataColumn[] dcSrv = new DataColumn[]
+                    {
+                        new DataColumn("idServicio", typeof(int)),
+                        new DataColumn("Descripcion", typeof(string)),
+                        new DataColumn("Precio", typeof(double)),
+                        new DataColumn("Fecha de precio", typeof(DateTime))
+                    };
+                    dtSrv.Columns.AddRange(dcSrv);
+                    foreach (Servicio srv in _lstSrv)
+                    {
+                        dtSrv.Rows.Add(srv.IdServicio, srv.Descripcion, srv.Precio.PrecioServicio1, srv.Precio.FechaPrecio);
+                    }
+                    dgvHabitaciones.DataSource = dtSrv;
                     break;
             }
 

@@ -31,16 +31,14 @@
             label1 = new Label();
             label2 = new Label();
             label3 = new Label();
-            nroNumero = new NumericUpDown();
-            nroPiso = new NumericUpDown();
             btnAceptar = new Button();
             btnCancelar = new Button();
             label4 = new Label();
             cmbTipoHabitacion = new ComboBox();
             panel1 = new Panel();
             idLabel = new Label();
-            ((System.ComponentModel.ISupportInitialize)nroNumero).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nroPiso).BeginInit();
+            txtNumero = new TextBox();
+            txtPiso = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -77,22 +75,6 @@
             label3.Size = new Size(39, 17);
             label3.TabIndex = 4;
             label3.Text = "Piso:";
-            // 
-            // nroNumero
-            // 
-            nroNumero.Location = new Point(152, 56);
-            nroNumero.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroNumero.Name = "nroNumero";
-            nroNumero.Size = new Size(103, 23);
-            nroNumero.TabIndex = 2;
-            // 
-            // nroPiso
-            // 
-            nroPiso.Location = new Point(152, 88);
-            nroPiso.Maximum = new decimal(new int[] { 999999, 0, 0, 0 });
-            nroPiso.Name = "nroPiso";
-            nroPiso.Size = new Size(103, 23);
-            nroPiso.TabIndex = 3;
             // 
             // btnAceptar
             // 
@@ -149,7 +131,6 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(373, 35);
             panel1.TabIndex = 14;
-
             // 
             // idLabel
             // 
@@ -162,7 +143,22 @@
             idLabel.Size = new Size(20, 17);
             idLabel.TabIndex = 15;
             idLabel.Text = "id";
-
+            // 
+            // txtNumero
+            // 
+            txtNumero.Location = new Point(152, 55);
+            txtNumero.Name = "txtNumero";
+            txtNumero.Size = new Size(103, 23);
+            txtNumero.TabIndex = 15;
+            txtNumero.KeyPress += textBox_KeyPress;
+            // 
+            // txtPiso
+            // 
+            txtPiso.Location = new Point(152, 87);
+            txtPiso.Name = "txtPiso";
+            txtPiso.Size = new Size(103, 23);
+            txtPiso.TabIndex = 16;
+            txtPiso.KeyPress += textBox_KeyPress;
             // 
             // DatosHabitacion
             // 
@@ -170,12 +166,12 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(373, 258);
+            Controls.Add(txtPiso);
+            Controls.Add(txtNumero);
             Controls.Add(cmbTipoHabitacion);
             Controls.Add(label4);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
-            Controls.Add(nroPiso);
-            Controls.Add(nroNumero);
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(panel1);
@@ -184,8 +180,6 @@
             StartPosition = FormStartPosition.CenterScreen;
             Text = "DatosHabitacion";
             Load += DatosHabitacion_Load;
-            ((System.ComponentModel.ISupportInitialize)nroNumero).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nroPiso).EndInit();
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
             ResumeLayout(false);
@@ -197,13 +191,13 @@
         private Label label1;
         private Label label2;
         private Label label3;
-        private NumericUpDown nroNumero;
-        private NumericUpDown nroPiso;
         private Button btnAceptar;
         private Button btnCancelar;
         private Label label4;
         private ComboBox cmbTipoHabitacion;
         private Panel panel1;
         private Label idLabel;
+        private TextBox txtNumero;
+        private TextBox txtPiso;
     }
 }

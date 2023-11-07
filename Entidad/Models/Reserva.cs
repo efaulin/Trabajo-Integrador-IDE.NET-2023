@@ -24,4 +24,6 @@ public partial class Reserva
     public virtual Habitacion IdHabitacionNavigation { get; set; } = null!;
 
     public virtual Huesped IdHuespedNavigation { get; set; } = null!;
+
+    public virtual ICollection<ReservaServicio> ReservaServicios { get; set; } = new List<ReservaServicio>();
 }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Datos;
 
 namespace Negocio
 {
     public class Servicio
     {
-        static Datos.DBContext dBContext = DBContext.dBContext;
+        static DBContext dBContext = DBContext.dBContext;
         public static Entidad.Models.Servicio? GetOne(int id)
         {
             Entidad.Models.Servicio? srv = dBContext.Servicios.Find(id);
@@ -67,6 +68,17 @@ namespace Negocio
             {
                 return false;
             }
+        }
+
+        /// <summary></summary>
+        /// <param name="idReserva"></param>
+        /// <returns>Lista de servicios pertenecientes a la reserva de id ingresado</returns>
+        public static List<Entidad.Models.Servicio> GetAllOfReserva(int idReserva)
+        {
+            List<Entidad.Models.ReservaServicio> lstRsvSrv = ReservaServicio.GetAllOfReserva(idReserva);
+            List<Entidad.Models.Servicio> lstSrv = new List<Entidad.Models.Servicio>();
+            lstRsvSrv.ForEach(r => { lstSrv.Add(Servicio.GetOne(r.IdServicio)!); });
+            return lstSrv;
         }
     }
 }
