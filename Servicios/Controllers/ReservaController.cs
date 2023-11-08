@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Datos;
 using System.Text.RegularExpressions;
 using System.Security.Cryptography;
+using Entidad.Api;
 
 namespace Servicios.Controllers
 {
