@@ -37,7 +37,6 @@
             btnAgregar = new Button();
             btnEditar = new Button();
             btnEliminar = new Button();
-            btnEditPrecio = new Button();
             btnAltaBaja = new Button();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
@@ -88,7 +87,6 @@
             tlHabitaciones.Controls.Add(btnAgregar, 0, 1);
             tlHabitaciones.Controls.Add(btnEditar, 1, 1);
             tlHabitaciones.Controls.Add(btnEliminar, 2, 1);
-            tlHabitaciones.Controls.Add(btnEditPrecio, 4, 1);
             tlHabitaciones.Controls.Add(btnAltaBaja, 3, 1);
             tlHabitaciones.Dock = DockStyle.Fill;
             tlHabitaciones.Location = new Point(0, 0);
@@ -100,7 +98,6 @@
             tlHabitaciones.RowStyles.Add(new RowStyle(SizeType.Absolute, 20F));
             tlHabitaciones.Size = new Size(950, 575);
             tlHabitaciones.TabIndex = 0;
-
             // 
             // dgvHabitaciones
             // 
@@ -198,22 +195,6 @@
             btnEliminar.UseVisualStyleBackColor = false;
             btnEliminar.Click += btnEliminar_Click;
             // 
-            // btnEditPrecio
-            // 
-            btnEditPrecio.Anchor = AnchorStyles.Left;
-            btnEditPrecio.BackColor = SystemColors.ButtonFace;
-            btnEditPrecio.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            btnEditPrecio.ForeColor = Color.Black;
-            btnEditPrecio.Location = new Point(509, 492);
-            btnEditPrecio.Margin = new Padding(0, 3, 3, 3);
-            btnEditPrecio.Name = "btnEditPrecio";
-            btnEditPrecio.RightToLeft = RightToLeft.No;
-            btnEditPrecio.Size = new Size(121, 37);
-            btnEditPrecio.TabIndex = 5;
-            btnEditPrecio.Text = "Editar Precio";
-            btnEditPrecio.UseVisualStyleBackColor = false;
-            btnEditPrecio.Click += btnEditPrecio_Click;
-            // 
             // btnAltaBaja
             // 
             btnAltaBaja.Anchor = AnchorStyles.Left;
@@ -262,7 +243,6 @@
         private Button btnSalir;
         private Button btnEliminar;
         private Button btnEditar;
-        private Button btnEditPrecio;
         private Button btnAltaBaja;
         private Button btnAgregar;
     }

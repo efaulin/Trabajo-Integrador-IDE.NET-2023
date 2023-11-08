@@ -231,6 +231,7 @@
             lblNombre.Size = new Size(125, 21);
             lblNombre.TabIndex = 5;
             lblNombre.Text = "Administrador";
+            lblNombre.Click += lblNombre_Click;
             // 
             // label2
             // 

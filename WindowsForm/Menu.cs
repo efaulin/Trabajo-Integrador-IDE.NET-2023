@@ -6,7 +6,7 @@ namespace WindowsForm
     public partial class Menu : Form
     {
         Empleado emp;
-        List<Habitacion> lstHbt = Negocio.Habitacion.GetAll();
+        Task<List<Habitacion>> lstHbt = Negocio.Habitacion.GetAll();
         List<TipoHabitacion> lstTpHbt = Negocio.TipoHabitacion.GetAll();
         private Listado? activeForm = null;
         public Menu(Empleado tmp)
@@ -86,10 +86,15 @@ namespace WindowsForm
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            lblNombre.Text = emp.NombreUsuario.ToString();
+            lblNombre.Text = emp.NombreUsuario.ToString().ToUpper();
         }
 
         private void addSrv_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void lblNombre_Click(object sender, EventArgs e)
         {
 
         }
