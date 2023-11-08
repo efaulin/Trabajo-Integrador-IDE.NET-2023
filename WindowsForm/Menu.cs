@@ -98,5 +98,10 @@ namespace WindowsForm
         {
 
         }
+
+        private void btnEmpleados_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Listado("Empleado"));
+        }
     }
 }

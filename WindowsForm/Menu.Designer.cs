@@ -47,6 +47,7 @@
             panel4 = new Panel();
             label1 = new Label();
             panelChildForm = new Panel();
+            btnEmpleados = new Button();
             panel1.SuspendLayout();
             panel5.SuspendLayout();
             panel2.SuspendLayout();
@@ -59,6 +60,7 @@
             // 
             panel1.AutoScroll = true;
             panel1.BackColor = Color.DarkCyan;
+            panel1.Controls.Add(btnEmpleados);
             panel1.Controls.Add(btnServicio);
             panel1.Controls.Add(btnReserva);
             panel1.Controls.Add(btnHuesped);
@@ -287,6 +289,23 @@
             panelChildForm.Size = new Size(859, 620);
             panelChildForm.TabIndex = 4;
             // 
+            // btnEmpleados
+            // 
+            btnEmpleados.BackColor = Color.LightSeaGreen;
+            btnEmpleados.Dock = DockStyle.Top;
+            btnEmpleados.FlatAppearance.BorderColor = Color.DarkCyan;
+            btnEmpleados.FlatAppearance.BorderSize = 2;
+            btnEmpleados.FlatStyle = FlatStyle.Flat;
+            btnEmpleados.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEmpleados.ForeColor = Color.White;
+            btnEmpleados.Location = new Point(0, 340);
+            btnEmpleados.Name = "btnEmpleados";
+            btnEmpleados.Size = new Size(251, 35);
+            btnEmpleados.TabIndex = 24;
+            btnEmpleados.Text = "Empleados";
+            btnEmpleados.UseVisualStyleBackColor = false;
+            btnEmpleados.Click += btnEmpleados_Click;
+            // 
             // Menu
             // 
             AutoScaleDimensions = new SizeF(8F, 19F);
@@ -335,5 +354,6 @@
         private Button btnReserva;
         private Button btnServicio;
         private Panel panel7;
+        private Button btnEmpleados;
     }
 }

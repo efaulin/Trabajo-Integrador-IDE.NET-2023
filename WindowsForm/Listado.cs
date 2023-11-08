@@ -26,7 +26,8 @@ namespace WindowsForm
                 { "TipoHabitacion", 1 },
                 { "Huesped", 2 },
                 { "Reserva", 3 },
-                { "Servicio", 4 }
+                { "Servicio", 4 },
+                { "Empleado", 5 }
             };
             opcion = (int)ht[op]!;
             InitializeComponent();
@@ -94,6 +95,9 @@ namespace WindowsForm
                     }
                     dgvHabitaciones.DataSource = dtSrv;
                     break;
+                case 5:
+                    dgvHabitaciones.DataSource = Negocio.Empleado.GetAll();
+                    break;
             }
 
         }
@@ -149,6 +153,8 @@ namespace WindowsForm
                     form = new DatosServicio(1);
                     form.ShowDialog();
                     listar();
+                    break;
+                case 5:
                     break;
             }
             listar();
