@@ -29,13 +29,13 @@
         private void InitializeComponent()
         {
             label5 = new Label();
-            txtApellido = new TextBox();
+            txtTipoUsuario = new TextBox();
             btnCancelar = new Button();
             btnAceptar = new Button();
             label3 = new Label();
             label2 = new Label();
             txtNombre = new TextBox();
-            txtDNI = new TextBox();
+            txtPassword = new TextBox();
             idLabel = new Label();
             label6 = new Label();
             panel1 = new Panel();
@@ -53,13 +53,13 @@
             label5.TabIndex = 29;
             label5.Text = "Contraseña:";
             // 
-            // txtApellido
+            // txtTipoUsuario
             // 
-            txtApellido.Location = new Point(220, 137);
-            txtApellido.Margin = new Padding(3, 4, 3, 4);
-            txtApellido.Name = "txtApellido";
-            txtApellido.Size = new Size(218, 27);
-            txtApellido.TabIndex = 3;
+            txtTipoUsuario.Location = new Point(220, 137);
+            txtTipoUsuario.Margin = new Padding(3, 4, 3, 4);
+            txtTipoUsuario.Name = "txtTipoUsuario";
+            txtTipoUsuario.Size = new Size(218, 27);
+            txtTipoUsuario.TabIndex = 3;
             // 
             // btnCancelar
             // 
@@ -117,14 +117,14 @@
             txtNombre.Size = new Size(218, 27);
             txtNombre.TabIndex = 2;
             // 
-            // txtDNI
+            // txtPassword
             // 
-            txtDNI.Location = new Point(220, 176);
-            txtDNI.Margin = new Padding(3, 4, 3, 4);
-            txtDNI.Name = "txtDNI";
-            txtDNI.Size = new Size(218, 27);
-            txtDNI.TabIndex = 4;
-            txtDNI.KeyPress += textBox_KeyPress;
+            txtPassword.Location = new Point(220, 176);
+            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(218, 27);
+            txtPassword.TabIndex = 4;
+            txtPassword.KeyPress += textBox_KeyPress;
             // 
             // idLabel
             // 
@@ -169,10 +169,10 @@
             BackColor = Color.White;
             ClientSize = new Size(475, 335);
             Controls.Add(panel1);
-            Controls.Add(txtDNI);
+            Controls.Add(txtPassword);
             Controls.Add(txtNombre);
             Controls.Add(label5);
-            Controls.Add(txtApellido);
+            Controls.Add(txtTipoUsuario);
             Controls.Add(btnCancelar);
             Controls.Add(btnAceptar);
             Controls.Add(label3);
@@ -193,13 +193,13 @@
 
         private MaskedTextBox mskCmbFecha;
         private Label label5;
-        private TextBox txtApellido;
+        private TextBox txtTipoUsuario;
         private Button btnCancelar;
         private Button btnAceptar;
         private Label label3;
         private Label label2;
         private TextBox txtNombre;
-        private TextBox txtDNI;
+        private TextBox txtPassword;
         private Label idLabel;
         private Label label6;
         private Panel panel1;

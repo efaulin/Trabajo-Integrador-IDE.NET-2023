@@ -20,5 +20,34 @@ namespace Negocio
             List<Entidad.Models.Empleado> lstEmp = dBContext.Empleados.ToList();
             return lstEmp;
         }
+
+        public static bool Create(Entidad.Models.Empleado emp)
+        {
+            try
+            {
+                dBContext.Empleados.Add(emp);
+                dBContext.SaveChanges();
+                dBContext.Update(emp);
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public static bool Update(Entidad.Models.Empleado emp)
+        {
+            try
+            {
+                dBContext.Update(emp);
+                dBContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }

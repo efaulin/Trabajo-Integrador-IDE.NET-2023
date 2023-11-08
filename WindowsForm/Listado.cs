@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WindowsForm.Empleados;
 using WindowsForm.Huespedes;
 
 namespace WindowsForm
@@ -155,6 +156,7 @@ namespace WindowsForm
                     listar();
                     break;
                 case 5:
+                    form = new DatosEmpleado(1);
                     break;
             }
             listar();

@@ -42,19 +42,18 @@ namespace WindowsForm.Empleados
                     case 1:
                         try
                         {
-                            hspd = new Huesped();
-                            hspd.Nombre = txtNombre.Text;
-                            hspd.Apellido = txtApellido.Text;
-                            hspd.NumeroDocumento = txtDNI.Text;
-                            hspd.TipoDocumento = cmbTipoDoc.Text;
+                            emp = new Empleado();
+                            emp.NombreUsuario = txtNombre.Text;
+                            emp.Password = txtPassword.Text;
+                            emp.TipoUsuario = txtTipoUsuario.Text;
 
-                            Negocio.Huesped.Create(hspd);
-                            MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " cargado con exito.");
+                            Negocio.Empleado.Create(emp);
+                            MessageBox.Show("Empleado ID: " + emp.IdEmpleado + " cargado con exito.");
                         }
                         catch
                         {
                             stop = true;
-                            MessageBox.Show("Hubo un problema al crear el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Hubo un problema al crear el empleado. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             //throw ex;
                         }
 
@@ -63,19 +62,18 @@ namespace WindowsForm.Empleados
                     case 2:
                         try
                         {
-                            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
-                            hspd.Nombre = txtNombre.Text;
-                            hspd.Apellido = txtApellido.Text;
-                            hspd.NumeroDocumento = txtDNI.Text;
-                            hspd.TipoDocumento = cmbTipoDoc.Text;
+                            emp = _lstEmp.Find(delegate (Empleado emp) { return emp.IdEmpleado == _id; })!;
+                            emp.NombreUsuario = txtNombre.Text;
+                            emp.TipoUsuario = txtTipoUsuario.Text;
+                            emp.Password = txtPassword.Text;
 
-                            Negocio.Huesped.Update(hspd);
-                            MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " editado con exito.");
+                            Negocio.Empleado.Update(emp);
+                            MessageBox.Show("Empleado ID: " + emp.IdEmpleado + " editado con exito.");
                         }
                         catch
                         {
                             stop = true;
-                            MessageBox.Show("Hubo un problema al editar el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Hubo un problema al editar el empleado. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             //throw ex;
                         }
 
@@ -85,7 +83,7 @@ namespace WindowsForm.Empleados
             else
             {
                 stop = true;
-                MessageBox.Show("Hay errores en los datos del huesped", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Hay errores en los datos del empleado", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
 
             if (!stop)
@@ -96,22 +94,18 @@ namespace WindowsForm.Empleados
 
         private void DatosHuesped_Load(object sender, EventArgs e)
         {
-            cmbTipoDoc.Items.Add("DNI");
-            cmbTipoDoc.Items.Add("LC");
-            cmbTipoDoc.Items.Add("LE");
-            cmbTipoDoc.SelectedIndex = 0;
             switch (op)
             {
                 case 1:
-                    this.Text = "Agregar huesped";
+                    this.Text = "Agregar Empleado";
                     idLabel.Text = "Nuevo";
                     break;
 
                 case 2:
-                    this.Text = "Editar huesped";
-                    if (_lstHspd.Count <= 0)
+                    this.Text = "Editar Empleado";
+                    if (_lstEmp.Count <= 0)
                     {
-                        MessageBox.Show("No hay Huespedes registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("No hay empleados registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.Close();
                     }
                     else
@@ -131,11 +125,10 @@ namespace WindowsForm.Empleados
 
         private void Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
-            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
-            txtNombre.Text = hspd.Nombre;
-            txtApellido.Text = hspd.Apellido;
-            txtDNI.Text = hspd.NumeroDocumento.ToString();
-            cmbTipoDoc.SelectedItem = hspd.TipoDocumento;
+            emp = _lstEmp.Find(delegate (Empleado emp) { return emp.IdEmpleado == _id; })!;
+            emp.NombreUsuario = txtNombre.Text;
+            emp.TipoUsuario = txtTipoUsuario.Text;
+            emp.Password = txtPassword.Text;
         }
 
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -149,8 +142,8 @@ namespace WindowsForm.Empleados
         private bool validate()
         {
             if (txtNombre.Text.Length == 0 || txtNombre.Text[0].ToString() == " ") { return false; }
-            if (txtApellido.Text.Length == 0 || txtApellido.Text[0].ToString() == " ") { return false; }
-            if (txtDNI.Text.Length == 0 || txtDNI.Text[0].ToString() == " ") { return false; }
+            if (txtTipoUsuario.Text.Length == 0 || txtTipoUsuario.Text[0].ToString() == " ") { return false; }
+            if (txtPassword.Text.Length == 0 || txtPassword.Text[0].ToString() == " ") { return false; }
             return true;
         }
     }
