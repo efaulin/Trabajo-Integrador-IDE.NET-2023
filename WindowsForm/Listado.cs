@@ -200,6 +200,12 @@ namespace WindowsForm
                     form.ShowDialog();
                     listar();
                     break;
+                case 5:
+                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    form = new DatosEmpleado(2, tmp);
+                    form.ShowDialog();
+                    listar();
+                    break;
             }
             listar();
         }
@@ -277,6 +283,15 @@ namespace WindowsForm
                             MessageBox.Show("Error, intente nuevamente");
                         }
                         break;
+                    case 5:
+                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        Empleado emp = Negocio.Empleado.GetOne(tmpId);
+                        if (Negocio.Empleado.Delete(emp))
+                        {
+                            MessageBox.Show("Empleado ID:" + tmpId + " borrado con exito");
+                            listar();
+                        }
+                        break;
                 }
             }
 
@@ -314,6 +329,11 @@ namespace WindowsForm
             hbt.Estado = !hbt.Estado;
             Negocio.Habitacion.Update(hbt);
             listar();
+        }
+
+        private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
