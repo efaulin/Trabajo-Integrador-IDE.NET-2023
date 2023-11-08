@@ -19,7 +19,7 @@ namespace WindowsForm
         int? _id;
         bool controlPrecio = false;
         Entidad.Models.Servicio? serv;
-        List<Entidad.Models.Servicio> _lstServ = Negocio.Servicio.GetAll();
+        Task<List<Entidad.Models.Servicio>> getlstServ = Negocio.Servicio.GetAll();
         Hashtable _tmpServ = new Hashtable();
         public DatosServicio()
         {
@@ -39,7 +39,7 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             bool stop = false;
             if (validate())
@@ -71,6 +71,7 @@ namespace WindowsForm
                     case 2:
                         try
                         {
+                            List<Entidad.Models.Servicio> _lstServ = await getlstServ; 
                             serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
                             serv.Descripcion = txtDescipcion.Text;
                             if (controlPrecio && double.Parse(txtPrecio.Text) != serv.Precio.PrecioServicio1)
@@ -111,7 +112,7 @@ namespace WindowsForm
             }
         }
 
-        private void DatosServicio_Load(object sender, EventArgs e)
+        private async void DatosServicio_Load(object sender, EventArgs e)
         {
             switch (op)
             {
@@ -123,6 +124,7 @@ namespace WindowsForm
 
                 case 2:
                     this.Text = "Editar Servicio";
+                    List<Entidad.Models.Servicio> _lstServ = await getlstServ;
                     if (_lstServ.Count <= 0)
                     {
                         MessageBox.Show("No hay servicios registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -143,8 +145,9 @@ namespace WindowsForm
             this.Close();
         }
 
-        private void Id_SelectionChangeCommitted(object sender, EventArgs e)
+        private async void  Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            List<Entidad.Models.Servicio> _lstServ = await getlstServ;
             serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
             txtDescipcion.Text = serv.Descripcion;
             txtPrecio.Text = serv.PrecioServicios.Last().PrecioServicio1.ToString();

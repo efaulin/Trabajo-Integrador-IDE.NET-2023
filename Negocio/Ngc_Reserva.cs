@@ -41,14 +41,15 @@ namespace Negocio
             return rsv;
         }
 
-        public static bool Create(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+        public static async Task<bool> Create(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
             try
             {
                 dBContext.Reservas.Add(rsv);
                 dBContext.SaveChanges();
                 dBContext.Update(rsv);
-                if (SaveServicios(rsv, lstSrv)) { return true; }
+                Task<bool> result = SaveServicios(rsv, lstSrv);
+                if (await result) { return true; }
                 else { return false; }
             }
             catch
@@ -57,13 +58,14 @@ namespace Negocio
             }
         }
 
-        public static bool Update(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+        public static async Task<bool> Update(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
             try
             {
                 dBContext.Update(rsv);
                 dBContext.SaveChanges();
-                if (SaveServicios(rsv, lstSrv)) { return true; }
+                Task<bool> result = SaveServicios(rsv, lstSrv);
+                if (await result) { return true; }
                 else { return false; }
             }
             catch
@@ -102,10 +104,12 @@ namespace Negocio
             return lstRsv;
         }
 
-        private static bool SaveServicios(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+
+        private static async Task<bool> SaveServicios(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
             bool control = true;
-            List<Entidad.Models.Servicio> lstGuardada = Servicio.GetAllOfReserva(rsv.IdReserva);
+            Task<List<Entidad.Models.Servicio>> getlstGuardada = Servicio.GetAllOfReserva(rsv.IdReserva);
+            List<Entidad.Models.Servicio> lstGuardada = await getlstGuardada;
 
             //Guardo las nuevas relaciones
             foreach (Entidad.Models.Servicio tmpSrv in lstSrv)

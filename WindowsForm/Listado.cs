@@ -72,7 +72,8 @@ namespace WindowsForm
                     foreach (Reserva rsv in _lstRsv)
                     {
                         double precio = rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Precio.PrecioHabitacion;
-                        List<Servicio> lstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
+                        Task<List<Servicio>> getlstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
+                        List<Servicio> lstRsvSrv = await getlstRsvSrv;
                         lstRsvSrv.ForEach(e => precio += e.Precio.PrecioServicio1);
                         dtRsv.Rows.Add(rsv.IdReserva, rsv.FechaInscripcion, rsv.FechaInicioReserva, rsv.FechaFinReserva, rsv.EstadoReserva, rsv.CantidadPersonas, rsv.IdHuespedNavigation.nombreCompleto(), precio, rsv.IdHabitacionNavigation.NumeroHabitacion, rsv.IdHabitacionNavigation.PisoHabitacion, rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion);
                     }
@@ -80,7 +81,7 @@ namespace WindowsForm
                     break;
                 case 4:
 #warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)
-                    List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
+                    Task<List<Servicio>> getlstSrv = Negocio.Servicio.GetAll();
                     DataTable dtSrv = new DataTable();
                     DataColumn[] dcSrv = new DataColumn[]
                     {
@@ -90,6 +91,7 @@ namespace WindowsForm
                         new DataColumn("Fecha de precio", typeof(DateTime))
                     };
                     dtSrv.Columns.AddRange(dcSrv);
+                    List<Servicio> _lstSrv = await getlstSrv;
                     foreach (Servicio srv in _lstSrv)
                     {
                         dtSrv.Rows.Add(srv.IdServicio, srv.Descripcion, srv.Precio.PrecioServicio1, srv.Precio.FechaPrecio);
@@ -204,7 +206,7 @@ namespace WindowsForm
             listar();
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        private async void btnEliminar_Click(object sender, EventArgs e)
         {
             int tmpId;
             if (MessageBox.Show("¿Seguro que desea borrar?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
@@ -266,7 +268,8 @@ namespace WindowsForm
                         break;
                     case 4:
                         tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Servicio serv = Negocio.Servicio.GetOne(tmpId)!;
+                        Task<Servicio> getserv = Negocio.Servicio.GetOne(tmpId)!;
+                        Servicio serv = await getserv;
                         if (Negocio.Servicio.Delete(serv))
                         {
                             MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");

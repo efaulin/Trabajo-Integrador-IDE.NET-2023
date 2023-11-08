@@ -22,8 +22,8 @@ namespace WindowsForm
         Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
         List<Huesped> _lstHpd = Negocio.Huesped.GetAll();
         List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
-        List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
-        List<Servicio> lstSrvGuardados = new List<Servicio>();
+        Task<List<Servicio>> getlstSrv = Negocio.Servicio.GetAll();
+        Task<List<Servicio>> getlstSrvGuardados;
         List<Servicio> lstSrvTemporal = new List<Servicio>();
         Hashtable _hashHbt = new Hashtable();
         Hashtable _hashHpd = new Hashtable();
@@ -104,7 +104,7 @@ namespace WindowsForm
                 dtFechaInicio.MinDate = DateTime.Now;
                 dtFechaFin.Value = dtFechaInicio.Value.AddDays(1);
                 dtFechaFin.MinDate = DateTime.Now.AddDays(1);
-
+                List<Servicio> _lstSrv = await getlstSrv;
                 foreach (Servicio _tmpSrv in _lstSrv)
                 {
                     chkBoxListServicio.Items.Add(_tmpSrv.Descripcion);
@@ -122,7 +122,7 @@ namespace WindowsForm
             }
         }
 
-        private void cmbIdReserva_SelectionChangeCommitted(object sender, EventArgs e)
+        private async void cmbIdReserva_SelectionChangeCommitted(object sender, EventArgs e)
         {
             _rsv = (Reserva)_hashRsv[cmbIdReserva.SelectedItem]!;
             dtFechaInicio.MinDate = _rsv.FechaInicioReserva;
@@ -136,14 +136,16 @@ namespace WindowsForm
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
             SetDataGridsEditando(_rsv.IdHabitacionNavigation, _rsv.IdHuespedNavigation);
             chkBoxListServicio.Items.Clear();
-            lstSrvGuardados = Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
+            getlstSrvGuardados = Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
+            List<Servicio> lstSrvGuardados = await getlstSrvGuardados;
+            List<Servicio> _lstSrv = await getlstSrv;
             foreach (Servicio _tmpSrv in _lstSrv)
             {
                 chkBoxListServicio.Items.Add(_tmpSrv.Descripcion, lstSrvGuardados.Contains(_tmpSrv));
             }
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             if (validate())
             {
@@ -155,7 +157,8 @@ namespace WindowsForm
                     asignarValores();
                     if (Negocio.Reserva.Validate(_rsv))
                     {
-                        if (!Negocio.Reserva.Update(_rsv, lstSrvTemporal))
+                        Task<bool> result = Negocio.Reserva.Create(_rsv, lstSrvTemporal);
+                        if (!await result)
                         {
                             stop = true;
                             MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -176,7 +179,8 @@ namespace WindowsForm
                     asignarValores();
                     if (Negocio.Reserva.Validate(_rsv))
                     {
-                        if (!Negocio.Reserva.Create(_rsv, lstSrvTemporal))
+                        Task<bool> result = Negocio.Reserva.Create(_rsv, lstSrvTemporal);
+                        if (!await result)
                         {
                             stop = true;
                             MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -205,7 +209,7 @@ namespace WindowsForm
             this.Close();
         }
 
-        private void asignarValores()
+        private async void asignarValores()
         {
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
@@ -215,6 +219,7 @@ namespace WindowsForm
             _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
             _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
 
+            List<Servicio> _lstSrv = await getlstSrv;
             //Guardo las relaciones de la reserva con los servicios
             for (int i = 0; i < _lstSrv.Count; i++)
             {
