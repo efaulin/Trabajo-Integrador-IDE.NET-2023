@@ -47,6 +47,7 @@
             panel4 = new Panel();
             label1 = new Label();
             panelChildForm = new Panel();
+            btnEmpleados = new Button();
             panel1.SuspendLayout();
             panel5.SuspendLayout();
             panel2.SuspendLayout();
@@ -59,6 +60,7 @@
             // 
             panel1.AutoScroll = true;
             panel1.BackColor = Color.DarkCyan;
+            panel1.Controls.Add(btnEmpleados);
             panel1.Controls.Add(btnServicio);
             panel1.Controls.Add(btnReserva);
             panel1.Controls.Add(btnHuesped);
@@ -174,7 +176,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(132, 35);
             label6.Name = "label6";
-            label6.Size = new Size(54, 21);
+            label6.Size = new Size(66, 28);
             label6.TabIndex = 9;
             label6.Text = "CRUD";
             // 
@@ -185,7 +187,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(62, 35);
             label3.Name = "label3";
-            label3.Size = new Size(75, 21);
+            label3.Size = new Size(94, 28);
             label3.TabIndex = 8;
             label3.Text = "Opciones";
             // 
@@ -228,7 +230,7 @@
             lblNombre.ForeColor = Color.White;
             lblNombre.Location = new Point(96, 32);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(125, 21);
+            lblNombre.Size = new Size(157, 28);
             lblNombre.TabIndex = 5;
             lblNombre.Text = "Administrador";
             lblNombre.Click += lblNombre_Click;
@@ -241,7 +243,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(96, 12);
             label2.Name = "label2";
-            label2.Size = new Size(85, 20);
+            label2.Size = new Size(108, 25);
             label2.TabIndex = 4;
             label2.Text = "Bienvenido";
             // 
@@ -257,6 +259,7 @@
             // 
             // panel4
             // 
+            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel4.BackColor = Color.White;
             panel4.Location = new Point(0, 72);
             panel4.Name = "panel4";
@@ -271,7 +274,7 @@
             label1.Location = new Point(375, 213);
             label1.Name = "label1";
             label1.RightToLeft = RightToLeft.No;
-            label1.Size = new Size(135, 128);
+            label1.Size = new Size(168, 159);
             label1.TabIndex = 0;
             label1.Text = "ⵥ";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -286,9 +289,26 @@
             panelChildForm.Size = new Size(859, 620);
             panelChildForm.TabIndex = 4;
             // 
+            // btnEmpleados
+            // 
+            btnEmpleados.BackColor = Color.LightSeaGreen;
+            btnEmpleados.Dock = DockStyle.Top;
+            btnEmpleados.FlatAppearance.BorderColor = Color.DarkCyan;
+            btnEmpleados.FlatAppearance.BorderSize = 2;
+            btnEmpleados.FlatStyle = FlatStyle.Flat;
+            btnEmpleados.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnEmpleados.ForeColor = Color.White;
+            btnEmpleados.Location = new Point(0, 340);
+            btnEmpleados.Name = "btnEmpleados";
+            btnEmpleados.Size = new Size(251, 35);
+            btnEmpleados.TabIndex = 24;
+            btnEmpleados.Text = "Empleados";
+            btnEmpleados.UseVisualStyleBackColor = false;
+            btnEmpleados.Click += btnEmpleados_Click;
+            // 
             // Menu
             // 
-            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1110, 720);
@@ -334,5 +354,6 @@
         private Button btnReserva;
         private Button btnServicio;
         private Panel panel7;
+        private Button btnEmpleados;
     }
 }
