@@ -30,11 +30,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{IdEmpleado}")]
-        public ActionResult<Empleado> GetOne(int id)
+        public ActionResult<Empleado> GetOne(int idEmpleado)
         {
             try
             {
-                Empleado? tmpHbt = _dbContext.Empleados.Find(id);
+                Empleado? tmpHbt = _dbContext.Empleados.Find(idEmpleado);
                 if (tmpHbt == null)
                 {
                     return NotFound();

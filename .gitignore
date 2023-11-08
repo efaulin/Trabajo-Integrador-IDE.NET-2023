@@ -12,3 +12,5 @@ WindowsForm/obj/*
 WindowsForm/bin/*
 Servicios/obj/*
 Servicios/bin/*
+Blazor/obj/*
+Blazor/bin/*
