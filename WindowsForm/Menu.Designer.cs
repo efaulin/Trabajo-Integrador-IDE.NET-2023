@@ -174,7 +174,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(132, 35);
             label6.Name = "label6";
-            label6.Size = new Size(54, 21);
+            label6.Size = new Size(66, 28);
             label6.TabIndex = 9;
             label6.Text = "CRUD";
             // 
@@ -185,7 +185,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(62, 35);
             label3.Name = "label3";
-            label3.Size = new Size(75, 21);
+            label3.Size = new Size(94, 28);
             label3.TabIndex = 8;
             label3.Text = "Opciones";
             // 
@@ -228,7 +228,7 @@
             lblNombre.ForeColor = Color.White;
             lblNombre.Location = new Point(96, 32);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(125, 21);
+            lblNombre.Size = new Size(157, 28);
             lblNombre.TabIndex = 5;
             lblNombre.Text = "Administrador";
             lblNombre.Click += lblNombre_Click;
@@ -241,7 +241,7 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(96, 12);
             label2.Name = "label2";
-            label2.Size = new Size(85, 20);
+            label2.Size = new Size(108, 25);
             label2.TabIndex = 4;
             label2.Text = "Bienvenido";
             // 
@@ -257,6 +257,7 @@
             // 
             // panel4
             // 
+            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             panel4.BackColor = Color.White;
             panel4.Location = new Point(0, 72);
             panel4.Name = "panel4";
@@ -271,7 +272,7 @@
             label1.Location = new Point(375, 213);
             label1.Name = "label1";
             label1.RightToLeft = RightToLeft.No;
-            label1.Size = new Size(135, 128);
+            label1.Size = new Size(168, 159);
             label1.TabIndex = 0;
             label1.Text = "ⵥ";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -288,7 +289,7 @@
             // 
             // Menu
             // 
-            AutoScaleDimensions = new SizeF(6F, 13F);
+            AutoScaleDimensions = new SizeF(8F, 19F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1110, 720);
