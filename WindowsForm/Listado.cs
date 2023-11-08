@@ -240,6 +240,12 @@ namespace WindowsForm
                     form = new DatosEmpleado(2, tmp);
                     form.ShowDialog();
                     break;
+                case 5:
+                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                    form = new DatosEmpleado(2, tmp);
+                    form.ShowDialog();
+                    listar();
+                    break;
             }
             listar();
         }
@@ -371,6 +377,11 @@ namespace WindowsForm
                 MessageBox.Show("No se pudo actualizar el estado de la habitacion\nVuelva a intentar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             listar();
+        }
+
+        private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
