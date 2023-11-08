@@ -35,10 +35,10 @@
             label3 = new Label();
             label2 = new Label();
             txtNombre = new TextBox();
-            txtPassword = new TextBox();
             idLabel = new Label();
             label6 = new Label();
             panel1 = new Panel();
+            txtPassword = new TextBox();
             panel1.SuspendLayout();
             SuspendLayout();
             // 
@@ -117,15 +117,6 @@
             txtNombre.Size = new Size(218, 27);
             txtNombre.TabIndex = 2;
             // 
-            // txtPassword
-            // 
-            txtPassword.Location = new Point(220, 176);
-            txtPassword.Margin = new Padding(3, 4, 3, 4);
-            txtPassword.Name = "txtPassword";
-            txtPassword.Size = new Size(218, 27);
-            txtPassword.TabIndex = 4;
-            txtPassword.KeyPress += textBox_KeyPress;
-            // 
             // idLabel
             // 
             idLabel.AutoSize = true;
@@ -162,14 +153,22 @@
             panel1.Size = new Size(475, 49);
             panel1.TabIndex = 30;
             // 
+            // txtPassword
+            // 
+            txtPassword.Location = new Point(220, 176);
+            txtPassword.Margin = new Padding(3, 4, 3, 4);
+            txtPassword.Name = "txtPassword";
+            txtPassword.Size = new Size(218, 27);
+            txtPassword.TabIndex = 4;
+            // 
             // DatosEmpleado
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(475, 335);
-            Controls.Add(panel1);
             Controls.Add(txtPassword);
+            Controls.Add(panel1);
             Controls.Add(txtNombre);
             Controls.Add(label5);
             Controls.Add(txtTipoUsuario);
@@ -199,9 +198,9 @@
         private Label label3;
         private Label label2;
         private TextBox txtNombre;
-        private TextBox txtPassword;
         private Label idLabel;
         private Label label6;
         private Panel panel1;
+        private TextBox txtPassword;
     }
 }
