@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace WindowsForm.Huespedes
+namespace WindowsForm.Empleados
 {
     public partial class DatosEmpleado : Form
     {
@@ -87,7 +87,7 @@ namespace WindowsForm.Huespedes
                 stop = true;
                 MessageBox.Show("Hay errores en los datos del huesped", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
-            
+
             if (!stop)
             {
                 this.Close();
