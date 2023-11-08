@@ -157,6 +157,8 @@ namespace WindowsForm
                     break;
                 case 5:
                     form = new DatosEmpleado(1);
+                    form.ShowDialog();
+                    listar();
                     break;
             }
             listar();
@@ -312,6 +314,11 @@ namespace WindowsForm
             hbt.Estado = !hbt.Estado;
             Negocio.Habitacion.Update(hbt);
             listar();
+        }
+
+        private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }
