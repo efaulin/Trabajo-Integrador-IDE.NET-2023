@@ -19,7 +19,7 @@ namespace WindowsForm
         Reserva? _rsv;
         Habitacion? _hbt;
         Huesped? _hpd;
-        List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
+        Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
         List<Huesped> _lstHpd = Negocio.Huesped.GetAll();
         List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
         List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
@@ -66,8 +66,9 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        private void DatosHabitacion_Load(object sender, EventArgs e)
+        private async void DatosHabitacion_Load(object sender, EventArgs e)
         {
+            List<Habitacion> _lstHbt = await getlstHbt;
             if (_lstHbt.Count <= 0)
             {
                 MessageBox.Show("¡No hay habitaciones registradas!\nAgrege una habitacion, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);

@@ -193,6 +193,7 @@
             txtPrecio.Name = "txtPrecio";
             txtPrecio.Size = new Size(103, 23);
             txtPrecio.TabIndex = 19;
+            txtPrecio.TextChanged += txtPrecio_TextChanged;
             txtPrecio.KeyPress += textBoxPrecio_KeyPress;
             // 
             // DatosTipoHabitacion

@@ -102,27 +102,6 @@ namespace WindowsForm
 
                         break;
 
-                    case 3:
-                        try
-                        {
-                            tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
-                            PrecioTipoHabitacion prc = new PrecioTipoHabitacion();
-                            prc.IdTipoHabitacion = tpHbt.IdTipoHabitacion;
-                            prc.IdTipoHabitacionNavigation = tpHbt;
-                            prc.FechaPrecio = DateTime.Now;
-                            prc.PrecioHabitacion = double.Parse(txtPrecio.Text);
-                            tpHbt.PrecioTipoHabitacions.Add(prc);
-
-                            Negocio.TipoHabitacion.Update(tpHbt);
-                            MessageBox.Show("Precio del Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " actualizado con exito.");
-                        }
-                        catch
-                        {
-                            stop = true;
-                            MessageBox.Show("Hubo un problema al actualizar el precio del tipo de habitacion. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //throw ex;
-                        }
-                        break;
                 }
                 if (!stop)
                 {
@@ -160,21 +139,6 @@ namespace WindowsForm
                     }
                     break;
 
-                case 3:
-                    this.Text = "Actualizar precio";
-                    txtPrecio.Enabled = false;
-                    txtDescipcion.Enabled = false;
-                    if (_lstTpHbt.Count <= 0)
-                    {
-                        MessageBox.Show("No hay Tipos de Habitaciones registradas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
-                    }
-                    else
-                    {
-                        idLabel.Text = _id.ToString();
-                        Id_SelectionChangeCommitted(sender, e);
-                    }
-                    break;
             }
         }
 
@@ -247,6 +211,11 @@ namespace WindowsForm
             if (txtDescipcion.Text.Length == 0 || txtDescipcion.Text[0].ToString() == " ") { return false; }
             if (txtPrecio.Text.Length == 0 || int.Parse(txtNumero.Text) == 0) { return false; }
             return true;
+        }
+
+        private void txtPrecio_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

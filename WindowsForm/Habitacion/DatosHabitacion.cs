@@ -18,7 +18,7 @@ namespace WindowsForm
         int? _id;
         Habitacion? hbt;
         List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
-        List<Habitacion> _lstHbt = Negocio.Habitacion.GetAll();
+        Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
         Hashtable _tmpTpHbt = new Hashtable();
 
@@ -36,7 +36,7 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             if (validate())
             {
@@ -62,6 +62,7 @@ namespace WindowsForm
                         break;
 
                     case 2:
+                        List<Habitacion> _lstHbt = await getlstHbt;
                         hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt.IdHabitacion == _id; })!;
                         tmpTpHbt = (TipoHabitacion)_tmpTpHbt[cmbTipoHabitacion.SelectedItem]!;
                         hbt.Estado = true;
@@ -93,7 +94,7 @@ namespace WindowsForm
             
         }
 
-        private void DatosHabitacion_Load(object sender, EventArgs e)
+        private async void DatosHabitacion_Load(object sender, EventArgs e)
         {
             if (_lstTpHbt.Count <= 0)
             {
@@ -121,6 +122,7 @@ namespace WindowsForm
 
                 case 2:
                     this.Text = "Editar habitacion";
+                    List<Habitacion> _lstHbt = await getlstHbt;
                     if (_lstHbt.Count <= 0)
                     {
                         MessageBox.Show("No hay Habitaciones registradas\nAgrege una Habitacion, antes de editar ", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -146,8 +148,9 @@ namespace WindowsForm
             this.Close();
         }
 
-        private void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
+        private async void cmbIdHabitacion_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            List<Habitacion> _lstHbt = await getlstHbt;
             hbt = _lstHbt.Find(delegate (Habitacion hbt) { return hbt.IdHabitacion == _id; })!;
             txtNumero.Text = hbt.NumeroHabitacion.ToString();
             txtPiso.Text = hbt.PisoHabitacion.ToString();
