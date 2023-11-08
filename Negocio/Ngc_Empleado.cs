@@ -49,5 +49,25 @@ namespace Negocio
                 return false;
             }
         }
+
+        public static Entidad.Models.Empleado? GetOne(int id)
+        {
+            Entidad.Models.Empleado? emp = dBContext.Empleados.Find(id);
+            return emp;
+        }
+
+        public static bool Delete(Entidad.Models.Empleado emp)
+        {
+            try
+            {
+                dBContext.Empleados.Remove(emp);
+                dBContext.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
     }
 }
