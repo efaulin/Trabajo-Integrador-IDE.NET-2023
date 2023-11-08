@@ -1,0 +1,61 @@
+﻿@page "/empleado"
+@using Entidad.Models
+@using Blazor.Negocio
+
+<h3>Empleado</h3>
+
+<input type="button"/>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>idEmpleado</th>
+            <th>Tipo de Usuario</th>
+            <th>Usuario</th>
+            <th>Contraseña</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (lstEmp == null)
+        {
+            <tr>
+                <td colspan="4">
+                    <h4>Cargando...</h4>
+                </td>
+            </tr>
+        }
+        else
+        {
+            @foreach (Empleado tmp in lstEmp)
+            {
+                <tr>
+                    <td>@tmp.IdEmpleado</td>
+                    <td>@tmp.TipoUsuario</td>
+                    <td>@tmp.NombreUsuario</td>
+                    <td>@tmp.Password</td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@if (xd != null)
+{
+    <span class="alert">@xd</span>
+}
+
+@code {
+    List<Empleado>? lstEmp = null;
+    Exception? xd = null;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            lstEmp = await EmpleadoServicio.GetAll();
+        }
+        catch (Exception ex)
+        {
+            xd = ex;
+        }
+    }
+}

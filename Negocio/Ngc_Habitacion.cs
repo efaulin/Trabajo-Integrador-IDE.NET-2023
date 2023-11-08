@@ -3,6 +3,7 @@ using Entidad.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 
@@ -21,16 +22,23 @@ namespace Negocio
             }
             return hbt;
         }
-        public static List<Entidad.Models.Habitacion> GetAll()
+
+        public static async Task<List<Entidad.Models.Habitacion>> GetAll()
         {
-            List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.ToList();
-            foreach (Entidad.Models.Habitacion hbt in habitaciones)
-            {
-                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
-                hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
-            }
-            return habitaciones;
+            var response = await Conexion.Instancia.HttpClient.GetStringAsync("http://localhost:7110/api/Habitacion/GetAll");
+            var data = JsonConvert.DeserializeObject<List<Entidad.Models.Habitacion>>(response);
+            return data;
         }
+        //public static List<Entidad.Models.Habitacion> GetAll()
+        //{
+        //    List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.ToList();
+        //    foreach (Entidad.Models.Habitacion hbt in habitaciones)
+        //    {
+        //        hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+        //        hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
+        //    }
+        //    return habitaciones;
+        //}
         public static bool Create(Entidad.Models.Habitacion hbt)
         {
             try
@@ -123,18 +131,18 @@ namespace Negocio
             }
             return lstHbt;
         }
-        public static List<Entidad.Models.Habitacion> GetByPiso(int piso)
-        {
-            return GetAll().FindAll(hbt => hbt.PisoHabitacion == piso);
-        }
-        public static List<Entidad.Models.Habitacion> GetByNro(int nro)
-        {
-            return GetAll().FindAll(hbt => hbt.NumeroHabitacion == nro);
-        }
-        public static Entidad.Models.Habitacion? GetByPiso_Nro(int piso, int nro)
-        {
-            return GetAll().Find(hbt => hbt.PisoHabitacion == piso && hbt.NumeroHabitacion == nro);
-        }
+        //public static List<Entidad.Models.Habitacion> GetByPiso(int piso)
+        //{
+        //    return GetAll().FindAll(hbt => hbt.PisoHabitacion == piso);
+        //}
+        //public static List<Entidad.Models.Habitacion> GetByNro(int nro)
+        //{
+        //    return GetAll().FindAll(hbt => hbt.NumeroHabitacion == nro);
+        //}
+        //public static Entidad.Models.Habitacion? GetByPiso_Nro(int piso, int nro)
+        //{
+        //    return GetAll().Find(hbt => hbt.PisoHabitacion == piso && hbt.NumeroHabitacion == nro);
+        //}
     }
 
     public class TipoHabitacion

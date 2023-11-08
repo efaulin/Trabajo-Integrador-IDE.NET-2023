@@ -87,7 +87,7 @@ namespace Negocio
         }
 
         /// <summary></summary>
-        /// <param name="idReserva"></param>
+        /// <param name="idServicio"></param>
         /// <returns>Lista de ReservaServicio que contengan el id servicio recibido</returns>
         public static List<Entidad.Models.ReservaServicio> GetAllOfServicio(int idServicio)
         {

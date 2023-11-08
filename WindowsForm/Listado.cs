@@ -33,12 +33,12 @@ namespace WindowsForm
             listar();
         }
 
-        public void listar()
+        public async void listar()
         {
             switch (opcion)
             {
                 case 0:
-                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_Hbt_TpHbt();
+                    dgvHabitaciones.DataSource = await Negocio.Habitacion.GetAll();
                     break;
                 case 1:
                     dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
@@ -77,7 +77,7 @@ namespace WindowsForm
                     dgvHabitaciones.DataSource = dtRsv;
                     break;
                 case 4:
-    #warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)
+#warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)
                     List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
                     DataTable dtSrv = new DataTable();
                     DataColumn[] dcSrv = new DataColumn[]
@@ -101,13 +101,8 @@ namespace WindowsForm
         private void ListarHbt_Load(object sender, EventArgs e)
         {
             listar();
-            btnEditPrecio.Visible = false;
             btnAltaBaja.Width = 0;
-            if (opcion == 1 || opcion == 4)
-            {
-                btnEditPrecio.Visible = true;
-            }
-            else if (opcion == 0)
+            if (opcion == 0)
             {
                 btnAltaBaja.Visible = true;
                 btnAltaBaja.Width = 107;
@@ -118,7 +113,7 @@ namespace WindowsForm
         {
             listar();
         }
-   
+
 
         private void btnSalir_Click(object sender, EventArgs e)
         {
@@ -202,7 +197,7 @@ namespace WindowsForm
         private void btnEliminar_Click(object sender, EventArgs e)
         {
             int tmpId;
-            if (MessageBox.Show("¿Seguro que desea borrar?","Confirmacion",MessageBoxButtons.YesNo,MessageBoxIcon.Question) == DialogResult.Yes)
+            if (MessageBox.Show("¿Seguro que desea borrar?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 switch (opcion)
                 {
@@ -274,7 +269,7 @@ namespace WindowsForm
                         break;
                 }
             }
-            
+
             listar();
         }
 
@@ -299,7 +294,7 @@ namespace WindowsForm
                 form.ShowDialog();
                 listar();
             }
-            
+
         }
 
         private void btnAltaBaja_Click(object sender, EventArgs e)

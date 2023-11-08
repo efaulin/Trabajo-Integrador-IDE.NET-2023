@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "Laboratorio1": {
+    "Servicios": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Entidad.Models;
+using System;
 using System.Collections;
 
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace WindowsForm
     {
         int? op;
         int? _id;
+        bool controlPrecio = false;
         Entidad.Models.Servicio? serv;
         List<Entidad.Models.Servicio> _lstServ = Negocio.Servicio.GetAll();
         Hashtable _tmpServ = new Hashtable();
@@ -71,6 +73,16 @@ namespace WindowsForm
                         {
                             serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
                             serv.Descripcion = txtDescipcion.Text;
+                            if (controlPrecio && double.Parse(txtPrecio.Text) != serv.Precio.PrecioServicio1)
+                            {
+                                Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
+                                serv.IdServicio = serv.IdServicio;
+                                prcServ.IdServicioNavigation = serv;
+                                prcServ.FechaPrecio = DateTime.Now;
+                                prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
+                                serv.PrecioServicios.Add(prcServ);
+
+                            }
 
                             Negocio.Servicio.Update(serv);
                             MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
@@ -84,27 +96,7 @@ namespace WindowsForm
 
                         break;
 
-                    case 3:
-                        try
-                        {
-                            serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
-                            Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                            serv.IdServicio = serv.IdServicio;
-                            prcServ.IdServicioNavigation = serv;
-                            prcServ.FechaPrecio = DateTime.Now;
-                            prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
-                            serv.PrecioServicios.Add(prcServ);
-
-                            Negocio.Servicio.Update(serv);
-                            MessageBox.Show("Precio del Servicio ID: " + prcServ.IdPrecioServicio + " actualizado con exito.");
-                        }
-                        catch
-                        {
-                            stop = true;
-                            MessageBox.Show("Hubo un problema al actualizar el precio del Servicio. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //throw ex;
-                        }
-                        break;
+                   
                 }
             }
             else
@@ -143,21 +135,6 @@ namespace WindowsForm
                         Id_SelectionChangeCommitted(sender, e);
                     }
                     break;
-
-                case 3:
-                    this.Text = "Actualizar precio";
-                    txtDescipcion.Enabled = false;
-                    if (_lstServ.Count <= 0)
-                    {
-                        MessageBox.Show("No hay servicios registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.Close();
-                    }
-                    else
-                    {
-                        idLabel.Text = _id.ToString();
-                        Id_SelectionChangeCommitted(sender, e);
-                    }
-                    break;
             }
         }
 
@@ -193,6 +170,14 @@ namespace WindowsForm
             if (txtDescipcion.Text.Length == 0 || txtDescipcion.Text[0].ToString() == " ") { return false; }
             if (txtPrecio.Text.Length == 0 || double.Parse(txtPrecio.Text) == 0) { return false; }
             return true;
+        }
+
+        private void btnEditarPrecio_Click(object sender, EventArgs e)
+        {
+            txtPrecio.Enabled = true;
+            btnEditarPrecio.Enabled = false;
+            controlPrecio = true;
+            mskCmbFecha.Text = DateTime.Now.ToString("dd/MM/yyyy");
         }
     }
 }
