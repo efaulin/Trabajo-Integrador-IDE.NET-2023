@@ -70,7 +70,7 @@ namespace WindowsForm
                         hbt.IdTipoHabitacionNavigation = tmpTpHbt;
                         hbt.NumeroHabitacion = int.Parse(txtNumero.Text);
                         hbt.PisoHabitacion = int.Parse(txtPiso.Text);
-                        if (Negocio.Habitacion.Update(hbt))
+                        if (await Negocio.Habitacion.Update(hbt))
                         {
                             MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " editada con exito.");
                         }

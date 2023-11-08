@@ -31,11 +31,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{idReserva}")]
-        public ActionResult<Reserva> GetOne(int id)
+        public ActionResult<Reserva> GetOne(int idReserva)
         {
             try
             {
-                Reserva? rsv = _dbContext.Reservas.Find(id);
+                Reserva? rsv = _dbContext.Reservas.Find(idReserva);
                 if (rsv == null)
                 {
                     return NotFound();
@@ -48,7 +48,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpPost("{rsvApi}")]
+        [HttpPost]
         public ActionResult<Reserva> Create(ReservaApi rsvApi)
         {
             try
@@ -72,7 +72,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpPut("{idReserva, rsvApi}")]
+        [HttpPut("{idReserva}")]
         public ActionResult Update(int idReserva, ReservaApi rsvApi)
         {
             try
@@ -119,6 +119,23 @@ namespace Servicios.Controllers
                 return _dbContext.Reservas.Join(_dbContext.ReservaServicios,
                     r => r.IdReserva,
                     rs => rs.IdReserva,
+                    (r, rs) => r
+                    ).ToList();
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: 500, detail: ex.Message);
+            }
+        }
+
+        [HttpGet("{idHabitacion}")]
+        public ActionResult<IEnumerable<Reserva>> GetAllOfHabitacion(int idHabitacion)
+        {
+            try
+            {
+                return _dbContext.Reservas.Join(_dbContext.Habitacions,
+                    r => r.IdHabitacion,
+                    h => h.IdHabitacion,
                     (r, rs) => r
                     ).ToList();
             }

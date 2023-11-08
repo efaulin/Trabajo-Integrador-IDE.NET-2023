@@ -30,11 +30,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{IdHabitacion}")]
-        public ActionResult<Habitacion> GetOne(int id)
+        public ActionResult<Habitacion> GetOne(int IdHabitacion)
         {
             try
             {
-                Habitacion? tmpHbt = _dbContext.Habitacions.Find(id);
+                Habitacion? tmpHbt = _dbContext.Habitacions.Find(IdHabitacion);
                 if (tmpHbt == null)
                 {
                     return NotFound();
@@ -160,7 +160,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpGet("{piso, nro}")]
+        [HttpGet("{piso}/{nro}")]
         public ActionResult<Habitacion> GetByPiso_Nro(int piso, int nro)
         {
             try
@@ -202,8 +202,8 @@ namespace Servicios.Controllers
             { return false; }
             if (hbt.Reservas == null)
             { return false; }
-            if (_dbContext.Habitacions.FirstOrDefault(e => e.NumeroHabitacion == hbt.NumeroHabitacion && e.PisoHabitacion == hbt.NumeroHabitacion) != null)
-            { return false; }
+            /*if (_dbContext.Habitacions.FirstOrDefault(e => e.NumeroHabitacion == hbt.NumeroHabitacion && e.PisoHabitacion == hbt.NumeroHabitacion) != null)
+            { return false; }*/
             return true;
         }
     }

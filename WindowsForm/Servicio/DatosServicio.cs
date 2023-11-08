@@ -55,9 +55,11 @@ namespace WindowsForm
                             prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
                             prcServ.FechaPrecio = DateTime.Now;
                             serv.PrecioServicios.Add(prcServ);
-
-                            Negocio.Servicio.Create(serv);
-                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
+                            if (await Negocio.Servicio.Create(serv))
+                            {
+                                MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
+                            }
+                                                     
                         }
                         catch
                         {

@@ -29,7 +29,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpGet("{IdPrecio}")]
+        [HttpGet("{idPrecioTipoHabitacion}")]
         public ActionResult<PrecioTipoHabitacion> GetOne(int idPrecioTipoHabitacion)
         {
             try

@@ -31,11 +31,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{idReservaServicio}")]
-        public ActionResult<ReservaServicio> GetOne(int id)
+        public ActionResult<ReservaServicio> GetOne(int idReservaServicio)
         {
             try
             {
-                ReservaServicio? rsv = _dbContext.ReservaServicios.Find(id);
+                ReservaServicio? rsv = _dbContext.ReservaServicios.Find(idReservaServicio);
                 if (rsv == null)
                 {
                     return NotFound();
@@ -140,7 +140,7 @@ namespace Servicios.Controllers
         /// <param name="idReserva"></param>
         /// <param name="idServicio"></param>
         /// <returns>Entidad ReservaSerivico que relaciona los id's de reserva y servicios</returns>
-        [HttpGet("{idReserva, idServicio}")]
+        [HttpGet("{idReserva}/{idServicio}")]
         public ActionResult<ReservaServicio> GetByReserva_Servicio(int idReserva, int idServicio)
         {
             try

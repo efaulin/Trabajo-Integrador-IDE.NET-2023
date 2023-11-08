@@ -211,10 +211,11 @@ namespace WindowsForm
 
         private async void asignarValores()
         {
+            Task<Habitacion> getOne = Negocio.Habitacion.GetOne((int)dtGrHabitacion.SelectedRows[0].Cells[0].Value)!;
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
             _rsv.CantidadPersonas = int.Parse(txtCantidadPersonas.Text);
-            _rsv.IdHabitacionNavigation = Negocio.Habitacion.GetOne((int)dtGrHabitacion.SelectedRows[0].Cells[0].Value)!;
+            _rsv.IdHabitacionNavigation = await getOne;
             _rsv.IdHuespedNavigation = Negocio.Huesped.GetOne((int)dtGrHuesped.SelectedRows[0].Cells[0].Value)!;
             _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
             _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;

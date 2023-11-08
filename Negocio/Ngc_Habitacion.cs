@@ -6,39 +6,54 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Negocio
 {
     public class Habitacion
     {
-        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
-        public static Entidad.Models.Habitacion? GetOne(int id)
+        static readonly DBContext dBContext = DBContext.dBContext;
+        static readonly string defaultUrl = Conexion.defaultUrl + "Habitacion/";
+        public static async Task<Entidad.Models.Habitacion?> GetOne(int id)
         {
-            Entidad.Models.Habitacion? hbt = dBContext.Habitacions.Find(id);
+            Entidad.Models.Habitacion? hbt = await Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(defaultUrl + "GetOne/" + id);
             if (hbt != null)
             {
                 hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
-                hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
+                List<Entidad.Models.Reserva>? rsv = await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + id);
+                if (rsv == null)
+                {
+                    hbt.Reservas = new List<Entidad.Models.Reserva>();
+                }
+                else
+                {
+                    hbt.Reservas = rsv;
+                }
             }
             return hbt;
         }
 
         public static async Task<List<Entidad.Models.Habitacion>> GetAll()
         {
-            var response = await Conexion.Instancia.HttpClient.GetStringAsync("http://localhost:7110/api/Habitacion/GetAll");
-            var data = JsonConvert.DeserializeObject<List<Entidad.Models.Habitacion>>(response);
-            return data;
+            List<Entidad.Models.Habitacion> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Habitacion>>(defaultUrl + "GetAll"))!;
+            foreach (Entidad.Models.Habitacion hbt in response!)
+            {
+                hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+                List<Entidad.Models.Reserva>? rsv = await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion);
+                if (rsv == null)
+                {
+                    hbt.Reservas = new List<Entidad.Models.Reserva>();
+                }
+                else
+                {
+                    hbt.Reservas = rsv;
+                }
+            }
+            return response!;
         }
-        //public static List<Entidad.Models.Habitacion> GetAll()
-        //{
-        //    List<Entidad.Models.Habitacion> habitaciones = dBContext.Habitacions.ToList();
-        //    foreach (Entidad.Models.Habitacion hbt in habitaciones)
-        //    {
-        //        hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
-        //        hbt.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHabitacion == hbt.IdHabitacion).ToList();
-        //    }
-        //    return habitaciones;
-        //}
+
         public static bool Create(Entidad.Models.Habitacion hbt)
         {
             try
@@ -66,18 +81,25 @@ namespace Negocio
                 return false;
             }
         }
-        public static bool Update(Entidad.Models.Habitacion hbt)
+
+        public static async Task<bool> Update(Entidad.Models.Habitacion hbt)
         {
-            try
+            var xd = Conexion.http.PutAsJsonAsync(
+                defaultUrl + "Update/" + hbt.IdHabitacion,
+                hbt,
+                new JsonSerializerOptions()
+                {
+                    ReferenceHandler = ReferenceHandler.Preserve
+                },
+                default
+                );
+            var result = await xd;
+            if (!result.IsSuccessStatusCode)
             {
-                dBContext.Update(hbt);
-                dBContext.SaveChanges();
-                return true;
+                int aa = hbt.PisoHabitacion;
+                throw xd.Exception;
             }
-            catch
-            {
-                return false;
-            }
+            return result.IsSuccessStatusCode;
         }
 
         /// <summary></summary>
