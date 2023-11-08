@@ -59,7 +59,7 @@ namespace Servicios.Controllers
                 _dbContext.Empleados.Add(tmpHbt);
                 _dbContext.SaveChanges();
                 _dbContext.Update(tmpHbt);
-                return CreatedAtAction(nameof(GetOne), tmpHbt);
+                return tmpHbt;
             }
             catch (Exception ex)
             {
@@ -109,7 +109,7 @@ namespace Servicios.Controllers
             { return false; }
             if (emp.NombreUsuario[0].ToString() == " " || emp.Password[0].ToString() == " ")
             { return false; }
-            if (emp.TipoUsuario != "Recepcionista" || emp.TipoUsuario != "Gerente")
+            if (emp.TipoUsuario != "Recepcionista" && emp.TipoUsuario != "Gerente")
             { return false; }
             return true;
         }

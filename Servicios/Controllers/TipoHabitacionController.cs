@@ -58,7 +58,7 @@ namespace Servicios.Controllers
                 _dbContext.TipoHabitacions.Add(tmpHbt);
                 _dbContext.SaveChanges();
                 _dbContext.Update(tmpHbt);
-                return CreatedAtAction(nameof(GetOne), tmpHbt);
+                return tmpHbt;
             }
             catch (Exception ex)
             {

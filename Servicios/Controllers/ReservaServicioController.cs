@@ -60,7 +60,7 @@ namespace Servicios.Controllers
                 _dbContext.ReservaServicios.Add(rsv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(rsv);
-                return CreatedAtAction(nameof(GetOne), rsv);
+                return rsv;
             }
             catch (Exception ex)
             {

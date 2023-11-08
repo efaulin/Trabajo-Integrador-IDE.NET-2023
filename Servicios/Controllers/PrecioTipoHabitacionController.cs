@@ -63,7 +63,7 @@ namespace Servicios.Controllers
             }
             catch (Exception ex)
             {
-                return Problem(statusCode: 500, detail: ex.Message);
+                return tmpPcTpHbt;
             }
         }
 

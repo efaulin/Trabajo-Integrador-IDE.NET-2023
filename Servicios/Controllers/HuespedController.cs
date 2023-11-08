@@ -59,7 +59,7 @@ namespace Servicios.Controllers
                 _dbContext.Huespeds.Add(hpd);
                 _dbContext.SaveChanges();
                 _dbContext.Update(hpd);
-                return CreatedAtAction(nameof(GetOne), hpd);
+                return hpd;
             }
             catch (Exception ex)
             {

@@ -62,7 +62,7 @@ namespace Servicios.Controllers
                 _dbContext.Reservas.Add(rsv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(rsv);
-                if (SaveServicios(rsv, lstSrv)) { return CreatedAtAction(nameof(GetOne), rsv); }
+                if (SaveServicios(rsv, lstSrv)) { return rsv; }
                 else { return Problem(statusCode: 409, detail: "Problemas al cargar los servicios"); ; }
                 
             }

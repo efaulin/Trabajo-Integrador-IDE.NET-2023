@@ -59,7 +59,7 @@ namespace Servicios.Controllers
                 _dbContext.PrecioServicios.Add(tmpPcSrv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(tmpPcSrv);
-                return CreatedAtAction(nameof(GetOne), tmpPcSrv);
+                return tmpPcSrv;
             }
             catch (Exception ex)
             {
