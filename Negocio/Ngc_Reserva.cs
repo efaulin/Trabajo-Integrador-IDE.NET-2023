@@ -18,10 +18,15 @@ namespace Negocio
             List<Entidad.Models.Reserva> lstRsv = dBContext.Reservas.ToList();
             foreach (Entidad.Models.Reserva rsv in lstRsv)
             {
-                if (rsv.IdHabitacionNavigation != null)
+                if (rsv.IdHabitacionNavigation == null)
                 {
                     rsv.IdHabitacionNavigation = dBContext.Habitacions.Find(rsv.IdHabitacion)!;
+                    //rsv.IdHabitacionNavigation = Habitacion.GetOne(rsv.IdHabitacion)!;
+                }
+                if (rsv.IdHuespedNavigation == null)
+                {
                     rsv.IdHuespedNavigation = dBContext.Huespeds.Find(rsv.IdHuesped)!;
+                    //rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
                 }
             }
             return lstRsv;

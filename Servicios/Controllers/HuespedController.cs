@@ -30,11 +30,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{idHuesped}")]
-        public ActionResult<Huesped> GetOne(int id)
+        public ActionResult<Huesped> GetOne(int idHuesped)
         {
             try
             {
-                Huesped? hpd = _dbContext.Huespeds.Find(id);
+                Huesped? hpd = _dbContext.Huespeds.Find(idHuesped);
                 if (hpd == null)
                 {
                     return NotFound();
@@ -103,7 +103,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpGet("{tipo, nro}")]
+        [HttpGet("{tipo}/{nro}")]
         public ActionResult<Huesped> GetByTipo_NroDocumento(string tipo, string nro)
         {
             try

@@ -1,0 +1,8 @@
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.csproj.AssemblyReference.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.GeneratedMSBuildEditorConfig.editorconfig
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.AssemblyInfoInputs.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.AssemblyInfo.cs
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.csproj.CoreCompileInputs.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.MvcApplicationPartsAssemblyInfo.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.RazorAssemblyInfo.cache
+D:\GitHub\Trabajo-Integrador-IDE.NET-2023\ASPNETCore\obj\Debug\net6.0\ASPNETCore.RazorAssemblyInfo.cs

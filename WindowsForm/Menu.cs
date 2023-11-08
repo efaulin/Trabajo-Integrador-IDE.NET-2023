@@ -15,14 +15,6 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        private void actualizarListado()
-        {
-            if (activeForm != null)
-            {
-                activeForm.listar();
-            }
-        }
-
         private void openChildForm(Listado childForm)
         {
             if (activeForm != null)
@@ -70,28 +62,19 @@ namespace WindowsForm
                 MessageBox.Show("�No hay reservas registradas!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
-        private void deleteRsv_Click(object sender, EventArgs e)
-        {
-
-        }
-#warning Falta delete (CRUD Reserva), mejorar filtrado de husped y habitacion
-
 
         private void btnServicio_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Servicio"));
         }
 
-#warning Falta create, update y delete (CRUD Servicio)
-
         private void Form1_Load(object sender, EventArgs e)
         {
             lblNombre.Text = emp.NombreUsuario.ToString().ToUpper();
-        }
-
-        private void addSrv_Click(object sender, EventArgs e)
-        {
-
+            if (emp.TipoUsuario != "Gerente")
+            {
+                btnEmpleados.Visible = false;
+            }
         }
 
         private void lblNombre_Click(object sender, EventArgs e)
@@ -102,6 +85,11 @@ namespace WindowsForm
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Empleado"));
+        }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
