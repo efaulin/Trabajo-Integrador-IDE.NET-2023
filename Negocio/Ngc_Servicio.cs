@@ -15,10 +15,6 @@ namespace Negocio
         {
             var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/Servicio/GetOne/" + id.ToString());
             var data = JsonConvert.DeserializeObject<Entidad.Models.Servicio>(response);
-            //if (data != null)
-            //{
-            //    data.PrecioServicios = dBContext.PrecioServicios.Where(prcSrv => prcSrv.IdServicio == data.IdServicio).ToList();
-            //}
             return data;
         }
         public static async Task<List<Entidad.Models.Servicio>> GetAll() { 
@@ -42,27 +38,25 @@ namespace Negocio
             Entidad.Models.Servicio createdServ = (await GetOne(data))!;
             return createdServ;          
         }
-        public static bool Delete(Entidad.Models.Servicio srv)
+        public static async Task<bool> Delete(Entidad.Models.Servicio srv)
         {
-            //return Datos.Habitacion.Delete(id);
             try
             {
-                dBContext.Servicios.Remove(srv);
-                dBContext.SaveChanges();
-                return true;
+                var result = await Conexion.http.DeleteAsync("http://localhost:7110/api/Servicio/Delete/" + srv.IdServicio);
+                return result.IsSuccessStatusCode;
             }
             catch
             {
                 return false;
             }
         }
-        public static bool Update(Entidad.Models.Servicio srv)
+        public static async Task<bool> Update(Entidad.Models.Servicio srv)
         {
             try
             {
-                dBContext.Update(srv);
-                dBContext.SaveChanges();
-                return true;
+                Entidad.Api.ServicioApi srvApi = GetApi(srv);
+                var response = await Conexion.http.PutAsJsonAsync("http://localhost:7110/api/Servicio/Update/" + srvApi.IdServicio, srvApi);
+                return response.IsSuccessStatusCode;
             }
             catch
             {

@@ -85,16 +85,15 @@ namespace WindowsForm
                             if (controlPrecio && double.Parse(txtPrecio.Text) != serv.Precio.PrecioServicio1)
                             {
                                 Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                                serv.IdServicio = serv.IdServicio;
-                                prcServ.IdServicioNavigation = serv;
-                                prcServ.FechaPrecio = DateTime.Now;
                                 prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
-                                serv.PrecioServicios.Add(prcServ);
-
+                                prcServ.FechaPrecio = DateTime.Now;
+                                prcServ.IdServicio = serv.IdServicio;
+                                prcServ.IdServicioNavigation = serv;
+                                prcServ = await Negocio.Ngc_PrecioServicio.create(prcServ);                                                           
                             }
-
-                            Negocio.Servicio.Update(serv);
+                            await Negocio.Servicio.Update(serv);
                             MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
+
                         }
                         catch
                         {

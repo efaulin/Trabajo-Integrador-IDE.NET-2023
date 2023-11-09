@@ -48,7 +48,7 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PrecioServicio> Create(Entidad.Api.PrecioServicioApi tmpPcSrv)
+        public ActionResult<int> Create(Entidad.Api.PrecioServicioApi tmpPcSrv)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace Servicios.Controllers
                 _dbContext.PrecioServicios.Add(psrv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(psrv);
-                return psrv;
+                return psrv.IdPrecioServicio;
             }
             catch (Exception ex)
             {

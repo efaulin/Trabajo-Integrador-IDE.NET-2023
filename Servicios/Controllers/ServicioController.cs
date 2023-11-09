@@ -71,15 +71,17 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idServicio}")]
-        public ActionResult Update(int idServicio, Servicio hbt)
+        public ActionResult Update(int idServicio, Entidad.Api.ServicioApi api)
         {
             try
             {
-                if (idServicio != hbt.IdServicio || !Validate(hbt))
+                Servicio srv = _dbContext.Servicios.Find(idServicio);
+                if (idServicio != api.IdServicio || srv == null)
                 {
                     return BadRequest();
                 }
-                _dbContext.Servicios.Entry(hbt).State = EntityState.Modified;
+                srv.Descripcion = api.Descripcion;
+                _dbContext.Servicios.Entry(srv).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return NoContent();
             }

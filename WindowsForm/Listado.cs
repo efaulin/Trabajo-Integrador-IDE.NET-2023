@@ -310,7 +310,7 @@ namespace WindowsForm
                         tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
                         Task<Servicio> getserv = Negocio.Servicio.GetOne(tmpId)!;
                         Servicio serv = await getserv;
-                        if (Negocio.Servicio.Delete(serv))
+                        if (await Negocio.Servicio.Delete(serv))
                         {
                             MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
                             listar();
