@@ -51,7 +51,8 @@ namespace WindowsForm
                         hbt.IdTipoHabitacionNavigation = tmpTpHbt;
                         hbt.NumeroHabitacion = int.Parse(txtNumero.Text);
                         hbt.PisoHabitacion = int.Parse(txtPiso.Text);
-                        if (Negocio.Habitacion.Create(hbt))
+                        hbt = await Negocio.Habitacion.Create(hbt);
+                        if (hbt != null)
                         {
                             MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " cargada con exito.");
                         }
