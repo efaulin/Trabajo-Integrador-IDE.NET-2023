@@ -48,18 +48,21 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Servicio> Create(Servicio tmpHbt)
+        public ActionResult<int> Create(Entidad.Api.ServicioApi api)
         {
             try
             {
-                if (!Validate(tmpHbt))
+                Servicio srv = new Servicio();
+                srv.Descripcion = api.Descripcion;  
+                srv.PrecioServicios = new List<PrecioServicio>();
+                if (!Validate(srv))
                 {
                     return BadRequest();
                 }
-                _dbContext.Servicios.Add(tmpHbt);
+                _dbContext.Servicios.Add(srv);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpHbt);
-                return tmpHbt;
+                _dbContext.Update(srv);
+                return srv.IdServicio;
             }
             catch (Exception ex)
             {
@@ -68,15 +71,17 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idServicio}")]
-        public ActionResult Update(int idServicio, Servicio hbt)
+        public ActionResult Update(int idServicio, Entidad.Api.ServicioApi api)
         {
             try
             {
-                if (idServicio != hbt.IdServicio || !Validate(hbt))
+                Servicio srv = _dbContext.Servicios.Find(idServicio);
+                if (idServicio != api.IdServicio || srv == null)
                 {
                     return BadRequest();
                 }
-                _dbContext.Servicios.Entry(hbt).State = EntityState.Modified;
+                srv.Descripcion = api.Descripcion;
+                _dbContext.Servicios.Entry(srv).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return NoContent();
             }
@@ -132,8 +137,6 @@ namespace Servicios.Controllers
         private bool Validate(Servicio srv)
         {
             if (srv.PrecioServicios == null)
-            { return false; }
-            if (srv.Precio.PrecioServicio1 <= 0)
             { return false; }
             if (srv.Descripcion.Length == 0 || srv.Descripcion[0].ToString() == " ")
             { return false; }

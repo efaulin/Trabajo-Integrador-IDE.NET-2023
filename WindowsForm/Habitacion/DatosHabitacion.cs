@@ -17,7 +17,7 @@ namespace WindowsForm
         int? op;
         int? _id;
         Habitacion? hbt;
-        List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
+        Task<List<TipoHabitacion>> getlstTpHbt = Negocio.TipoHabitacion.GetAll();
         Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
         Hashtable _tmpTpHbt = new Hashtable();
@@ -97,6 +97,7 @@ namespace WindowsForm
 
         private async void DatosHabitacion_Load(object sender, EventArgs e)
         {
+            List<Entidad.Models.TipoHabitacion> _lstTpHbt = await getlstTpHbt;
             if (_lstTpHbt.Count <= 0)
             {
                 MessageBox.Show("¡No hay tipos de habitaciones registradas!\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);

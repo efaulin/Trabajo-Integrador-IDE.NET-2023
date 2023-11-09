@@ -48,18 +48,23 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PrecioServicio> Create(PrecioServicio tmpPcSrv)
+        public ActionResult<int> Create(Entidad.Api.PrecioServicioApi tmpPcSrv)
         {
             try
             {
-                if (!Validate(tmpPcSrv))
+                PrecioServicio psrv = new PrecioServicio();
+                psrv.PrecioServicio1 = tmpPcSrv.PrecioServicio1;
+                psrv.FechaPrecio = tmpPcSrv.FechaPrecio;
+                psrv.IdServicio = tmpPcSrv.IdServicio;
+                psrv.IdServicioNavigation = _dbContext.Servicios.Find(tmpPcSrv.IdServicio);
+                if (!Validate(psrv))
                 {
                     return BadRequest();
                 }
-                _dbContext.PrecioServicios.Add(tmpPcSrv);
+                _dbContext.PrecioServicios.Add(psrv);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpPcSrv);
-                return tmpPcSrv;
+                _dbContext.Update(psrv);
+                return psrv.IdPrecioServicio;
             }
             catch (Exception ex)
             {

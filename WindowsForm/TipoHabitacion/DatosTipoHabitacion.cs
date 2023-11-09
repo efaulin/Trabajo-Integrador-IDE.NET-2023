@@ -18,7 +18,7 @@ namespace WindowsForm
         int? _id;
         bool controlPrecio = false;
         TipoHabitacion? tpHbt;
-        List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
+        Task<List<TipoHabitacion>> getlstTpHbt = Negocio.TipoHabitacion.GetAll();
         Hashtable _tmpTpHbt = new Hashtable();
 
         public DatosTipoHabitacion()
@@ -44,7 +44,7 @@ namespace WindowsForm
 
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             bool stop = false;
             if (validate())
@@ -54,16 +54,24 @@ namespace WindowsForm
                     case 1:
                         try
                         {
-                            tpHbt = new TipoHabitacion();
+                            TipoHabitacion tpHbt = new TipoHabitacion();
                             tpHbt.NumeroCamas = int.Parse(txtNumero.Text);
                             tpHbt.Descripcion = txtDescipcion.Text;
-                            PrecioTipoHabitacion prcTpHbt = new PrecioTipoHabitacion();
-                            prcTpHbt.PrecioHabitacion = double.Parse(txtPrecio.Text);
-                            prcTpHbt.FechaPrecio = DateTime.Now;
-                            tpHbt.PrecioTipoHabitacions.Add(prcTpHbt);
+                            tpHbt = await Negocio.TipoHabitacion.Create(tpHbt);
+                            if(tpHbt != null)
+                            {
+                                PrecioTipoHabitacion prcTpHbt = new PrecioTipoHabitacion();
+                                prcTpHbt.PrecioHabitacion = double.Parse(txtPrecio.Text);
+                                prcTpHbt.FechaPrecio = DateTime.Now;
+                                prcTpHbt.IdTipoHabitacion = tpHbt.IdTipoHabitacion;
+                                prcTpHbt = await Negocio.PrecioTipoHabitacion.Create(prcTpHbt);
+                                tpHbt = await Negocio.TipoHabitacion.GetOne(tpHbt.IdTipoHabitacion);
+                                if(tpHbt != null) {
+                                    MessageBox.Show("Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " cargado con exito.");
+                                }
+                            }
 
-                            Negocio.TipoHabitacion.Create(tpHbt);
-                            MessageBox.Show("Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " cargado con exito.");
+                            
                         }
                         catch
                         {
@@ -77,6 +85,7 @@ namespace WindowsForm
                     case 2:
                         try
                         {
+                            List<Entidad.Models.TipoHabitacion> _lstTpHbt = await getlstTpHbt;
                             tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
                             tpHbt.NumeroCamas = int.Parse(txtNumero.Text);
                             tpHbt.Descripcion = txtDescipcion.Text;
@@ -87,11 +96,12 @@ namespace WindowsForm
                                 prc.IdTipoHabitacionNavigation = tpHbt;
                                 prc.FechaPrecio = DateTime.Now;
                                 prc.PrecioHabitacion = double.Parse(txtPrecio.Text);
-                                tpHbt.PrecioTipoHabitacions.Add(prc);
+                                prc = await Negocio.PrecioTipoHabitacion.Create(prc);
                             }
-
-                            Negocio.TipoHabitacion.Update(tpHbt);
-                            MessageBox.Show("Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " editado con exito.");
+                            if (await Negocio.TipoHabitacion.Update(tpHbt))
+                            {
+                                MessageBox.Show("Tipo habitacion ID: " + tpHbt.IdTipoHabitacion + " editado con exito.");
+                            }
                         }
                         catch (Exception ex)
                         {
@@ -114,7 +124,7 @@ namespace WindowsForm
             }
         }
 
-        private void DatosTipoHabitacion_Load(object sender, EventArgs e)
+        private async void DatosTipoHabitacion_Load(object sender, EventArgs e)
         {
             switch (op)
             {
@@ -127,6 +137,7 @@ namespace WindowsForm
 
                 case 2:
                     this.Text = "Editar tipo de habitacion";
+                    List<Entidad.Models.TipoHabitacion> _lstTpHbt = await getlstTpHbt;
                     if (_lstTpHbt.Count <= 0)
                     {
                         MessageBox.Show("No hay Tipos de Habitaciones registradas", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -152,9 +163,10 @@ namespace WindowsForm
 
         }
 
-        private void Id_SelectionChangeCommitted(object sender, EventArgs e)
+        private async void Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
             //nroCamas, descripcion, precio, fecha
+            List<Entidad.Models.TipoHabitacion> _lstTpHbt = await getlstTpHbt;
             tpHbt = _lstTpHbt.Find(delegate (TipoHabitacion tpHbt) { return tpHbt.IdTipoHabitacion == _id; })!;
             txtNumero.Text = tpHbt.NumeroCamas.ToString();
             txtDescipcion.Text = tpHbt.Descripcion;

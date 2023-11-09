@@ -74,7 +74,31 @@ namespace WindowsForm
                     dgvHabitaciones.DataSource = dtHbt;
                     break;
                 case 1:
-                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
+                    //dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
+                    Task<List<TipoHabitacion>> getAllTipo = Negocio.TipoHabitacion.GetAll();
+                    DataTable dtTpHbt = new DataTable();
+                    DataColumn[] dcTpHbt = new DataColumn[]
+                    {
+                        new DataColumn("IdTipoHabitacion", typeof(int)),
+                        new DataColumn("Nro. Cama", typeof(int)),
+                        new DataColumn("Descripcion", typeof(string)),
+                        new DataColumn("Precio", typeof(double)),
+                        new DataColumn("Fecha Modificacion", typeof(DateTime)),
+
+                    };
+                    dtTpHbt.Columns.AddRange(dcTpHbt);
+                    List<TipoHabitacion> _lstTpHbt = await getAllTipo;
+                    foreach (TipoHabitacion tpHbt in _lstTpHbt)
+                    {
+                        dtTpHbt.Rows.Add(
+                            tpHbt.IdTipoHabitacion,
+                            tpHbt.NumeroCamas,
+                            tpHbt.Descripcion,
+                            tpHbt.Precio.PrecioHabitacion,
+                            tpHbt.Precio.FechaPrecio
+                            );
+                    }
+                    dgvHabitaciones.DataSource = dtTpHbt;
                     break;
                 case 2:
                     List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
@@ -268,8 +292,8 @@ namespace WindowsForm
                         break;
                     case 1:
                         tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        TipoHabitacion tpHbt = Negocio.TipoHabitacion.GetOne(tmpId)!;
-                        if (Negocio.TipoHabitacion.Delete(tpHbt))
+                        TipoHabitacion tpHbt = await Negocio.TipoHabitacion.GetOne(tmpId)!;
+                        if (await Negocio.TipoHabitacion.Delete(tpHbt))
                         {
                             MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
                             listar();
@@ -309,7 +333,7 @@ namespace WindowsForm
                         tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
                         Task<Servicio> getserv = Negocio.Servicio.GetOne(tmpId)!;
                         Servicio serv = await getserv;
-                        if (Negocio.Servicio.Delete(serv))
+                        if (await Negocio.Servicio.Delete(serv))
                         {
                             MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
                             listar();

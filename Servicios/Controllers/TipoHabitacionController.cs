@@ -47,18 +47,24 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TipoHabitacion> Create(TipoHabitacion tmpHbt)
+        public ActionResult<int> Create(Entidad.Api.TipoHabitacionApi api)
         {
             try
             {
-                if (!Validate(tmpHbt))
+                TipoHabitacion thbt = new TipoHabitacion();
+                thbt.Habitacions = new List<Habitacion>();
+                thbt.PrecioTipoHabitacions = new List<PrecioTipoHabitacion>();
+                thbt.Descripcion = api.Descripcion;
+                thbt.NumeroCamas = api.NumeroCamas;
+
+                if (!Validate(thbt))
                 {
                     return BadRequest();
                 }
-                _dbContext.TipoHabitacions.Add(tmpHbt);
+                _dbContext.TipoHabitacions.Add(thbt);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpHbt);
-                return tmpHbt;
+                _dbContext.Update(thbt);
+                return thbt.IdTipoHabitacion;
             }
             catch (Exception ex)
             {
@@ -67,15 +73,18 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idTipoHabitacion}")]
-        public ActionResult Update(int idTipoHabitacion, TipoHabitacion tpHbt)
+        public ActionResult Update(int idTipoHabitacion, Entidad.Api.TipoHabitacionApi api)
         {
             try
             {
-                if (idTipoHabitacion != tpHbt.IdTipoHabitacion || !Validate(tpHbt))
+                TipoHabitacion thbt = _dbContext.TipoHabitacions.Find(api.IdTipoHabitacion);                
+                if (idTipoHabitacion != api.IdTipoHabitacion || thbt == null)
                 {
                     return BadRequest();
                 }
-                _dbContext.TipoHabitacions.Entry(tpHbt).State = EntityState.Modified;
+                thbt.Descripcion = api.Descripcion;
+                thbt.NumeroCamas = api.NumeroCamas;
+                _dbContext.TipoHabitacions.Entry(thbt).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return NoContent();
             }

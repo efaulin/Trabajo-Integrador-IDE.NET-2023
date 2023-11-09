@@ -123,7 +123,7 @@ namespace Negocio
 
         public static async void Initialize(Entidad.Models.Habitacion hbt)
         {
-            hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+            hbt.IdTipoHabitacionNavigation = await TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
             List<Entidad.Models.Reserva>? rsv = await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion);
             if (rsv == null)
             {
@@ -150,44 +150,46 @@ namespace Negocio
     public class TipoHabitacion
     {
         static Datos.DBContext dBContext = Datos.DBContext.dBContext;
-        public static List<Entidad.Models.TipoHabitacion> GetAll()
+        public static async Task<List<Entidad.Models.TipoHabitacion>> GetAll()
         {
-            List<Entidad.Models.TipoHabitacion> lstTipHbt = dBContext.TipoHabitacions.ToList();
-            foreach (Entidad.Models.TipoHabitacion tipHbt in lstTipHbt)
+            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/TipoHabitacion/GetAll/");
+            var data = JsonConvert.DeserializeObject<List<Entidad.Models.TipoHabitacion>>(response);
+            foreach(Entidad.Models.TipoHabitacion tp in data)
             {
-                tipHbt.PrecioTipoHabitacions = dBContext.PrecioTipoHabitacions.Where(tip => tip.IdTipoHabitacion == tipHbt.IdTipoHabitacion).ToList();
+                tp.PrecioTipoHabitacions = await PrecioTipoHabitacion.GetAllById(tp.IdTipoHabitacion);
             }
-            return lstTipHbt;
+            return data;
+
         }
-        public static Entidad.Models.TipoHabitacion? GetOne(int id)
+        public static async Task<Entidad.Models.TipoHabitacion> GetOne(int id)
         {
-            Entidad.Models.TipoHabitacion? tipHbt = dBContext.TipoHabitacions.Find(id);
-            if (tipHbt != null)
-            {
-                tipHbt.PrecioTipoHabitacions = dBContext.PrecioTipoHabitacions.Where(tip => tip.IdTipoHabitacion == tipHbt.IdTipoHabitacion).ToList();
-            }
-            return tipHbt;
+            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/TipoHabitacion/GetOne/" + id.ToString());
+            var data = JsonConvert.DeserializeObject<Entidad.Models.TipoHabitacion>(response);
+            data.PrecioTipoHabitacions = await PrecioTipoHabitacion.GetAllById(id);
+            return data;
         }
-        public static void Create(Entidad.Models.TipoHabitacion tipHbt)
+        public static async Task<Entidad.Models.TipoHabitacion> Create(Entidad.Models.TipoHabitacion tipHbt)
         {
-            dBContext.TipoHabitacions.Add(tipHbt);
-            dBContext.SaveChanges();
-            dBContext.Update(tipHbt);
+            Entidad.Api.TipoHabitacionApi tipApi = GetApiTipo(tipHbt);
+            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/TipoHabitacion/Create", tipApi);
+            int data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
+            Entidad.Models.TipoHabitacion createdTipo = (await GetOne(data))!;
+            return createdTipo;
         }
-        public static void Update(Entidad.Models.TipoHabitacion tipHbt)
+        public static async Task<bool> Update(Entidad.Models.TipoHabitacion tipHbt)
         {
-            dBContext.Update(tipHbt);
-            dBContext.SaveChanges();
+            Entidad.Api.TipoHabitacionApi tipApi = GetApiTipo(tipHbt);
+            var response = await Conexion.http.PutAsJsonAsync("http://localhost:7110/api/TipoHabitacion/Update/" + tipHbt.IdTipoHabitacion.ToString(), tipApi);
+            return response.IsSuccessStatusCode;
         }
-        public static bool Delete(Entidad.Models.TipoHabitacion tipHbt)
+        public static async Task<bool> Delete(Entidad.Models.TipoHabitacion tipHbt)
         {
             try
             {
                 if (tipHbt != null)
                 {
-                    dBContext.TipoHabitacions.Remove(tipHbt);
-                    dBContext.SaveChanges();
-                    return true;
+                    var result = await Conexion.http.DeleteAsync("http://localhost:7110/api/TipoHabitacion/Delete/" + tipHbt.IdTipoHabitacion.ToString());
+                    return result.IsSuccessStatusCode;
                 }
                 else
                 {
@@ -195,6 +197,15 @@ namespace Negocio
                 }
             }
             catch { return false; }           
+        }
+
+        public static Entidad.Api.TipoHabitacionApi GetApiTipo(Entidad.Models.TipoHabitacion thbt)
+        {
+            Entidad.Api.TipoHabitacionApi api = new Entidad.Api.TipoHabitacionApi();
+            api.IdTipoHabitacion = thbt.IdTipoHabitacion;
+            api.Descripcion = thbt.Descripcion;
+            api.NumeroCamas = thbt.NumeroCamas;
+            return api;
         }
 
         /// <summary>
@@ -227,51 +238,45 @@ namespace Negocio
     public class PrecioTipoHabitacion
     {
         static Datos.DBContext dBContext = Datos.DBContext.dBContext;
-        public static List<Entidad.Models.PrecioTipoHabitacion> GetAll()
+        public static async Task<List<Entidad.Models.PrecioTipoHabitacion>> GetAll()
         {
-            List<Entidad.Models.PrecioTipoHabitacion> lstPresTipHbt = dBContext.PrecioTipoHabitacions.ToList();
-            foreach (Entidad.Models.PrecioTipoHabitacion PresTipHbt in lstPresTipHbt)
-            {
-                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion)!;
-            }
-            return lstPresTipHbt;
+            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioTipoHabitacion/GetAll/");
+            var data = JsonConvert.DeserializeObject<List<Entidad.Models.PrecioTipoHabitacion>>(response);
+            return data;
         }
 
-        public static Entidad.Models.PrecioTipoHabitacion? GetOne(int id)
+        public static async Task<Entidad.Models.PrecioTipoHabitacion> GetOne(int id)
         {
-            Entidad.Models.PrecioTipoHabitacion? PresTipHbt = dBContext.PrecioTipoHabitacions.Find(id);
-            if (PresTipHbt != null)
-            {
-                PresTipHbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(PresTipHbt.IdTipoHabitacion)!;
-            }
-            return PresTipHbt;
+            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioTipoHabitacion/GetOne/" + id.ToString());
+            var data = JsonConvert.DeserializeObject<Entidad.Models.PrecioTipoHabitacion>(response);
+            return data;
         }
 
-        public static void Create(Entidad.Models.PrecioTipoHabitacion PresTipHbt)
+        public static async Task<Entidad.Models.PrecioTipoHabitacion> Create(Entidad.Models.PrecioTipoHabitacion PresTipHbt)
         {
-            dBContext.PrecioTipoHabitacions.Add(PresTipHbt);
-            dBContext.SaveChanges();
-            dBContext.Update(PresTipHbt);
+            Entidad.Api.PrecioTipoHabitacionApi srv = await GetApiPrecTipo(PresTipHbt);
+            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/PrecioTipoHabitacion/Create", srv);
+            var data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
+            Entidad.Models.PrecioTipoHabitacion createdServ = (await GetOne(data))!;
+            return createdServ;
         }
 
-        public static void Update(Entidad.Models.PrecioTipoHabitacion PresTipHbt)
+        public static async Task<List<Entidad.Models.PrecioTipoHabitacion>> GetAllById(int idTipo)
         {
-            dBContext.Update(PresTipHbt);
-            dBContext.SaveChanges();
+            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioTipoHabitacion/GetAllOfTipoHabitacion/" + idTipo.ToString());
+            var data = JsonConvert.DeserializeObject<List<Entidad.Models.PrecioTipoHabitacion>>(response);
+            return data;
         }
 
-        public static bool Delete(Entidad.Models.PrecioTipoHabitacion PresTipHbt)
+
+        public static async Task<Entidad.Api.PrecioTipoHabitacionApi> GetApiPrecTipo(Entidad.Models.PrecioTipoHabitacion precTip)
         {
-            if (PresTipHbt != null)
-            {
-                dBContext.PrecioTipoHabitacions.Remove(PresTipHbt);
-                dBContext.SaveChanges();
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            Entidad.Api.PrecioTipoHabitacionApi api = new Entidad.Api.PrecioTipoHabitacionApi();
+            api.IdPrecioTipoHabitacion = precTip.IdPrecioTipoHabitacion;
+            api.FechaPrecio = precTip.FechaPrecio;
+            api.IdTipoHabitacion = precTip.IdTipoHabitacion;
+            api.PrecioHabitacion = precTip.PrecioHabitacion;
+            return api;
         }
     }
 }

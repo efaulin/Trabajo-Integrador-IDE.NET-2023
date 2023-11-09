@@ -49,16 +49,22 @@ namespace WindowsForm
                     case 1:
                         try
                         {
-                            serv = new Entidad.Models.Servicio();
+                            Entidad.Models.Servicio serv = new Entidad.Models.Servicio();
                             serv.Descripcion = txtDescipcion.Text;
-                            Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                            prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
-                            prcServ.FechaPrecio = DateTime.Now;
-                            serv.PrecioServicios.Add(prcServ);
-                            if (await Negocio.Servicio.Create(serv))
+                            serv = await Negocio.Servicio.Create(serv);
+                            if (serv != null)
                             {
-                                MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
-                            }
+                                Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
+                                prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
+                                prcServ.FechaPrecio = DateTime.Now;
+                                prcServ.IdServicio = serv.IdServicio;
+                                prcServ = await Negocio.Ngc_PrecioServicio.create(prcServ);
+                                serv = (await Negocio.Servicio.GetOne(serv.IdServicio))!;
+                                if (serv != null)
+                                {
+                                    MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
+                                }
+                            }                         
                                                      
                         }
                         catch
@@ -79,16 +85,17 @@ namespace WindowsForm
                             if (controlPrecio && double.Parse(txtPrecio.Text) != serv.Precio.PrecioServicio1)
                             {
                                 Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                                serv.IdServicio = serv.IdServicio;
-                                prcServ.IdServicioNavigation = serv;
-                                prcServ.FechaPrecio = DateTime.Now;
                                 prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
-                                serv.PrecioServicios.Add(prcServ);
-
+                                prcServ.FechaPrecio = DateTime.Now;
+                                prcServ.IdServicio = serv.IdServicio;
+                                prcServ.IdServicioNavigation = serv;
+                                prcServ = await Negocio.Ngc_PrecioServicio.create(prcServ);                                                           
+                            }
+                            if (await Negocio.Servicio.Update(serv))
+                            {
+                                MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
                             }
 
-                            Negocio.Servicio.Update(serv);
-                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
                         }
                         catch
                         {

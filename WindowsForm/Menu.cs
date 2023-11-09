@@ -6,8 +6,8 @@ namespace WindowsForm
     public partial class Menu : Form
     {
         Empleado emp;
-        Task<List<Habitacion>> lstHbt = Negocio.Habitacion.GetAll();
-        List<TipoHabitacion> lstTpHbt = Negocio.TipoHabitacion.GetAll();
+        //Task<List<Habitacion>> lstHbt = Negocio.Habitacion.GetAll();
+        //Task<List<TipoHabitacion>> lstTpHbt = Negocio.TipoHabitacion.GetAll();
         private Listado? activeForm = null;
         public Menu(Empleado tmp)
         {
