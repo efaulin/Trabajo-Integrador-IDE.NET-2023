@@ -257,7 +257,7 @@ namespace WindowsForm
                     case 0:
                         tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
                         Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
-                        if (Negocio.Habitacion.Delete(hbt))
+                        if (await Negocio.Habitacion.Delete(hbt))
                         {
                             MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
                             listar();

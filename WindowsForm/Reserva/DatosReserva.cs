@@ -262,7 +262,7 @@ namespace WindowsForm
             }
         }
 
-        private void btnBuscarHabitacion_Click(object sender, EventArgs e)
+        private async void btnBuscarHabitacion_Click(object sender, EventArgs e)
         {
             List<Habitacion> lstHbt;
             DataTable? dt = null;
@@ -271,7 +271,7 @@ namespace WindowsForm
 
             if (txtCantidadPersonas.Text.Length > 0 && start.CompareTo(end) < 0)
             {
-                lstHbt = Negocio.Habitacion.GetForAmountOfPeople(int.Parse(txtCantidadPersonas.Text));
+                lstHbt = await Negocio.Habitacion.GetForAmountOfPeople(int.Parse(txtCantidadPersonas.Text));
                 lstHbt = Negocio.Habitacion.TakeAvailable(lstHbt, start, end);
 
                 if (txtPiso.Text.Length > 0)
