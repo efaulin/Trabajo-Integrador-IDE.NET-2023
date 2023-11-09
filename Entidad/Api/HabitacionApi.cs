@@ -5,12 +5,11 @@ namespace Entidad.Api;
 
 public partial class HabitacionApi
 {
-    private int _id;
-    public int IdHabitacion { get { return _id; } }
+    public int IdHabitacion { get; set; }
 
-    public bool Estado { get; }
+    public bool Estado { get; set; }
 
-    public int NumeroHabitacion { get; }
+    public int NumeroHabitacion { get; set; }
 
     public int PisoHabitacion { get; set; }
 

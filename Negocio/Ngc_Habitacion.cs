@@ -122,10 +122,10 @@ namespace Negocio
         public static async void Initialize(Entidad.Models.Habitacion hbt)
         {
             hbt.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
-            List<Entidad.Models.ReservaApi>? rsv = await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaApi>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion);
+            List<Entidad.Models.Reserva>? rsv = await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion);
             if (rsv == null)
             {
-                hbt.Reservas = new List<Entidad.Models.ReservaApi>();
+                hbt.Reservas = new List<Entidad.Models.Reserva>();
             }
             else
             {

@@ -48,18 +48,21 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Servicio> Create(Servicio tmpHbt)
+        public ActionResult<int> Create(Entidad.Api.ServicioApi api)
         {
             try
             {
-                if (!Validate(tmpHbt))
+                Servicio srv = new Servicio();
+                srv.Descripcion = api.Descripcion;  
+                srv.PrecioServicios = new List<PrecioServicio>();
+                if (!Validate(srv))
                 {
                     return BadRequest();
                 }
-                _dbContext.Servicios.Add(tmpHbt);
+                _dbContext.Servicios.Add(srv);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpHbt);
-                return tmpHbt;
+                _dbContext.Update(srv);
+                return srv.IdServicio;
             }
             catch (Exception ex)
             {
@@ -126,8 +129,6 @@ namespace Servicios.Controllers
         private bool Validate(Servicio srv)
         {
             if (srv.PrecioServicios == null)
-            { return false; }
-            if (srv.Precio.PrecioServicio1 <= 0)
             { return false; }
             if (srv.Descripcion.Length == 0 || srv.Descripcion[0].ToString() == " ")
             { return false; }

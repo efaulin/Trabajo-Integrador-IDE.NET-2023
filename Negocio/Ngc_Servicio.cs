@@ -15,10 +15,10 @@ namespace Negocio
         {
             var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/Servicio/GetOne/" + id.ToString());
             var data = JsonConvert.DeserializeObject<Entidad.Models.Servicio>(response);
-            if (data != null)
-            {
-                data.PrecioServicios = dBContext.PrecioServicios.Where(prcSrv => prcSrv.IdServicio == data.IdServicio).ToList();
-            }
+            //if (data != null)
+            //{
+            //    data.PrecioServicios = dBContext.PrecioServicios.Where(prcSrv => prcSrv.IdServicio == data.IdServicio).ToList();
+            //}
             return data;
         }
         public static async Task<List<Entidad.Models.Servicio>> GetAll() { 
@@ -34,17 +34,13 @@ namespace Negocio
             return data;
         }
 
-        public static async Task<bool> Create(Entidad.Models.Servicio srv)
+        public static async Task<Entidad.Models.Servicio> Create(Entidad.Models.Servicio srv)
         {
-            try
-            {
-                var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/Servicio/", srv);
-                return response.IsSuccessStatusCode;
-            }
-            catch
-            {
-                return false;
-            }
+            Entidad.Api.ServicioApi srvApi = GetApi(srv);
+            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/Servicio/Create", srvApi);
+            int data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
+            Entidad.Models.Servicio createdServ = (await GetOne(data))!;
+            return createdServ;          
         }
         public static bool Delete(Entidad.Models.Servicio srv)
         {
@@ -85,6 +81,15 @@ namespace Negocio
                 lstSrv.Add(await Servicio.GetOne(r.IdServicio)!);
                 });
             return lstSrv;
+        }
+
+        public static Entidad.Api.ServicioApi GetApi(Entidad.Models.Servicio srv)
+        {
+            Entidad.Api.ServicioApi api = new Entidad.Api.ServicioApi();
+            api.Descripcion = srv.Descripcion;
+            api.IdServicio = srv.IdServicio;
+          
+            return api;
         }
     }
 }
