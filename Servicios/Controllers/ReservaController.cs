@@ -50,12 +50,20 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Reserva> Create(ReservaApi rsvApi)
+        public ActionResult<int> Create(ReservaApi rsvApi)
         {
             try
             {
-                Reserva rsv = rsvApi.rsv;
-                List<Servicio> lstSrv = rsvApi.lstSrv;
+                Reserva rsv = new Reserva();
+                rsv.FechaInscripcion = rsvApi.FechaInscripcion;
+                rsv.FechaInicioReserva = rsvApi.FechaInicioReserva;
+                rsv.FechaFinReserva = rsvApi.FechaFinReserva;
+                rsv.EstadoReserva = rsvApi.EstadoReserva;
+                rsv.CantidadPersonas = rsvApi.CantidadPersonas;
+                rsv.IdHabitacion = rsvApi.IdHabitacion;
+                rsv.IdHuesped = rsvApi.IdHuesped;
+                rsv.IdHabitacionNavigation = _dbContext.Habitacions.Find(rsvApi.IdHabitacion)!;
+                rsv.IdHuespedNavigation = _dbContext.Huespeds.Find(rsvApi.IdHuesped)!;
                 if (!Validate(rsv))
                 {
                     return BadRequest();
@@ -63,9 +71,7 @@ namespace Servicios.Controllers
                 _dbContext.Reservas.Add(rsv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(rsv);
-                if (SaveServicios(rsv, lstSrv)) { return rsv; }
-                else { return Problem(statusCode: 409, detail: "Problemas al cargar los servicios"); ; }
-                
+                return rsv.IdReserva;
             }
             catch (Exception ex)
             {
@@ -78,16 +84,28 @@ namespace Servicios.Controllers
         {
             try
             {
-                Reserva rsv = rsvApi.rsv;
-                List<Servicio> lstSrv = rsvApi.lstSrv;
+                Reserva? rsv = _dbContext.Reservas.Find(rsvApi.IdReserva);
+                if (rsv == null) {  return NotFound(); }
+                else
+                {
+                    rsv.IdReserva = rsvApi.IdReserva;
+                    rsv.FechaInscripcion = rsvApi.FechaInscripcion;
+                    rsv.FechaInicioReserva = rsvApi.FechaInicioReserva;
+                    rsv.FechaFinReserva = rsvApi.FechaFinReserva;
+                    rsv.EstadoReserva = rsvApi.EstadoReserva;
+                    rsv.CantidadPersonas = rsvApi.CantidadPersonas;
+                    rsv.IdHabitacion = rsvApi.IdHabitacion;
+                    rsv.IdHuesped = rsvApi.IdHuesped;
+                    rsv.IdHabitacionNavigation = _dbContext.Habitacions.Find(rsvApi.IdHabitacion)!;
+                    rsv.IdHuespedNavigation = _dbContext.Huespeds.Find(rsvApi.IdHuesped)!;
+                }
                 if (idReserva != rsv.IdHuesped || !Validate(rsv))
                 {
                     return BadRequest();
                 }
                 _dbContext.Reservas.Entry(rsv).State = EntityState.Modified;
                 _dbContext.SaveChanges();
-                if (SaveServicios(rsv, lstSrv)) { return NoContent(); }
-                else { return Problem(statusCode: 409, detail: "Problemas al cargar los servicios"); }
+                return NoContent();
             }
             catch (Exception ex)
             {
@@ -117,11 +135,14 @@ namespace Servicios.Controllers
         {
             try
             {
-                return _dbContext.Reservas.Join(_dbContext.ReservaServicios,
-                    r => r.IdReserva,
+                return _dbContext.ReservaServicios.Join(_dbContext.Servicios,
+                    rs => rs.IdServicio,
+                    s => s.IdServicio,
+                    (rs, s) => rs
+                    ).Where(e => e.IdServicio == idServicio).Join(_dbContext.Reservas,
                     rs => rs.IdReserva,
-                    (r, rs) => r
-                    ).ToList();
+                    r => r.IdReserva,
+                    (rs, r) => r).ToList();
             }
             catch (Exception ex)
             {

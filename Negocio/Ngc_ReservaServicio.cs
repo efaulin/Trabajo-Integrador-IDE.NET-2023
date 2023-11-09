@@ -1,48 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 using Datos;
+using Newtonsoft.Json;
 
 namespace Negocio
 {
     public class ReservaServicio
     {
-        static DBContext dBContext = DBContext.dBContext;
-        public static Entidad.Models.ReservaServicio? GetOne(int id)
+        static readonly DBContext dBContext = DBContext.dBContext;
+        static readonly string defaultUrl = Conexion.defaultUrl + "ReservaServicio/";
+        public static async Task<Entidad.Models.ReservaServicio?> GetOne(int id)
         {
-            Entidad.Models.ReservaServicio? srv = dBContext.ReservaServicios.Find(id);
-            /*if (srv != null)
+            Entidad.Models.ReservaServicio? srv = await Conexion.http.GetFromJsonAsync<Entidad.Models.ReservaServicio>(defaultUrl + "GetOne/" + id);
+            if (srv != null)
             {
-                srv.IdServicioNavigation = dBContext.Servicios.FirstOrDefault(sr => sr.IdServicio == srv.IdServicio)!;
-                srv.IdReservaNavigation = dBContext.Reservas.FirstOrDefault(rs => rs.IdReserva == srv.IdReserva)!;
-            }*/
+                Initialize(srv);
+            }
             return srv;
         }
-        public static List<Entidad.Models.ReservaServicio> GetAll()
+        public static async Task<List<Entidad.Models.ReservaServicio>> GetAll()
         {
-            List<Entidad.Models.ReservaServicio> rsvSrv = dBContext.ReservaServicios.ToList();
-            /*foreach (Entidad.Models.ReservaServicio srv in rsvSrv)
+            List<Entidad.Models.ReservaServicio> rsvSrv = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAll"))!;
+            foreach (Entidad.Models.ReservaServicio srv in rsvSrv)
             {
-                srv.IdServicioNavigation = dBContext.Servicios.FirstOrDefault(sr => sr.IdServicio == srv.IdServicio)!;
-                srv.IdReservaNavigation = dBContext.Reservas.FirstOrDefault(rs => rs.IdReserva == srv.IdReserva)!;
-            }*/
+                Initialize(srv);
+            }
             return rsvSrv;
         }
         public static bool Create(Entidad.Models.ReservaServicio srv)
         {
-            try
-            {
-                dBContext.ReservaServicios.Add(srv);
-                dBContext.SaveChanges();
-                dBContext.Update(srv);
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            Entidad.Api.ReservaServicioApi rsvSrvApi = GetApi(srv);
+            var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", hbtApi);
+            int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
+            Entidad.Models.Habitacion createdHbt = (await GetOne(id))!;
+            return createdHbt;
         }
         public static bool Delete(Entidad.Models.ReservaServicio srv)
         {
@@ -113,6 +108,14 @@ namespace Negocio
                 srv.IdReservaNavigation = dBContext.Reservas.FirstOrDefault(rs => rs.IdReserva == srv.IdReserva)!;
             }*/
             return srv;
+        }
+
+        private static Entidad.Api.ReservaServicioBoxApi
+
+        private static async void Initialize(Entidad.Models.ReservaServicio srv)
+        {
+            srv.IdServicioNavigation = (await Servicio.GetOne(srv.IdServicio))!;
+            srv.IdReservaNavigation = (await Reserva.GetOne(srv.IdReserva))!;
         }
     }
 }

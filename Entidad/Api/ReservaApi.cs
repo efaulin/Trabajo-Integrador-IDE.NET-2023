@@ -1,20 +1,28 @@
-﻿using System;
+﻿using Entidad.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Entidad.Models;
 
 namespace Entidad.Api
 {
     public class ReservaApi
     {
-        public Reserva rsv { get; set; }
-        public List<Servicio> lstSrv { get; set; }
-        public ReservaApi(Reserva tmpRsv, List<Servicio> tmpLst)
-        {
-            rsv = tmpRsv;
-            lstSrv = tmpLst;
-        }
+        public int IdReserva { get; set; }
+
+        public DateTime FechaInscripcion { get; set; }
+
+        public DateTime FechaInicioReserva { get; set; }
+
+        public DateTime FechaFinReserva { get; set; }
+
+        public string EstadoReserva { get; set; } = null!;
+
+        public int CantidadPersonas { get; set; }
+
+        public int IdHabitacion { get; set; }
+
+        public int IdHuesped { get; set; }
     }
 }

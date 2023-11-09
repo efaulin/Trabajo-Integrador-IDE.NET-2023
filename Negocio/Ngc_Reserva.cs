@@ -7,90 +7,57 @@ using System.Text;
 using System.Threading.Tasks;
 using Datos;
 using System.Security.Cryptography;
+using System.Net.Http.Json;
+using Entidad.Api;
+using Newtonsoft.Json;
+using static System.Net.WebRequestMethods;
 
 namespace Negocio
 {
     public class Reserva
     {
-        static DBContext dBContext = DBContext.dBContext;
-        public static List<Entidad.Models.Reserva> GetAll()
+        static readonly DBContext dBContext = DBContext.dBContext;
+        static readonly string defaultUrl = Conexion.defaultUrl + "Reserva/";
+        public static async Task<List<Entidad.Models.Reserva>> GetAll()
         {
-            List<Entidad.Models.Reserva> lstRsv = dBContext.Reservas.ToList();
+            List<Entidad.Models.Reserva> lstRsv = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(defaultUrl + "GetAll"))!;
             foreach (Entidad.Models.Reserva rsv in lstRsv)
             {
-                if (rsv.IdHabitacionNavigation == null)
-                {
-                    rsv.IdHabitacionNavigation = dBContext.Habitacions.Find(rsv.IdHabitacion)!;
-                    //rsv.IdHabitacionNavigation = Habitacion.GetOne(rsv.IdHabitacion)!;
-                }
-                if (rsv.IdHuespedNavigation == null)
-                {
-                    rsv.IdHuespedNavigation = dBContext.Huespeds.Find(rsv.IdHuesped)!;
-                    //rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
-                }
+                Initialize(rsv);
             }
             return lstRsv;
         }
 
-        public static Entidad.Models.Reserva? GetOne(int id)
+        public static async Task<Entidad.Models.Reserva?> GetOne(int id)
         {
-            Entidad.Models.Reserva? rsv = dBContext.Reservas.Find(id);
+            Entidad.Models.Reserva? rsv = await Conexion.http.GetFromJsonAsync<Entidad.Models.Reserva>(defaultUrl + "GetOne/" + id);
             if (rsv != null)
             {
-                if (rsv.IdHabitacionNavigation != null)
-                {
-                    rsv.IdHabitacionNavigation = dBContext.Habitacions.Find(rsv.IdHabitacion)!;
-                    rsv.IdHuespedNavigation = dBContext.Huespeds.Find(rsv.IdHuesped)!;
-                }
+                Initialize(rsv);
             }
             return rsv;
         }
 
-        public static async Task<bool> Create(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+        public static async Task<Entidad.Models.Reserva> Create(Entidad.Models.Reserva rsv)
         {
-            try
-            {
-                dBContext.Reservas.Add(rsv);
-                dBContext.SaveChanges();
-                dBContext.Update(rsv);
-                Task<bool> result = SaveServicios(rsv, lstSrv);
-                if (await result) { return true; }
-                else { return false; }
-            }
-            catch
-            {
-                return false;
-            }
+            ReservaApi rsvApi = GetApi(rsv);
+            var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", rsvApi);
+            int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
+            Entidad.Models.Reserva createdRsv = (await GetOne(id))!;
+            return createdRsv;
         }
 
         public static async Task<bool> Update(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
-            try
-            {
-                dBContext.Update(rsv);
-                dBContext.SaveChanges();
-                Task<bool> result = SaveServicios(rsv, lstSrv);
-                if (await result) { return true; }
-                else { return false; }
-            }
-            catch
-            {
-                return false;
-            }
+            ReservaApi rsvApi = GetApi(rsv);
+            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + rsv.IdReserva, rsvApi);
+            return result.IsSuccessStatusCode;
         }
 
-        public static bool Delete(Entidad.Models.Reserva rsv)
+        public static async Task<bool> Delete(Entidad.Models.Reserva rsv)
         {
-            try
-            {
-                dBContext.Remove(rsv);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            var result = await Conexion.http.DeleteAsync(defaultUrl + "Delete/" + rsv.IdReserva);
+            return result.IsSuccessStatusCode;
         }
 
         public static bool Validate(Entidad.Models.Reserva rsv)
@@ -101,16 +68,18 @@ namespace Negocio
             return true;
         }
 
-        public static List<Entidad.Models.Reserva> GetAllOfServicio(int idServicio)
+        public static async Task<List<Entidad.Models.Reserva>> GetAllOfServicio(int idServicio)
         {
-            List<Entidad.Models.ReservaServicio> lstRsvSrv = ReservaServicio.GetAllOfServicio(idServicio);
-            List<Entidad.Models.Reserva> lstRsv = new List<Entidad.Models.Reserva>();
-            lstRsvSrv.ForEach(r => { lstRsv.Add(Reserva.GetOne(r.IdReserva)!); });
+            List<Entidad.Models.Reserva> lstRsv = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(defaultUrl + "GetAllOfServicio/" + idServicio))!;
+            foreach (Entidad.Models.Reserva rsv in lstRsv)
+            {
+                Initialize(rsv);
+            }
             return lstRsv;
         }
 
 
-        private static async Task<bool> SaveServicios(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+        /*private static async Task<bool> SaveServicios(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
         {
             bool control = true;
             Task<List<Entidad.Models.Servicio>> getlstGuardada = Servicio.GetAllOfReserva(rsv.IdReserva);
@@ -144,6 +113,32 @@ namespace Negocio
             }
 
             return control;
+        }*/
+
+        private static async void Initialize(Entidad.Models.Reserva rsv)
+        {
+            if (rsv.IdHabitacionNavigation == null)
+            {
+                rsv.IdHabitacionNavigation = (await Habitacion.GetOne(rsv.IdHabitacion))!;
+            }
+            if (rsv.IdHuespedNavigation == null)
+            {
+                rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
+            }
+        }
+
+        private static ReservaApi GetApi(Entidad.Models.Reserva rsv)
+        {
+            ReservaApi rsvApi = new ReservaApi();
+            rsvApi.IdReserva = rsv.IdReserva;
+            rsvApi.FechaInscripcion = rsv.FechaInscripcion;
+            rsvApi.FechaInicioReserva = rsv.FechaInicioReserva;
+            rsvApi.FechaFinReserva = rsv.FechaFinReserva;
+            rsvApi.EstadoReserva = rsv.EstadoReserva;
+            rsvApi.CantidadPersonas = rsv.CantidadPersonas;
+            rsvApi.IdHabitacion = rsv.IdHabitacion;
+            rsvApi.IdHuesped = rsv.IdHuesped;
+            return rsvApi;
         }
     }
 }
