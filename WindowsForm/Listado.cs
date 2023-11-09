@@ -32,7 +32,6 @@ namespace WindowsForm
             };
             opcion = (int)ht[op]!;
             InitializeComponent();
-            listar();
         }
 
         public async void listar()
@@ -84,7 +83,7 @@ namespace WindowsForm
                     dgvHabitaciones.Columns.RemoveAt(5);
                     break;
                 case 3:
-                    List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
+                    List<Reserva> _lstRsv = await Negocio.Reserva.GetAll();
                     DataTable dtRsv = new DataTable();
                     DataColumn[] dcRsv = new DataColumn[]
                     {
@@ -295,8 +294,8 @@ namespace WindowsForm
                         break;
                     case 3:
                         tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Reserva rsv = Negocio.Reserva.GetOne(tmpId)!;
-                        if (Negocio.Reserva.Delete(rsv))
+                        Reserva rsv = (await Negocio.Reserva.GetOne(tmpId))!;
+                        if (await Negocio.Reserva.Delete(rsv))
                         {
                             MessageBox.Show("Reserva ID:" + tmpId + " borrado con exito");
                             listar();

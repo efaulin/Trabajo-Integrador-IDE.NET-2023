@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Datos;
 using System.Text.RegularExpressions;
 using System.Reflection.PortableExecutable;
+using Entidad.Api;
 
 namespace Servicios.Controllers
 {
@@ -49,10 +50,16 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ReservaServicio> Create(ReservaServicio rsv)
+        public ActionResult<int> Create(ReservaServicioApi api)
         {
             try
             {
+                ReservaServicio rsv = new ReservaServicio();
+                rsv.IdReservaServicio = api.IdReservaServicio;
+                rsv.IdServicio = api.IdServicio;
+                rsv.IdReserva = api.IdReserva;
+                rsv.IdReservaNavigation = _dbContext.Reservas.Find(api.IdReserva)!;
+                rsv.IdServicioNavigation = _dbContext.Servicios.Find(api.IdServicio)!;
                 if (!Validate(rsv))
                 {
                     return BadRequest();
@@ -60,7 +67,7 @@ namespace Servicios.Controllers
                 _dbContext.ReservaServicios.Add(rsv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(rsv);
-                return rsv;
+                return rsv.IdReservaServicio;
             }
             catch (Exception ex)
             {
@@ -69,11 +76,12 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idReservaServicio}")]
-        public ActionResult Update(int idReservaServicio, ReservaServicio rsv)
+        public ActionResult Update(int idReservaServicio, ReservaServicioApi api)
         {
             try
             {
-                if (idReservaServicio != rsv.IdReservaServicio || !Validate(rsv))
+                ReservaServicio? rsv = _dbContext.ReservaServicios.Find(api.IdReservaServicio);
+                if (rsv == null || idReservaServicio != rsv.IdReservaServicio || !Validate(rsv))
                 {
                     return BadRequest();
                 }
@@ -156,6 +164,65 @@ namespace Servicios.Controllers
             {
                 return Problem(statusCode: 500, detail: ex.Message);
             }
+        }
+
+        [HttpPut]
+        public ActionResult<bool> SaveServicios(List<ReservaServicioApi> lstSrvApi)
+        {
+            bool control = true;
+            Reserva? rsv = _dbContext.Reservas.Find(lstSrvApi.First().IdReserva);
+            if (rsv == null) { return NotFound(); }
+            List<Servicio> lstSrv = new List<Servicio>();
+            lstSrvApi.ForEach(x => { lstSrv.Add(_dbContext.Servicios.Find(x.IdServicio)!); });
+
+            var srv_rsvSrv = _dbContext.Servicios.Join(_dbContext.ReservaServicios,
+                s => s.IdServicio,
+                rs => rs.IdServicio,
+                (s, rs) => new { s, rs }
+                ).Where(e => e.rs.IdReserva == rsv.IdReserva).ToList();
+
+            List<Servicio> lstGuardada = new List<Servicio>();
+            srv_rsvSrv.ForEach(x => { lstGuardada.Add(x.s); });
+
+            //Guardo las nuevas relaciones
+            foreach (Servicio tmpSrv in lstSrv)
+            {
+                if (!lstGuardada.Contains(tmpSrv))
+                {
+                    ReservaServicio newRsvSrv = new ReservaServicio();
+                    newRsvSrv.IdReserva = rsv.IdReserva;
+                    newRsvSrv.IdServicio = tmpSrv.IdServicio;
+                    try
+                    {
+                        _dbContext.ReservaServicios.Add(newRsvSrv);
+                        _dbContext.SaveChanges();
+                        _dbContext.Update(newRsvSrv);
+                    }
+                    catch
+                    {
+                        control = false;
+                    }
+                }
+            }
+            //Borro las que ya no se relacionan
+            foreach (Servicio dbSrv in lstGuardada)
+            {
+                if (!lstSrv.Contains(dbSrv))
+                {
+                    ReservaServicio delRsrSrv = _dbContext.ReservaServicios.First(e => e.IdReserva == rsv.IdReserva && e.IdServicio == dbSrv.IdServicio);
+                    try
+                    {
+                        _dbContext.ReservaServicios.Remove(delRsrSrv);
+                        _dbContext.SaveChanges();
+                    }
+                    catch
+                    {
+                        control = false;
+                    }
+                }
+            }
+
+            return control;
         }
 
         /// <summary>

@@ -16,15 +16,18 @@ namespace WindowsForm
 {
     public partial class DatosReserva : Form
     {
+        int? idRsv;
         Reserva? _rsv;
         Habitacion? _hbt;
         Huesped? _hpd;
         Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
+        Task<List<Servicio>> getLstSrv = Negocio.Servicio.GetAll();
+        List<Habitacion> originlstHbt;
+        List<Servicio> originlstSrv;
+        List<Servicio> _lstSrv;
         List<Huesped> _lstHpd = Negocio.Huesped.GetAll();
-        List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
-        Task<List<Servicio>> getlstSrv = Negocio.Servicio.GetAll();
-        Task<List<Servicio>> getlstSrvGuardados;
-        List<Servicio> lstSrvTemporal = new List<Servicio>();
+        List<Reserva> _lstRsv;
+        List<ReservaServicio> lstSrvTemporal = new List<ReservaServicio>();
         Hashtable _hashHbt = new Hashtable();
         Hashtable _hashHpd = new Hashtable();
         Hashtable _hashRsv = new Hashtable();
@@ -54,32 +57,36 @@ namespace WindowsForm
 
         public DatosReserva(int id)
         {
-            try
-            {
-                _rsv = Negocio.Reserva.GetOne(id)!;
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("¡La reserva no existe!\n" + ex);
-                this.Close();
-            }
+            idRsv = id;
             InitializeComponent();
         }
 
         private async void DatosHabitacion_Load(object sender, EventArgs e)
         {
-            List<Habitacion> _lstHbt = await getlstHbt;
+            originlstSrv = await getLstSrv;
+            originlstHbt = await getlstHbt;
+            if (idRsv != null)
+            {
+                _rsv = await Negocio.Reserva.GetOne(idRsv ?? 0);
+                if (_rsv == null)
+                {
+                    MessageBox.Show("¡La reserva no existe!");
+                    this.Close();
+                }
+            }
+            List<Habitacion> _lstHbt = originlstHbt;
             if (_lstHbt.Count <= 0)
             {
                 MessageBox.Show("¡No hay habitaciones registradas!\nAgrege una habitacion, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
+            //List<Habitacion> _lstHpd = await getlstHpd;
             else if (_lstHpd.Count <= 0)
             {
                 MessageBox.Show("¡No hay huespedes registrados!\nAgrege un huesped, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
-
+            _lstRsv = await Negocio.Reserva.GetAll();
             foreach (Reserva _tmpRsv in _lstRsv)
             {
                 string tmp = _tmpRsv.FechaInscripcion.ToString("dd/MM/yyyy") + " - Habitacion " + _tmpRsv.IdHabitacionNavigation.NumeroHabitacion + " piso " + _tmpRsv.IdHabitacionNavigation.PisoHabitacion;
@@ -104,7 +111,7 @@ namespace WindowsForm
                 dtFechaInicio.MinDate = DateTime.Now;
                 dtFechaFin.Value = dtFechaInicio.Value.AddDays(1);
                 dtFechaFin.MinDate = DateTime.Now.AddDays(1);
-                List<Servicio> _lstSrv = await getlstSrv;
+                _lstSrv = originlstSrv;
                 foreach (Servicio _tmpSrv in _lstSrv)
                 {
                     chkBoxListServicio.Items.Add(_tmpSrv.Descripcion);
@@ -136,9 +143,8 @@ namespace WindowsForm
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
             SetDataGridsEditando(_rsv.IdHabitacionNavigation, _rsv.IdHuespedNavigation);
             chkBoxListServicio.Items.Clear();
-            getlstSrvGuardados = Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
-            List<Servicio> lstSrvGuardados = await getlstSrvGuardados;
-            List<Servicio> _lstSrv = await getlstSrv;
+            List<Servicio> lstSrvGuardados = await Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
+            _lstSrv = originlstSrv;
             foreach (Servicio _tmpSrv in _lstSrv)
             {
                 chkBoxListServicio.Items.Add(_tmpSrv.Descripcion, lstSrvGuardados.Contains(_tmpSrv));
@@ -157,11 +163,20 @@ namespace WindowsForm
                     asignarValores();
                     if (Negocio.Reserva.Validate(_rsv))
                     {
-                        Task<bool> result = Negocio.Reserva.Create(_rsv, lstSrvTemporal);
-                        if (!await result)
+                        _rsv = await Negocio.Reserva.Create(_rsv);
+                        if (_rsv == null)
                         {
                             stop = true;
-                            MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
+                        else
+                        {
+                            bool serviciosControl = await Negocio.ReservaServicio.SaveServicios(lstSrvTemporal);
+                            if (!serviciosControl)
+                            {
+                                stop = true;
+                                MessageBox.Show("Hubo un error al guardar los servicios\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            }
                         }
                     }
                     else
@@ -177,19 +192,20 @@ namespace WindowsForm
                     _rsv.FechaInscripcion = DateTime.Now.Date;
                     _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
                     asignarValores();
-                    if (Negocio.Reserva.Validate(_rsv))
+                    _rsv = await Negocio.Reserva.Create(_rsv);
+                    if (_rsv == null)
                     {
-                        Task<bool> result = Negocio.Reserva.Create(_rsv, lstSrvTemporal);
-                        if (!await result)
-                        {
-                            stop = true;
-                            MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        }
+                        stop = true;
+                        MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     else
                     {
-                        stop = true;
-                        MessageBox.Show("Hay un error en los datos de la reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        bool serviciosControl = await Negocio.ReservaServicio.SaveServicios(lstSrvTemporal);
+                        if (!serviciosControl)
+                        {
+                            stop = true;
+                            MessageBox.Show("Hubo un error al guardar los servicios\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        }
                     }
                 }
 
@@ -209,24 +225,27 @@ namespace WindowsForm
             this.Close();
         }
 
-        private async void asignarValores()
+        private void asignarValores()
         {
-            Task<Habitacion> getOne = Negocio.Habitacion.GetOne((int)dtGrHabitacion.SelectedRows[0].Cells[0].Value)!;
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
             _rsv.CantidadPersonas = int.Parse(txtCantidadPersonas.Text);
-            _rsv.IdHabitacionNavigation = await getOne;
-            _rsv.IdHuespedNavigation = Negocio.Huesped.GetOne((int)dtGrHuesped.SelectedRows[0].Cells[0].Value)!;
-            _rsv.IdHabitacion = _rsv.IdHabitacionNavigation.IdHabitacion;
-            _rsv.IdHuesped = _rsv.IdHuespedNavigation.IdHuesped;
-
-            List<Servicio> _lstSrv = await getlstSrv;
+            int idHbt = (int)dtGrHabitacion.SelectedRows[0].Cells[0].Value;
+            _rsv.IdHabitacionNavigation = originlstHbt.First(e => e.IdHabitacion == idHbt);
+            int idHpd = (int)dtGrHuesped.SelectedRows[0].Cells[0].Value;
+            _rsv.IdHuespedNavigation = _lstHpd.First(e => e.IdHuesped == idHpd);
+            _rsv.IdHabitacion = (int)dtGrHabitacion.SelectedRows[0].Cells[0].Value;
+            _rsv.IdHuesped = (int)dtGrHuesped.SelectedRows[0].Cells[0].Value;
             //Guardo las relaciones de la reserva con los servicios
+            _lstSrv = originlstSrv;
             for (int i = 0; i < _lstSrv.Count; i++)
             {
                 if (chkBoxListServicio.GetItemChecked(i))
                 {
-                    lstSrvTemporal.Add(_lstSrv[i]);
+                    ReservaServicio tmp = new ReservaServicio();
+                    tmp.IdReserva = _rsv.IdReserva;
+                    tmp.IdServicio = _lstSrv[i].IdServicio;
+                    lstSrvTemporal.Add(tmp);
                 }
             }
         }

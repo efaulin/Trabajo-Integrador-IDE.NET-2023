@@ -117,13 +117,19 @@ namespace Negocio
 
         private static async void Initialize(Entidad.Models.Reserva rsv)
         {
-            if (rsv.IdHabitacionNavigation == null)
+            Task<Entidad.Models.Habitacion> getHbt = Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(Conexion.defaultUrl + "Habitacion/GetOne/" + rsv.IdHabitacion)!;
+            getHbt.Wait();
+            rsv.IdHabitacionNavigation = await getHbt;
+            if (!getHbt.IsCompleted)
             {
-                rsv.IdHabitacionNavigation = (await Habitacion.GetOne(rsv.IdHabitacion))!;
+                throw new Exception();
             }
-            if (rsv.IdHuespedNavigation == null)
+            //Task<Entidad.Models.TipoHabitacion> getTipo = 
+            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
+            rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
+            if (rsv.IdHabitacionNavigation == null || rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation == null || rsv.IdHuespedNavigation == null)
             {
-                rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
+                throw new Exception("Nulo jaja");
             }
         }
 

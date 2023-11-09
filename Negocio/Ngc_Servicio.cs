@@ -79,7 +79,7 @@ namespace Negocio
         /// <returns>Lista de servicios pertenecientes a la reserva de id ingresado</returns>
         public async static Task<List<Entidad.Models.Servicio>> GetAllOfReserva(int idReserva)
         {           
-            List<Entidad.Models.ReservaServicio> lstRsvSrv = ReservaServicio.GetAllOfReserva(idReserva);
+            List<Entidad.Models.ReservaServicio> lstRsvSrv = await ReservaServicio.GetAllOfReserva(idReserva);
             List<Entidad.Models.Servicio> lstSrv = new List<Entidad.Models.Servicio>();
             lstRsvSrv.ForEach(async r => {
                 lstSrv.Add(await Servicio.GetOne(r.IdServicio)!);

@@ -106,16 +106,22 @@ namespace Servicios.Controllers
         /// <summary></summary>
         /// <param name="idReserva"></param>
         /// <returns>Lista de servicios pertenecientes a la reserva de id ingresado</returns>
-        [HttpGet(Name = "GetAllOfReserva")]
+        [HttpGet("{idReserva}")]
         public ActionResult<IEnumerable<Servicio>> GetAllOfReserva(int idReserva)
         {
             try
             {
-                return _dbContext.Servicios.Join(_dbContext.ReservaServicios,
-                    s => s.IdServicio,
+                var lstRelacionada = _dbContext.ReservaServicios.Join(_dbContext.Servicios,
                     rs => rs.IdServicio,
-                    (s, rs) => s
-                    ).ToList();
+                    s => s.IdServicio,
+                    (rs, s) => new { rs, s }
+                    ).Where(e => e.rs.IdReserva == idReserva).ToList();
+                List<Servicio> list = new List<Servicio>();
+                foreach (var xd in lstRelacionada)
+                {
+                    list.Add(xd.s);
+                }
+                return list;
             }
             catch (Exception ex)
             {

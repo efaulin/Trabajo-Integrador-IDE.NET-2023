@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Json;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Datos;
@@ -31,91 +32,90 @@ namespace Negocio
             }
             return rsvSrv;
         }
-        public static bool Create(Entidad.Models.ReservaServicio srv)
+        public static async Task<Entidad.Models.ReservaServicio> Create(Entidad.Models.ReservaServicio srv)
         {
             Entidad.Api.ReservaServicioApi rsvSrvApi = GetApi(srv);
-            var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", hbtApi);
+            var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", rsvSrvApi);
             int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
-            Entidad.Models.Habitacion createdHbt = (await GetOne(id))!;
-            return createdHbt;
+            Entidad.Models.ReservaServicio createdRsvSrv = (await GetOne(id))!;
+            return createdRsvSrv;
         }
-        public static bool Delete(Entidad.Models.ReservaServicio srv)
+        public static async Task<bool> Delete(Entidad.Models.ReservaServicio srv)
         {
-            //return Datos.Habitacion.Delete(id);
-            try
-            {
-                dBContext.ReservaServicios.Remove(srv);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            var result = await Conexion.http.DeleteAsync(defaultUrl + "Delete/" + srv.IdReservaServicio);
+            return result.IsSuccessStatusCode;
         }
-        public static bool Update(Entidad.Models.ReservaServicio srv)
+        public static async Task<bool> Update(Entidad.Models.ReservaServicio srv)
         {
-            try
-            {
-                dBContext.Update(srv);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            Entidad.Api.ReservaServicioApi api = GetApi(srv);
+            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + srv.IdServicio, api);
+            return result.IsSuccessStatusCode;
         }
 
         /// <summary></summary>
         /// <param name="idReserva"></param>
         /// <returns>Lista de ReservaServicio que contengan el id reserva recibido</returns>
-        public static List<Entidad.Models.ReservaServicio> GetAllOfReserva(int idReserva)
+        public static async Task<List<Entidad.Models.ReservaServicio>> GetAllOfReserva(int idReserva)
         {
-            List<Entidad.Models.ReservaServicio> lstRsvSrv = dBContext.ReservaServicios.Where(e => e.IdReserva == idReserva).ToList();
-            /*foreach (Entidad.Models.ReservaServicio srv in lstRsvSrv)
+            List<Entidad.Models.ReservaServicio> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAllOfReserva/" + idReserva))!;
+            foreach (Entidad.Models.ReservaServicio srv in response)
             {
-                srv.IdServicioNavigation = dBContext.Servicios.FirstOrDefault(sr => sr.IdServicio == srv.IdServicio)!;
-                srv.IdReservaNavigation = dBContext.Reservas.FirstOrDefault(rs => rs.IdReserva == srv.IdReserva)!;
-            }*/
-            return lstRsvSrv;
+                Initialize(srv);
+            }
+            return response;
         }
 
         /// <summary></summary>
         /// <param name="idServicio"></param>
         /// <returns>Lista de ReservaServicio que contengan el id servicio recibido</returns>
-        public static List<Entidad.Models.ReservaServicio> GetAllOfServicio(int idServicio)
+        public static async Task<List<Entidad.Models.ReservaServicio>> GetAllOfServicio(int idServicio)
         {
-            List<Entidad.Models.ReservaServicio> lstRsvSrv = dBContext.ReservaServicios.Where(e => e.IdServicio == idServicio).ToList();
-            /*foreach (Entidad.Models.ReservaServicio srv in lstRsvSrv)
+            List<Entidad.Models.ReservaServicio> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAllOfServicio/" + idServicio))!;
+            foreach (Entidad.Models.ReservaServicio srv in response)
             {
-                srv.IdServicioNavigation = dBContext.Servicios.FirstOrDefault(sr => sr.IdServicio == srv.IdServicio)!;
-                srv.IdReservaNavigation = dBContext.Reservas.FirstOrDefault(rs => rs.IdReserva == srv.IdReserva)!;
-            }*/
-            return lstRsvSrv;
+                Initialize(srv);
+            }
+            return response;
         }
 
         /// <summary></summary>
         /// <param name="idReserva"></param>
         /// <param name="idServicio"></param>
         /// <returns>Entidad ReservaSerivico que relaciona los id's de reserva y servicios</returns>
-        public static Entidad.Models.ReservaServicio? GetByReserva_Servicio(int idReserva, int idServicio)
+        public static async Task<Entidad.Models.ReservaServicio?> GetByReserva_Servicio(int idReserva, int idServicio)
         {
-            Entidad.Models.ReservaServicio? srv = dBContext.ReservaServicios.FirstOrDefault(e => e.IdReserva == idReserva && e.IdServicio == idServicio);
-            /*if (srv != null)
+            Entidad.Models.ReservaServicio? srv = await Conexion.http.GetFromJsonAsync<Entidad.Models.ReservaServicio>(defaultUrl + "GetByReserva_Servicio/" + idReserva + "/" + idServicio);
+            if (srv != null)
             {
-                srv.IdServicioNavigation = dBContext.Servicios.FirstOrDefault(sr => sr.IdServicio == srv.IdServicio)!;
-                srv.IdReservaNavigation = dBContext.Reservas.FirstOrDefault(rs => rs.IdReserva == srv.IdReserva)!;
-            }*/
+                Initialize(srv);
+            }
             return srv;
         }
 
-        private static Entidad.Api.ReservaServicioBoxApi
+        private static Entidad.Api.ReservaServicioApi GetApi(Entidad.Models.ReservaServicio rsvSrv)
+        {
+            Entidad.Api.ReservaServicioApi api = new Entidad.Api.ReservaServicioApi();
+            api.IdReservaServicio = rsvSrv.IdReservaServicio;
+            api.IdServicio = rsvSrv.IdServicio;
+            api.IdReserva = rsvSrv.IdReserva;
+            return api;
+        }
 
         private static async void Initialize(Entidad.Models.ReservaServicio srv)
         {
             srv.IdServicioNavigation = (await Servicio.GetOne(srv.IdServicio))!;
             srv.IdReservaNavigation = (await Reserva.GetOne(srv.IdReserva))!;
+        }
+
+        public static async Task<bool> SaveServicios(List<Entidad.Models.ReservaServicio> lstTpm)
+        {
+            List<Entidad.Api.ReservaServicioApi> lstApi = new List<Entidad.Api.ReservaServicioApi>();
+            foreach (Entidad.Models.ReservaServicio rsvSrv in lstTpm)
+            {
+                lstApi.Add(GetApi(rsvSrv));
+            }
+            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "SaveServicios", lstApi);
+            return result.IsSuccessStatusCode;
         }
     }
 }

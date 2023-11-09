@@ -97,6 +97,7 @@ namespace Servicios.Controllers
                     rsv.IdHabitacion = rsvApi.IdHabitacion;
                     rsv.IdHuesped = rsvApi.IdHuesped;
                     rsv.IdHabitacionNavigation = _dbContext.Habitacions.Find(rsvApi.IdHabitacion)!;
+                    rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
                     rsv.IdHuespedNavigation = _dbContext.Huespeds.Find(rsvApi.IdHuesped)!;
                 }
                 if (idReserva != rsv.IdHuesped || !Validate(rsv))
@@ -155,11 +156,7 @@ namespace Servicios.Controllers
         {
             try
             {
-                return _dbContext.Reservas.Join(_dbContext.Habitacions,
-                    r => r.IdHabitacion,
-                    h => h.IdHabitacion,
-                    (r, rs) => r
-                    ).ToList();
+                return _dbContext.Reservas.Where(e => e.IdHabitacion == idHabitacion).ToList();
             }
             catch (Exception ex)
             {
@@ -175,59 +172,9 @@ namespace Servicios.Controllers
         private bool Validate(Reserva rsv)
         {
             if (rsv.CantidadPersonas <= 0) { return false; }
-            if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }
+            /*if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }*/
             if (rsv.FechaInicioReserva.CompareTo(rsv.FechaFinReserva) >= 0) { return false; }
             return true;
-        }
-
-        private bool SaveServicios(Reserva rsv, List<Servicio> lstSrv)
-        {
-            bool control = true;
-            List<Servicio> lstGuardada = _dbContext.Servicios.Join(_dbContext.ReservaServicios,
-                s => s.IdServicio,
-                rs => rs.IdServicio,
-                (s, rs) => s
-                ).ToList();
-
-            //Guardo las nuevas relaciones
-            foreach (Servicio tmpSrv in lstSrv)
-            {
-                if (!lstGuardada.Contains(tmpSrv))
-                {
-                    ReservaServicio newRsvSrv = new ReservaServicio();
-                    newRsvSrv.IdReserva = rsv.IdReserva;
-                    newRsvSrv.IdServicio = tmpSrv.IdServicio;
-                    try
-                    {
-                        _dbContext.ReservaServicios.Add(newRsvSrv);
-                        _dbContext.SaveChanges();
-                        _dbContext.Update(newRsvSrv);
-                    }
-                    catch
-                    {
-                        control = false;
-                    }
-                }
-            }
-            //Borro las que ya no se relacionan
-            foreach (Servicio dbSrv in lstGuardada)
-            {
-                if (!lstSrv.Contains(dbSrv))
-                {
-                    ReservaServicio delRsrSrv = _dbContext.ReservaServicios.First(e => e.IdReserva == rsv.IdReserva && e.IdServicio == dbSrv.IdServicio);
-                    try
-                    {
-                        _dbContext.ReservaServicios.Remove(delRsrSrv);
-                        _dbContext.SaveChanges();
-                    }
-                    catch
-                    {
-                        control = false;
-                    }
-                }
-            }
-
-            return control;
         }
     }
 }

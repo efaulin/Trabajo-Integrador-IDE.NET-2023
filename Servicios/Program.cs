@@ -1,4 +1,5 @@
 using System.Data.Common;
+using System.Text.Json.Serialization;
 using Microsoft.EntityFrameworkCore;
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
@@ -15,6 +16,9 @@ builder.Services.AddCors(options =>
                                               "http://localhost:5054");
                       });
 });
+
+builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddControllers();
 builder.Services.AddDbContext<Datos.DBContext>(

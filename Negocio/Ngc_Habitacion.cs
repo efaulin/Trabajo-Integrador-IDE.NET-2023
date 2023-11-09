@@ -18,7 +18,9 @@ namespace Negocio
         static readonly string defaultUrl = Conexion.defaultUrl + "Habitacion/";
         public static async Task<Entidad.Models.Habitacion?> GetOne(int id)
         {
-            Entidad.Models.Habitacion? hbt = await Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(defaultUrl + "GetOne/" + id);
+            Task<Entidad.Models.Habitacion?> task = Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(defaultUrl + "GetOne/" + id);
+            Entidad.Models.Habitacion? hbt = await task;
+            task.Wait();
             if (hbt != null)
             {
                 Initialize(hbt);

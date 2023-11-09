@@ -50,19 +50,6 @@ namespace WindowsForm
             openChildForm(new Listado("Reserva"));
         }
 
-        private void editarRsv_Click(object sender, EventArgs e)
-        {
-            if (Negocio.Reserva.GetAll().Count != 0)
-            {
-                Form form = new DatosReserva(Negocio.Reserva.GetAll().First());
-                form.ShowDialog();
-            }
-            else
-            {
-                MessageBox.Show("�No hay reservas registradas!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-        }
-
         private void btnServicio_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Servicio"));
