@@ -77,7 +77,7 @@ namespace Servicios.Controllers
         {
             try
             {
-                TipoHabitacion thbt = _dbContext.TipoHabitacions.Find(api.IdTipoHabitacion);                
+                TipoHabitacion thbt = _dbContext.TipoHabitacions.Find(api.IdTipoHabitacion)!;                
                 if (idTipoHabitacion != api.IdTipoHabitacion || thbt == null)
                 {
                     return BadRequest();

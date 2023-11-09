@@ -169,60 +169,34 @@ namespace Servicios.Controllers
         [HttpPut]
         public ActionResult<bool> SaveServicios(List<ReservaServicioApi> lstSrvApi)
         {
-            bool control = true;
             Reserva? rsv = _dbContext.Reservas.Find(lstSrvApi.First().IdReserva);
             if (rsv == null) { return NotFound(); }
-            List<Servicio> lstSrv = new List<Servicio>();
-            lstSrvApi.ForEach(x => { lstSrv.Add(_dbContext.Servicios.Find(x.IdServicio)!); });
-
-            var srv_rsvSrv = _dbContext.Servicios.Join(_dbContext.ReservaServicios,
-                s => s.IdServicio,
-                rs => rs.IdServicio,
-                (s, rs) => new { s, rs }
-                ).Where(e => e.rs.IdReserva == rsv.IdReserva).ToList();
-
-            List<Servicio> lstGuardada = new List<Servicio>();
-            srv_rsvSrv.ForEach(x => { lstGuardada.Add(x.s); });
-
-            //Guardo las nuevas relaciones
-            foreach (Servicio tmpSrv in lstSrv)
+            List<ReservaServicio> lstGuardada = _dbContext.ReservaServicios.Where(e => e.IdReserva == rsv.IdReserva).ToList();
+            foreach (ReservaServicio rsvSrv in lstGuardada)
             {
-                if (!lstGuardada.Contains(tmpSrv))
+                if (lstSrvApi.FirstOrDefault(e => e.IdReserva == rsvSrv.IdReserva && e.IdServicio == rsvSrv.IdServicio) == null)
                 {
-                    ReservaServicio newRsvSrv = new ReservaServicio();
-                    newRsvSrv.IdReserva = rsv.IdReserva;
-                    newRsvSrv.IdServicio = tmpSrv.IdServicio;
-                    try
-                    {
-                        _dbContext.ReservaServicios.Add(newRsvSrv);
-                        _dbContext.SaveChanges();
-                        _dbContext.Update(newRsvSrv);
-                    }
-                    catch
-                    {
-                        control = false;
-                    }
+                    try { _dbContext.ReservaServicios.Remove(rsvSrv); }
+                    catch { return false; }
                 }
             }
-            //Borro las que ya no se relacionan
-            foreach (Servicio dbSrv in lstGuardada)
+            foreach (ReservaServicioApi api in lstSrvApi)
             {
-                if (!lstSrv.Contains(dbSrv))
+                if (lstGuardada.FirstOrDefault(e => e.IdReserva == api.IdReserva && e.IdServicio == api.IdServicio) == null)
                 {
-                    ReservaServicio delRsrSrv = _dbContext.ReservaServicios.First(e => e.IdReserva == rsv.IdReserva && e.IdServicio == dbSrv.IdServicio);
-                    try
-                    {
-                        _dbContext.ReservaServicios.Remove(delRsrSrv);
-                        _dbContext.SaveChanges();
-                    }
-                    catch
-                    {
-                        control = false;
-                    }
+                    var tmp = new ReservaServicio();
+                    tmp.IdServicio = api.IdServicio;
+                    tmp.IdReserva = api.IdReserva;
+                    tmp.IdReservaNavigation = _dbContext.Reservas.Find(api.IdReserva)!;
+                    tmp.IdServicioNavigation = _dbContext.Servicios.Find(api.IdServicio)!;
+                    if (tmp.IdReservaNavigation == null || tmp.IdServicioNavigation == null) { return NotFound(); }
+                    try { _dbContext.ReservaServicios.Add(tmp); }
+                    catch { return false; }
                 }
             }
-
-            return control;
+            try { _dbContext.SaveChanges(); }
+            catch { return false; }
+            return true;
         }
 
         /// <summary>

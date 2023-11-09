@@ -7,25 +7,26 @@ using System.Threading.Tasks;
 
 namespace Negocio
 {
-    public class Ngc_PrecioServicio
+    public class PrecioServicio
     {
+        static readonly string defaultUrl = Conexion.defaultUrl + "PrecioServicio/";
         public static async Task<Entidad.Models.PrecioServicio?> GetOne(int id)
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioServicio/GetOne/" + id.ToString());
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetOne/" + id.ToString());
             var data = JsonConvert.DeserializeObject<Entidad.Models.PrecioServicio>(response);           
             return data;
         }
 
         public static async Task<Entidad.Models.PrecioServicio> create(Entidad.Models.PrecioServicio prsv)
         {
-            Entidad.Api.PrecioServicioApi srv = await GetApi(prsv);
-            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/PrecioServicio/Create", srv);
+            Entidad.Api.PrecioServicioApi srv = GetApi(prsv);
+            var response = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", srv);
             var data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
             Entidad.Models.PrecioServicio createdServ = (await GetOne(data))!;
             return createdServ;
         }
 
-        public static async Task<Entidad.Api.PrecioServicioApi> GetApi(Entidad.Models.PrecioServicio psrv)
+        public static Entidad.Api.PrecioServicioApi GetApi(Entidad.Models.PrecioServicio psrv)
         {
             Entidad.Api.PrecioServicioApi api = new Entidad.Api.PrecioServicioApi();
             api.FechaPrecio = psrv.FechaPrecio ;

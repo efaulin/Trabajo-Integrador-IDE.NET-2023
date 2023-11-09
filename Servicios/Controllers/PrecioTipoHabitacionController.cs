@@ -56,7 +56,7 @@ namespace Servicios.Controllers
                 prsTip.PrecioHabitacion = api.PrecioHabitacion;
                 prsTip.IdTipoHabitacion = api.IdTipoHabitacion;
                 prsTip.FechaPrecio = api.FechaPrecio;
-                prsTip.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(api.IdTipoHabitacion);
+                prsTip.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(api.IdTipoHabitacion)!;
                 if (!Validate(prsTip))
                 {
                     return BadRequest();

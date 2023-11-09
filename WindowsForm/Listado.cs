@@ -107,7 +107,9 @@ namespace WindowsForm
                     dgvHabitaciones.Columns.RemoveAt(5);
                     break;
                 case 3:
-                    List<Reserva> _lstRsv = await Negocio.Reserva.GetAll();
+                    Task<List<Reserva>> getlstRsv = Negocio.Reserva.GetAll();
+                    List<Reserva> _lstRsv = await getlstRsv;
+                    getlstRsv.Wait();
                     DataTable dtRsv = new DataTable();
                     DataColumn[] dcRsv = new DataColumn[]
                     {

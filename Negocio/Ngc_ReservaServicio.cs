@@ -12,7 +12,6 @@ namespace Negocio
 {
     public class ReservaServicio
     {
-        static readonly DBContext dBContext = DBContext.dBContext;
         static readonly string defaultUrl = Conexion.defaultUrl + "ReservaServicio/";
         public static async Task<Entidad.Models.ReservaServicio?> GetOne(int id)
         {

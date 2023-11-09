@@ -101,12 +101,21 @@ namespace Negocio
         /// <returns>Listado de habitaciones con capacidad igual o mayor de personas</returns>
         public static async Task<List<Entidad.Models.Habitacion>> GetForAmountOfPeople(int amountPeople)
         {
-            List<Entidad.Models.Habitacion> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Habitacion>>(defaultUrl + "GetForAmountOfPeople/" + amountPeople))!;
-            foreach (Entidad.Models.Habitacion hbt in response!)
+            Task<List<Entidad.Models.Habitacion>> getAmount = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Habitacion>>(defaultUrl + "GetForAmountOfPeople/" + amountPeople)!;
+            List<Entidad.Models.Habitacion> response = (await getAmount)!;
+            if (getAmount.IsCompletedSuccessfully)
             {
-                Initialize(hbt);
+                foreach (Entidad.Models.Habitacion hbt in response)
+                {
+                    Initialize(hbt);
+                }
+                return response;
             }
-            return response!;
+            else
+            {
+                throw new Exception();
+            }
+            
         }
         /*public static List<Entidad.Models.Habitacion> GetByPiso(int piso)
         {
@@ -123,8 +132,18 @@ namespace Negocio
 
         public static async void Initialize(Entidad.Models.Habitacion hbt)
         {
-            hbt.IdTipoHabitacionNavigation = await TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
-            List<Entidad.Models.Reserva>? rsv = await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion);
+            Task<Entidad.Models.TipoHabitacion?> getOne = Conexion.http.GetFromJsonAsync<Entidad.Models.TipoHabitacion>(Conexion.defaultUrl + "TipoHabitacion/GetOne/" + hbt.IdTipoHabitacion);
+            hbt.IdTipoHabitacionNavigation = (await getOne)!;
+            getOne.Wait();
+
+            Task<List<Entidad.Models.PrecioTipoHabitacion>> getPcrSrv = Conexion.http.GetFromJsonAsync<List<Entidad.Models.PrecioTipoHabitacion>>(Conexion.defaultUrl + "PrecioTipoHabitacion/GetAllOfTipoHabitacion/" + hbt.IdHabitacion)!;
+            hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions = (await getPcrSrv)!;
+            getPcrSrv.Wait();
+
+            Task<List<Entidad.Models.Reserva>> getRsvOfHbt = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion)!;
+            List<Entidad.Models.Reserva>? rsv = await getRsvOfHbt;
+            getRsvOfHbt.Wait();
+
             if (rsv == null)
             {
                 hbt.Reservas = new List<Entidad.Models.Reserva>();
@@ -149,10 +168,10 @@ namespace Negocio
 
     public class TipoHabitacion
     {
-        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
+        static readonly string defaultUrl = Conexion.defaultUrl + "TipoHabitacion/";
         public static async Task<List<Entidad.Models.TipoHabitacion>> GetAll()
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/TipoHabitacion/GetAll/");
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetAll");
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.TipoHabitacion>>(response);
             foreach(Entidad.Models.TipoHabitacion tp in data)
             {
@@ -163,15 +182,15 @@ namespace Negocio
         }
         public static async Task<Entidad.Models.TipoHabitacion> GetOne(int id)
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/TipoHabitacion/GetOne/" + id.ToString());
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetOne/" + id.ToString());
             var data = JsonConvert.DeserializeObject<Entidad.Models.TipoHabitacion>(response);
-            data.PrecioTipoHabitacions = await PrecioTipoHabitacion.GetAllById(id);
+            data!.PrecioTipoHabitacions = await PrecioTipoHabitacion.GetAllById(id);
             return data;
         }
         public static async Task<Entidad.Models.TipoHabitacion> Create(Entidad.Models.TipoHabitacion tipHbt)
         {
             Entidad.Api.TipoHabitacionApi tipApi = GetApiTipo(tipHbt);
-            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/TipoHabitacion/Create", tipApi);
+            var response = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", tipApi);
             int data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
             Entidad.Models.TipoHabitacion createdTipo = (await GetOne(data))!;
             return createdTipo;
@@ -179,24 +198,13 @@ namespace Negocio
         public static async Task<bool> Update(Entidad.Models.TipoHabitacion tipHbt)
         {
             Entidad.Api.TipoHabitacionApi tipApi = GetApiTipo(tipHbt);
-            var response = await Conexion.http.PutAsJsonAsync("http://localhost:7110/api/TipoHabitacion/Update/" + tipHbt.IdTipoHabitacion.ToString(), tipApi);
+            var response = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + tipHbt.IdTipoHabitacion.ToString(), tipApi);
             return response.IsSuccessStatusCode;
         }
         public static async Task<bool> Delete(Entidad.Models.TipoHabitacion tipHbt)
         {
-            try
-            {
-                if (tipHbt != null)
-                {
-                    var result = await Conexion.http.DeleteAsync("http://localhost:7110/api/TipoHabitacion/Delete/" + tipHbt.IdTipoHabitacion.ToString());
-                    return result.IsSuccessStatusCode;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            catch { return false; }           
+            var result = await Conexion.http.DeleteAsync(defaultUrl + "Delete/" + tipHbt.IdTipoHabitacion.ToString());
+            return result.IsSuccessStatusCode;
         }
 
         public static Entidad.Api.TipoHabitacionApi GetApiTipo(Entidad.Models.TipoHabitacion thbt)
@@ -237,25 +245,25 @@ namespace Negocio
 
     public class PrecioTipoHabitacion
     {
-        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
+        static readonly string defaultUrl = Conexion.defaultUrl + "PrecioTipoHabitacion/";
         public static async Task<List<Entidad.Models.PrecioTipoHabitacion>> GetAll()
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioTipoHabitacion/GetAll/");
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetAll");
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.PrecioTipoHabitacion>>(response);
             return data;
         }
 
         public static async Task<Entidad.Models.PrecioTipoHabitacion> GetOne(int id)
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioTipoHabitacion/GetOne/" + id.ToString());
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetOne/" + id.ToString());
             var data = JsonConvert.DeserializeObject<Entidad.Models.PrecioTipoHabitacion>(response);
             return data;
         }
 
         public static async Task<Entidad.Models.PrecioTipoHabitacion> Create(Entidad.Models.PrecioTipoHabitacion PresTipHbt)
         {
-            Entidad.Api.PrecioTipoHabitacionApi srv = await GetApiPrecTipo(PresTipHbt);
-            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/PrecioTipoHabitacion/Create", srv);
+            Entidad.Api.PrecioTipoHabitacionApi srv = GetApiPrecTipo(PresTipHbt);
+            var response = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", srv);
             var data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
             Entidad.Models.PrecioTipoHabitacion createdServ = (await GetOne(data))!;
             return createdServ;
@@ -263,13 +271,13 @@ namespace Negocio
 
         public static async Task<List<Entidad.Models.PrecioTipoHabitacion>> GetAllById(int idTipo)
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioTipoHabitacion/GetAllOfTipoHabitacion/" + idTipo.ToString());
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetAllOfTipoHabitacion/" + idTipo.ToString());
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.PrecioTipoHabitacion>>(response);
-            return data;
+            return data!;
         }
 
 
-        public static async Task<Entidad.Api.PrecioTipoHabitacionApi> GetApiPrecTipo(Entidad.Models.PrecioTipoHabitacion precTip)
+        public static Entidad.Api.PrecioTipoHabitacionApi GetApiPrecTipo(Entidad.Models.PrecioTipoHabitacion precTip)
         {
             Entidad.Api.PrecioTipoHabitacionApi api = new Entidad.Api.PrecioTipoHabitacionApi();
             api.IdPrecioTipoHabitacion = precTip.IdPrecioTipoHabitacion;

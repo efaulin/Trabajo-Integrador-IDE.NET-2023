@@ -143,11 +143,19 @@ namespace WindowsForm
             cmbEstado.SelectedItem = _rsv.EstadoReserva;
             SetDataGridsEditando(_rsv.IdHabitacionNavigation, _rsv.IdHuespedNavigation);
             chkBoxListServicio.Items.Clear();
-            List<Servicio> lstSrvGuardados = await Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
+            Task<List<Servicio>> getSrvOfRsv = Negocio.Servicio.GetAllOfReserva(_rsv.IdReserva);
+            List<Servicio> lstSrvGuardados = await getSrvOfRsv;
+            getlstHbt.Wait();
+
             _lstSrv = originlstSrv;
             foreach (Servicio _tmpSrv in _lstSrv)
             {
-                chkBoxListServicio.Items.Add(_tmpSrv.Descripcion, lstSrvGuardados.Contains(_tmpSrv));
+                bool chck = false;
+                if (lstSrvGuardados.FirstOrDefault(e => e.IdServicio == _tmpSrv.IdServicio) != null)
+                {
+                    chck = true;
+                }
+                chkBoxListServicio.Items.Add(_tmpSrv.Descripcion, chck);
             }
         }
 
@@ -163,14 +171,14 @@ namespace WindowsForm
                     asignarValores();
                     if (Negocio.Reserva.Validate(_rsv))
                     {
-                        _rsv = await Negocio.Reserva.Create(_rsv);
-                        if (_rsv == null)
+                        if (await Negocio.Reserva.Update(_rsv))
                         {
                             stop = true;
                             MessageBox.Show("Hubo un error al guardar la reserva\nVuelva a intentar mas tarde.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
+                            GroupServicios();
                             bool serviciosControl = await Negocio.ReservaServicio.SaveServicios(lstSrvTemporal);
                             if (!serviciosControl)
                             {
@@ -200,6 +208,7 @@ namespace WindowsForm
                     }
                     else
                     {
+                        GroupServicios();
                         bool serviciosControl = await Negocio.ReservaServicio.SaveServicios(lstSrvTemporal);
                         if (!serviciosControl)
                         {
@@ -236,6 +245,10 @@ namespace WindowsForm
             _rsv.IdHuespedNavigation = _lstHpd.First(e => e.IdHuesped == idHpd);
             _rsv.IdHabitacion = (int)dtGrHabitacion.SelectedRows[0].Cells[0].Value;
             _rsv.IdHuesped = (int)dtGrHuesped.SelectedRows[0].Cells[0].Value;
+        }
+
+        private void GroupServicios()
+        {
             //Guardo las relaciones de la reserva con los servicios
             _lstSrv = originlstSrv;
             for (int i = 0; i < _lstSrv.Count; i++)
@@ -290,8 +303,7 @@ namespace WindowsForm
 
             if (txtCantidadPersonas.Text.Length > 0 && start.CompareTo(end) < 0)
             {
-                lstHbt = await Negocio.Habitacion.GetForAmountOfPeople(int.Parse(txtCantidadPersonas.Text));
-                lstHbt = Negocio.Habitacion.TakeAvailable(lstHbt, start, end);
+                lstHbt = Negocio.Habitacion.TakeAvailable(originlstHbt.FindAll(e => e.IdTipoHabitacionNavigation.NumeroCamas >= int.Parse(txtCantidadPersonas.Text)), start, end);
 
                 if (txtPiso.Text.Length > 0)
                 {

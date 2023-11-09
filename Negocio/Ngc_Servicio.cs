@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
+using Azure;
 using Datos;
 using Newtonsoft.Json;
 
@@ -10,7 +12,7 @@ namespace Negocio
 {
     public class Servicio
     {
-        static DBContext dBContext = DBContext.dBContext;
+        static readonly string defaultUrl = Conexion.defaultUrl + "Servicio/";
         public static async Task<Entidad.Models.Servicio?> GetOne(int id)
         {
             var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/Servicio/GetOne/" + id.ToString());
@@ -68,13 +70,35 @@ namespace Negocio
         /// <param name="idReserva"></param>
         /// <returns>Lista de servicios pertenecientes a la reserva de id ingresado</returns>
         public async static Task<List<Entidad.Models.Servicio>> GetAllOfReserva(int idReserva)
-        {           
-            List<Entidad.Models.ReservaServicio> lstRsvSrv = await ReservaServicio.GetAllOfReserva(idReserva);
+        {
             List<Entidad.Models.Servicio> lstSrv = new List<Entidad.Models.Servicio>();
-            lstRsvSrv.ForEach(async r => {
-                lstSrv.Add(await Servicio.GetOne(r.IdServicio)!);
-                });
+            Task<List<Entidad.Models.ReservaServicio>> getlstRsvSrv = Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAllOfReserva/" + idReserva)!;
+            List<Entidad.Models.ReservaServicio> lst = await getlstRsvSrv;
+            
+            foreach (var rs in lst)
+            {
+                lstSrv.Add((await GetOne(rs.IdServicio))!);
+            }
+
+            foreach (var srv in lstSrv)
+            {
+                _ = Initialize(srv);
+            }
+            getlstRsvSrv.Wait();
             return lstSrv;
+        }
+
+        private static async Task<List<Entidad.Models.PrecioServicio>> Initialize(Entidad.Models.Servicio srv)
+        {
+            Task<List<Entidad.Models.PrecioServicio>> getPrcSrv = Conexion.http.GetFromJsonAsync<List<Entidad.Models.PrecioServicio>>(Conexion.defaultUrl + "PrecioServicio/GetAllOfServicio/" + srv.IdServicio)!;
+            srv.PrecioServicios = await getPrcSrv;
+            getPrcSrv.Wait();
+
+            if (!getPrcSrv.IsCompletedSuccessfully)
+            {
+                throw new Exception();
+            }
+            return await getPrcSrv;
         }
 
         public static Entidad.Api.ServicioApi GetApi(Entidad.Models.Servicio srv)

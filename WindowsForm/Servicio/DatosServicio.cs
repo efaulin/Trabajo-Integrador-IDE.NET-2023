@@ -58,7 +58,7 @@ namespace WindowsForm
                                 prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
                                 prcServ.FechaPrecio = DateTime.Now;
                                 prcServ.IdServicio = serv.IdServicio;
-                                prcServ = await Negocio.Ngc_PrecioServicio.create(prcServ);
+                                prcServ = await Negocio.PrecioServicio.create(prcServ);
                                 serv = (await Negocio.Servicio.GetOne(serv.IdServicio))!;
                                 if (serv != null)
                                 {
@@ -89,7 +89,7 @@ namespace WindowsForm
                                 prcServ.FechaPrecio = DateTime.Now;
                                 prcServ.IdServicio = serv.IdServicio;
                                 prcServ.IdServicioNavigation = serv;
-                                prcServ = await Negocio.Ngc_PrecioServicio.create(prcServ);                                                           
+                                prcServ = await Negocio.PrecioServicio.create(prcServ);                                                           
                             }
                             if (await Negocio.Servicio.Update(serv))
                             {

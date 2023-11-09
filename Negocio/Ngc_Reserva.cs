@@ -47,7 +47,7 @@ namespace Negocio
             return createdRsv;
         }
 
-        public static async Task<bool> Update(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
+        public static async Task<bool> Update(Entidad.Models.Reserva rsv)
         {
             ReservaApi rsvApi = GetApi(rsv);
             var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + rsv.IdReserva, rsvApi);
@@ -63,7 +63,7 @@ namespace Negocio
         public static bool Validate(Entidad.Models.Reserva rsv)
         {
             if (rsv.CantidadPersonas <= 0) { return false; }
-            if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }
+            /*if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }*/
             if (rsv.FechaInicioReserva.CompareTo(rsv.FechaFinReserva) >= 0) { return false; }
             return true;
         }
@@ -124,9 +124,14 @@ namespace Negocio
             {
                 throw new Exception();
             }
-            //Task<Entidad.Models.TipoHabitacion> getTipo = 
-            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = TipoHabitacion.GetOne(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
+            Task<Entidad.Models.TipoHabitacion> getTipo = Conexion.http.GetFromJsonAsync<Entidad.Models.TipoHabitacion>(Conexion.defaultUrl + "TipoHabitacion/GetOne/" + rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
+            getTipo.Wait();
+            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = (await getTipo)!;
             rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
+            if (!getTipo.IsCompleted)
+            {
+                throw new Exception();
+            }
             if (rsv.IdHabitacionNavigation == null || rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation == null || rsv.IdHuespedNavigation == null)
             {
                 throw new Exception("Nulo jaja");
