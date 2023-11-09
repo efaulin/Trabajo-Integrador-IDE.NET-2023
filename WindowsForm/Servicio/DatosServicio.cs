@@ -91,8 +91,10 @@ namespace WindowsForm
                                 prcServ.IdServicioNavigation = serv;
                                 prcServ = await Negocio.Ngc_PrecioServicio.create(prcServ);                                                           
                             }
-                            await Negocio.Servicio.Update(serv);
-                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
+                            if (await Negocio.Servicio.Update(serv))
+                            {
+                                MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
+                            }
 
                         }
                         catch

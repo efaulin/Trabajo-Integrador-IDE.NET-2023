@@ -20,13 +20,13 @@ namespace Negocio
         public static async Task<List<Entidad.Models.Servicio>> GetAll() { 
             var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/Servicio/GetAll/");
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.Servicio>>(response);
-            if(data != null)
-            {
-                foreach (Entidad.Models.Servicio srv in data)
-                {
-                    srv.PrecioServicios = dBContext.PrecioServicios.Where(prcSrv => prcSrv.IdServicio == srv.IdServicio).ToList();
-                }
-            }
+            //if(data != null)
+            //{
+            //    foreach (Entidad.Models.Servicio srv in data)
+            //    {
+            //        srv.PrecioServicios = dBContext.PrecioServicios.Where(prcSrv => prcSrv.IdServicio == srv.IdServicio).ToList();
+            //    }
+            //}
             return data;
         }
 

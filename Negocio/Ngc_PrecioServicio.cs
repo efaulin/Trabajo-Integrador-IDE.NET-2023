@@ -9,7 +9,6 @@ namespace Negocio
 {
     public class Ngc_PrecioServicio
     {
-        //HACER GETONE
         public static async Task<Entidad.Models.PrecioServicio?> GetOne(int id)
         {
             var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/PrecioServicio/GetOne/" + id.ToString());
