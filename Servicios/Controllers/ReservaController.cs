@@ -63,6 +63,7 @@ namespace Servicios.Controllers
                 rsv.IdHabitacion = rsvApi.IdHabitacion;
                 rsv.IdHuesped = rsvApi.IdHuesped;
                 rsv.IdHabitacionNavigation = _dbContext.Habitacions.Find(rsvApi.IdHabitacion)!;
+                rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
                 rsv.IdHuespedNavigation = _dbContext.Huespeds.Find(rsvApi.IdHuesped)!;
                 if (!Validate(rsv))
                 {
@@ -100,7 +101,7 @@ namespace Servicios.Controllers
                     rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
                     rsv.IdHuespedNavigation = _dbContext.Huespeds.Find(rsvApi.IdHuesped)!;
                 }
-                if (idReserva != rsv.IdHuesped || !Validate(rsv))
+                if (idReserva != rsv.IdReserva || !Validate(rsv))
                 {
                     return BadRequest();
                 }
@@ -172,7 +173,7 @@ namespace Servicios.Controllers
         private bool Validate(Reserva rsv)
         {
             if (rsv.CantidadPersonas <= 0) { return false; }
-            /*if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }*/
+            if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }
             if (rsv.FechaInicioReserva.CompareTo(rsv.FechaFinReserva) >= 0) { return false; }
             return true;
         }

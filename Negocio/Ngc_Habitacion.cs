@@ -20,10 +20,9 @@ namespace Negocio
         {
             Task<Entidad.Models.Habitacion?> task = Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(defaultUrl + "GetOne/" + id);
             Entidad.Models.Habitacion? hbt = await task;
-            task.Wait();
             if (hbt != null)
             {
-                Initialize(hbt);
+                await Initialize(hbt);
             }
             return hbt;
         }
@@ -33,7 +32,7 @@ namespace Negocio
             List<Entidad.Models.Habitacion> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Habitacion>>(defaultUrl + "GetAll"))!;
             foreach (Entidad.Models.Habitacion hbt in response!)
             {
-                Initialize(hbt);
+                await Initialize(hbt);
             }
             return response!;
         }
@@ -66,7 +65,7 @@ namespace Negocio
             List<Entidad.Models.Habitacion> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Habitacion>>(defaultUrl + "GetAllEnabled"))!;
             foreach (Entidad.Models.Habitacion hbt in response!)
             {
-                Initialize(hbt);
+                await Initialize(hbt);
             }
             return response!;
         }
@@ -107,7 +106,7 @@ namespace Negocio
             {
                 foreach (Entidad.Models.Habitacion hbt in response)
                 {
-                    Initialize(hbt);
+                    await Initialize(hbt);
                 }
                 return response;
             }
@@ -130,19 +129,13 @@ namespace Negocio
             return GetAll().Find(hbt => hbt.PisoHabitacion == piso && hbt.NumeroHabitacion == nro);
         }*/
 
-        public static async void Initialize(Entidad.Models.Habitacion hbt)
+        public static async Task Initialize(Entidad.Models.Habitacion hbt)
         {
-            Task<Entidad.Models.TipoHabitacion?> getOne = Conexion.http.GetFromJsonAsync<Entidad.Models.TipoHabitacion>(Conexion.defaultUrl + "TipoHabitacion/GetOne/" + hbt.IdTipoHabitacion);
-            hbt.IdTipoHabitacionNavigation = (await getOne)!;
-            getOne.Wait();
-
-            Task<List<Entidad.Models.PrecioTipoHabitacion>> getPcrSrv = Conexion.http.GetFromJsonAsync<List<Entidad.Models.PrecioTipoHabitacion>>(Conexion.defaultUrl + "PrecioTipoHabitacion/GetAllOfTipoHabitacion/" + hbt.IdHabitacion)!;
-            hbt.IdTipoHabitacionNavigation.PrecioTipoHabitacions = (await getPcrSrv)!;
-            getPcrSrv.Wait();
+            Task<Entidad.Models.TipoHabitacion> getOne =  TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+            hbt.IdTipoHabitacionNavigation = await getOne;
 
             Task<List<Entidad.Models.Reserva>> getRsvOfHbt = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion)!;
-            List<Entidad.Models.Reserva>? rsv = await getRsvOfHbt;
-            getRsvOfHbt.Wait();
+            List<Entidad.Models.Reserva> rsv = await getRsvOfHbt;
 
             if (rsv == null)
             {

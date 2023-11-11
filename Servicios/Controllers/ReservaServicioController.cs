@@ -166,12 +166,20 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpPut]
-        public ActionResult<bool> SaveServicios(List<ReservaServicioApi> lstSrvApi)
+        /// <summary> Guardo las relaciones de Reserva con Servicios </summary>
+        /// <param name="idReserva">Id de Reserva al que pertenezcan las relaciones</param>
+        /// <param name="lstSrvApi">Lista de relaciones que debe tener la Reserva con Servicio</param>
+        /// <returns></returns>
+        [HttpPut("{idReserva}")]
+        public ActionResult<bool> SaveServicios(int idReserva, List<ReservaServicioApi> lstSrvApi)
         {
-            Reserva? rsv = _dbContext.Reservas.Find(lstSrvApi.First().IdReserva);
-            if (rsv == null) { return NotFound(); }
+            Reserva? rsv = _dbContext.Reservas.Find(idReserva);
+            if (rsv == null) { return BadRequest(); }
+
+            //Obtengo las relaciones guardadas
             List<ReservaServicio> lstGuardada = _dbContext.ReservaServicios.Where(e => e.IdReserva == rsv.IdReserva).ToList();
+
+            //Borro relaciones que no esten en el listado "lstSrvApi"
             foreach (ReservaServicio rsvSrv in lstGuardada)
             {
                 if (lstSrvApi.FirstOrDefault(e => e.IdReserva == rsvSrv.IdReserva && e.IdServicio == rsvSrv.IdServicio) == null)
@@ -180,6 +188,8 @@ namespace Servicios.Controllers
                     catch { return false; }
                 }
             }
+
+            //Creo las relaciones que no esten guardadas
             foreach (ReservaServicioApi api in lstSrvApi)
             {
                 if (lstGuardada.FirstOrDefault(e => e.IdReserva == api.IdReserva && e.IdServicio == api.IdServicio) == null)
@@ -194,6 +204,7 @@ namespace Servicios.Controllers
                     catch { return false; }
                 }
             }
+
             try { _dbContext.SaveChanges(); }
             catch { return false; }
             return true;

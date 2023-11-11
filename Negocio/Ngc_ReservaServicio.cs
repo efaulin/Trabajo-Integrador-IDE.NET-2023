@@ -18,7 +18,7 @@ namespace Negocio
             Entidad.Models.ReservaServicio? srv = await Conexion.http.GetFromJsonAsync<Entidad.Models.ReservaServicio>(defaultUrl + "GetOne/" + id);
             if (srv != null)
             {
-                Initialize(srv);
+                await Initialize(srv);
             }
             return srv;
         }
@@ -27,7 +27,7 @@ namespace Negocio
             List<Entidad.Models.ReservaServicio> rsvSrv = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAll"))!;
             foreach (Entidad.Models.ReservaServicio srv in rsvSrv)
             {
-                Initialize(srv);
+                await Initialize(srv);
             }
             return rsvSrv;
         }
@@ -59,7 +59,7 @@ namespace Negocio
             List<Entidad.Models.ReservaServicio> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAllOfReserva/" + idReserva))!;
             foreach (Entidad.Models.ReservaServicio srv in response)
             {
-                Initialize(srv);
+                await Initialize(srv);
             }
             return response;
         }
@@ -72,7 +72,7 @@ namespace Negocio
             List<Entidad.Models.ReservaServicio> response = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.ReservaServicio>>(defaultUrl + "GetAllOfServicio/" + idServicio))!;
             foreach (Entidad.Models.ReservaServicio srv in response)
             {
-                Initialize(srv);
+                await Initialize(srv);
             }
             return response;
         }
@@ -86,7 +86,7 @@ namespace Negocio
             Entidad.Models.ReservaServicio? srv = await Conexion.http.GetFromJsonAsync<Entidad.Models.ReservaServicio>(defaultUrl + "GetByReserva_Servicio/" + idReserva + "/" + idServicio);
             if (srv != null)
             {
-                Initialize(srv);
+                await Initialize(srv);
             }
             return srv;
         }
@@ -100,20 +100,20 @@ namespace Negocio
             return api;
         }
 
-        private static async void Initialize(Entidad.Models.ReservaServicio srv)
+        private static async Task Initialize(Entidad.Models.ReservaServicio srv)
         {
             srv.IdServicioNavigation = (await Servicio.GetOne(srv.IdServicio))!;
             srv.IdReservaNavigation = (await Reserva.GetOne(srv.IdReserva))!;
         }
 
-        public static async Task<bool> SaveServicios(List<Entidad.Models.ReservaServicio> lstTpm)
+        public static async Task<bool> SaveServicios(int idReserva, List<Entidad.Models.ReservaServicio> lstTpm)
         {
             List<Entidad.Api.ReservaServicioApi> lstApi = new List<Entidad.Api.ReservaServicioApi>();
             foreach (Entidad.Models.ReservaServicio rsvSrv in lstTpm)
             {
                 lstApi.Add(GetApi(rsvSrv));
             }
-            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "SaveServicios", lstApi);
+            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "SaveServicios/" + idReserva, lstApi);
             return result.IsSuccessStatusCode;
         }
     }

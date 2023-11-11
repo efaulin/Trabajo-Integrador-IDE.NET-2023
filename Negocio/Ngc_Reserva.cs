@@ -16,14 +16,14 @@ namespace Negocio
 {
     public class Reserva
     {
-        static readonly DBContext dBContext = DBContext.dBContext;
         static readonly string defaultUrl = Conexion.defaultUrl + "Reserva/";
         public static async Task<List<Entidad.Models.Reserva>> GetAll()
         {
-            List<Entidad.Models.Reserva> lstRsv = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(defaultUrl + "GetAll"))!;
+            Task<List<Entidad.Models.Reserva>> task = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(defaultUrl + "GetAll")!;
+            List<Entidad.Models.Reserva> lstRsv = await task;
             foreach (Entidad.Models.Reserva rsv in lstRsv)
             {
-                Initialize(rsv);
+                await Initialize(rsv);
             }
             return lstRsv;
         }
@@ -33,18 +33,22 @@ namespace Negocio
             Entidad.Models.Reserva? rsv = await Conexion.http.GetFromJsonAsync<Entidad.Models.Reserva>(defaultUrl + "GetOne/" + id);
             if (rsv != null)
             {
-                Initialize(rsv);
+                await Initialize(rsv);
             }
             return rsv;
         }
 
-        public static async Task<Entidad.Models.Reserva> Create(Entidad.Models.Reserva rsv)
+        public static async Task<Entidad.Models.Reserva?> Create(Entidad.Models.Reserva rsv)
         {
             ReservaApi rsvApi = GetApi(rsv);
             var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", rsvApi);
-            int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
-            Entidad.Models.Reserva createdRsv = (await GetOne(id))!;
-            return createdRsv;
+            if (result.IsSuccessStatusCode)
+            {
+                int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
+                Entidad.Models.Reserva createdRsv = (await GetOne(id))!;
+                return createdRsv;
+            }
+            else { return null; }
         }
 
         public static async Task<bool> Update(Entidad.Models.Reserva rsv)
@@ -63,7 +67,7 @@ namespace Negocio
         public static bool Validate(Entidad.Models.Reserva rsv)
         {
             if (rsv.CantidadPersonas <= 0) { return false; }
-            /*if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }*/
+            if (rsv.CantidadPersonas > rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.NumeroCamas) { return false; }
             if (rsv.FechaInicioReserva.CompareTo(rsv.FechaFinReserva) >= 0) { return false; }
             return true;
         }
@@ -73,7 +77,7 @@ namespace Negocio
             List<Entidad.Models.Reserva> lstRsv = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(defaultUrl + "GetAllOfServicio/" + idServicio))!;
             foreach (Entidad.Models.Reserva rsv in lstRsv)
             {
-                Initialize(rsv);
+                await Initialize(rsv);
             }
             return lstRsv;
         }
@@ -115,27 +119,13 @@ namespace Negocio
             return control;
         }*/
 
-        private static async void Initialize(Entidad.Models.Reserva rsv)
+        private static async Task Initialize(Entidad.Models.Reserva rsv)
         {
             Task<Entidad.Models.Habitacion> getHbt = Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(Conexion.defaultUrl + "Habitacion/GetOne/" + rsv.IdHabitacion)!;
-            getHbt.Wait();
             rsv.IdHabitacionNavigation = await getHbt;
-            if (!getHbt.IsCompleted)
-            {
-                throw new Exception();
-            }
-            Task<Entidad.Models.TipoHabitacion> getTipo = Conexion.http.GetFromJsonAsync<Entidad.Models.TipoHabitacion>(Conexion.defaultUrl + "TipoHabitacion/GetOne/" + rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
-            getTipo.Wait();
-            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = (await getTipo)!;
+            Task<Entidad.Models.TipoHabitacion> getTipo = TipoHabitacion.GetOne(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
+            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = await getTipo;
             rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
-            if (!getTipo.IsCompleted)
-            {
-                throw new Exception();
-            }
-            if (rsv.IdHabitacionNavigation == null || rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation == null || rsv.IdHuespedNavigation == null)
-            {
-                throw new Exception("Nulo jaja");
-            }
         }
 
         private static ReservaApi GetApi(Entidad.Models.Reserva rsv)

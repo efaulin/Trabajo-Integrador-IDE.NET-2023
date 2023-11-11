@@ -108,8 +108,6 @@ namespace WindowsForm
                     break;
                 case 3:
                     Task<List<Reserva>> getlstRsv = Negocio.Reserva.GetAll();
-                    List<Reserva> _lstRsv = await getlstRsv;
-                    getlstRsv.Wait();
                     DataTable dtRsv = new DataTable();
                     DataColumn[] dcRsv = new DataColumn[]
                     {
@@ -126,6 +124,7 @@ namespace WindowsForm
                         new DataColumn("Tipo de habitacion", typeof(string))
                     };
                     dtRsv.Columns.AddRange(dcRsv);
+                    List<Reserva> _lstRsv = await getlstRsv;
                     foreach (Reserva rsv in _lstRsv)
                     {
                         double precio = rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Precio.PrecioHabitacion;
@@ -232,136 +231,142 @@ namespace WindowsForm
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            int tmp;
-            Form form;
-            switch (opcion)
+            if (dgvHabitaciones.Rows.Count > 0)
             {
+                int tmp;
+                Form form;
+                switch (opcion)
+                {
 #warning Falta implementacion boton "Editar"
-                case 0:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosHabitacion(2, tmp);
-                    form.ShowDialog();
-                    break;
-                case 1:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosTipoHabitacion(2, tmp);
-                    form.ShowDialog();
-                    break;
-                case 2:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosHuesped(2, tmp);
-                    form.ShowDialog();
-                    break;
-                case 3:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosReserva(tmp);
-                    form.ShowDialog();
-                    break;
-                case 4:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosServicio(2, tmp);
-                    form.ShowDialog();
-                    break;
-                case 5:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosEmpleado(2, tmp);
-                    form.ShowDialog();
-                    break;
+                    case 0:
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosHabitacion(2, tmp);
+                        form.ShowDialog();
+                        break;
+                    case 1:
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosTipoHabitacion(2, tmp);
+                        form.ShowDialog();
+                        break;
+                    case 2:
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosHuesped(2, tmp);
+                        form.ShowDialog();
+                        break;
+                    case 3:
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosReserva(tmp);
+                        form.ShowDialog();
+                        break;
+                    case 4:
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosServicio(2, tmp);
+                        form.ShowDialog();
+                        break;
+                    case 5:
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosEmpleado(2, tmp);
+                        form.ShowDialog();
+                        break;
+                }
+                listar();
             }
-            listar();
         }
 
         private async void btnEliminar_Click(object sender, EventArgs e)
         {
-            int tmpId;
-            if (MessageBox.Show("¿Seguro que desea borrar?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+            if (dgvHabitaciones.Rows.Count > 0)
             {
-                switch (opcion)
+                int tmpId;
+                if (MessageBox.Show("¿Seguro que desea borrar?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
+                    switch (opcion)
+                    {
 #warning Falta implementacion boton "Eliminar"
-                    case 0:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
-                        if (await Negocio.Habitacion.Delete(hbt))
-                        {
-                            MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
-                        break;
-                    case 1:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        TipoHabitacion tpHbt = await Negocio.TipoHabitacion.GetOne(tmpId)!;
-                        if (await Negocio.TipoHabitacion.Delete(tpHbt))
-                        {
-                            MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
-                        break;
-                    case 2:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Huesped hspd = Negocio.Huesped.GetOne(tmpId)!;
-                        if (Negocio.Huesped.Delete(hspd))
-                        {
-                            MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
-                        break;
-                    case 3:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Reserva rsv = (await Negocio.Reserva.GetOne(tmpId))!;
-                        if (await Negocio.Reserva.Delete(rsv))
-                        {
-                            MessageBox.Show("Reserva ID:" + tmpId + " borrado con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
-                        break;
-                    case 4:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Task<Servicio> getserv = Negocio.Servicio.GetOne(tmpId)!;
-                        Servicio serv = await getserv;
-                        if (await Negocio.Servicio.Delete(serv))
-                        {
-                            MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
-                        break;
-                    case 5:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Empleado emp = Negocio.Empleado.GetOne(tmpId)!;
-                        if (Negocio.Empleado.Delete(emp))
-                        {
-                            MessageBox.Show("Empleado ID:" + tmpId + " borrado con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
-                        break;
+                        case 0:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
+                            if (await Negocio.Habitacion.Delete(hbt))
+                            {
+                                MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 1:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            TipoHabitacion tpHbt = await Negocio.TipoHabitacion.GetOne(tmpId)!;
+                            if (await Negocio.TipoHabitacion.Delete(tpHbt))
+                            {
+                                MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 2:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Huesped hspd = Negocio.Huesped.GetOne(tmpId)!;
+                            if (Negocio.Huesped.Delete(hspd))
+                            {
+                                MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 3:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Reserva rsv = (await Negocio.Reserva.GetOne(tmpId))!;
+                            if (await Negocio.Reserva.Delete(rsv))
+                            {
+                                MessageBox.Show("Reserva ID:" + tmpId + " borrado con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 4:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Task<Servicio> getserv = Negocio.Servicio.GetOne(tmpId)!;
+                            Servicio serv = await getserv;
+                            if (await Negocio.Servicio.Delete(serv))
+                            {
+                                MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 5:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Empleado emp = Negocio.Empleado.GetOne(tmpId)!;
+                            if (Negocio.Empleado.Delete(emp))
+                            {
+                                MessageBox.Show("Empleado ID:" + tmpId + " borrado con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                    }
                 }
-            }
 
-            listar();
+                listar();
+            }
         }
 
         private void toolStripContainer1_RightToolStripPanel_Click(object sender, EventArgs e)
@@ -390,15 +395,18 @@ namespace WindowsForm
 
         private async void btnAltaBaja_Click(object sender, EventArgs e)
         {
-            int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-            Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
-            hbt.Estado = !hbt.Estado;
-            if (!(await Negocio.Habitacion.Update(hbt)))
+            if (dgvHabitaciones.Rows.Count > 0)
             {
-                //Si falla
-                MessageBox.Show("No se pudo actualizar el estado de la habitacion\nVuelva a intentar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
+                hbt.Estado = !hbt.Estado;
+                if (!(await Negocio.Habitacion.Update(hbt)))
+                {
+                    //Si falla
+                    MessageBox.Show("No se pudo actualizar el estado de la habitacion\nVuelva a intentar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                listar();
             }
-            listar();
         }
 
         private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)

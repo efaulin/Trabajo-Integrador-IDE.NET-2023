@@ -82,23 +82,17 @@ namespace Negocio
 
             foreach (var srv in lstSrv)
             {
-                _ = Initialize(srv);
+                await Initialize(srv);
             }
-            getlstRsvSrv.Wait();
+            
+            //getlstRsvSrv.Wait();
             return lstSrv;
         }
 
-        private static async Task<List<Entidad.Models.PrecioServicio>> Initialize(Entidad.Models.Servicio srv)
+        private static async Task Initialize(Entidad.Models.Servicio srv)
         {
             Task<List<Entidad.Models.PrecioServicio>> getPrcSrv = Conexion.http.GetFromJsonAsync<List<Entidad.Models.PrecioServicio>>(Conexion.defaultUrl + "PrecioServicio/GetAllOfServicio/" + srv.IdServicio)!;
             srv.PrecioServicios = await getPrcSrv;
-            getPrcSrv.Wait();
-
-            if (!getPrcSrv.IsCompletedSuccessfully)
-            {
-                throw new Exception();
-            }
-            return await getPrcSrv;
         }
 
         public static Entidad.Api.ServicioApi GetApi(Entidad.Models.Servicio srv)
