@@ -29,15 +29,15 @@
         private void InitializeComponent()
         {
             panel3 = new Panel();
-            panel4 = new Panel();
             lblTitulo = new Label();
+            panel4 = new Panel();
             label1 = new Label();
             panel1 = new Panel();
-            label2 = new Label();
-            dateTimePicker1 = new DateTimePicker();
+            btnEmitir = new Button();
             dateTimePicker2 = new DateTimePicker();
             label3 = new Label();
-            btnEmitir = new Button();
+            dateTimePicker1 = new DateTimePicker();
+            label2 = new Label();
             dgvInforme = new DataGridView();
             panel3.SuspendLayout();
             panel1.SuspendLayout();
@@ -55,15 +55,6 @@
             panel3.Size = new Size(1094, 100);
             panel3.TabIndex = 4;
             // 
-            // panel4
-            // 
-            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            panel4.BackColor = Color.White;
-            panel4.Location = new Point(0, 72);
-            panel4.Name = "panel4";
-            panel4.Size = new Size(1753, 10);
-            panel4.TabIndex = 0;
-            // 
             // lblTitulo
             // 
             lblTitulo.Dock = DockStyle.Fill;
@@ -75,13 +66,21 @@
             lblTitulo.Text = "Informe de recaudación";
             lblTitulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
+            // panel4
+            // 
+            panel4.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            panel4.BackColor = Color.White;
+            panel4.Location = new Point(0, 72);
+            panel4.Name = "panel4";
+            panel4.Size = new Size(1753, 10);
+            panel4.TabIndex = 0;
+            // 
             // label1
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            label1.AutoSize = true;
-            label1.Location = new Point(32, 131);
+            label1.Location = new Point(42, 123);
             label1.Name = "label1";
-            label1.Size = new Size(432, 20);
+            label1.Size = new Size(462, 110);
             label1.TabIndex = 5;
             label1.Text = "Ingrese el rango de fechas sobre el cual desea emitir el informe:";
             // 
@@ -93,26 +92,21 @@
             panel1.Controls.Add(label3);
             panel1.Controls.Add(dateTimePicker1);
             panel1.Controls.Add(label2);
-            panel1.Location = new Point(497, 123);
+            panel1.Location = new Point(510, 123);
             panel1.Name = "panel1";
-            panel1.Size = new Size(569, 110);
+            panel1.Size = new Size(556, 110);
             panel1.TabIndex = 7;
             // 
-            // label2
+            // btnEmitir
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(18, 15);
-            label2.Name = "label2";
-            label2.Size = new Size(51, 20);
-            label2.TabIndex = 0;
-            label2.Text = "Desde";
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(75, 10);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(312, 27);
-            dateTimePicker1.TabIndex = 1;
+            btnEmitir.BackColor = Color.LightSeaGreen;
+            btnEmitir.Location = new Point(420, 15);
+            btnEmitir.Name = "btnEmitir";
+            btnEmitir.Size = new Size(114, 61);
+            btnEmitir.TabIndex = 4;
+            btnEmitir.Text = "Emitir";
+            btnEmitir.UseVisualStyleBackColor = false;
+            btnEmitir.Click += btnEmitir_Click;
             // 
             // dateTimePicker2
             // 
@@ -130,19 +124,25 @@
             label3.TabIndex = 2;
             label3.Text = "Hasta";
             // 
-            // btnEmitir
+            // dateTimePicker1
             // 
-            btnEmitir.BackColor = Color.LightSeaGreen;
-            btnEmitir.Location = new Point(420, 15);
-            btnEmitir.Name = "btnEmitir";
-            btnEmitir.Size = new Size(114, 61);
-            btnEmitir.TabIndex = 4;
-            btnEmitir.Text = "Emitir";
-            btnEmitir.UseVisualStyleBackColor = false;
+            dateTimePicker1.Location = new Point(75, 10);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(312, 27);
+            dateTimePicker1.TabIndex = 1;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(18, 15);
+            label2.Name = "label2";
+            label2.Size = new Size(51, 20);
+            label2.TabIndex = 0;
+            label2.Text = "Desde";
             // 
             // dgvInforme
             // 
-            dgvInforme.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvInforme.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             dgvInforme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dgvInforme.Location = new Point(42, 265);
             dgvInforme.Name = "dgvInforme";
@@ -167,7 +167,6 @@
             panel1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvInforme).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

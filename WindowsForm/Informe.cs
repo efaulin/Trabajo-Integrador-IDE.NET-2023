@@ -16,5 +16,10 @@ namespace WindowsForm
         {
             InitializeComponent();
         }
+
+        private void btnEmitir_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
