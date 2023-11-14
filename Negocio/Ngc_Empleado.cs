@@ -15,6 +15,12 @@ namespace Negocio
             return dBContext.Empleados.FirstOrDefault(e => e.NombreUsuario == usuario && e.Password == contra);
         }
 
+        public static Entidad.Models.Empleado? GetOne(int id)
+        {
+            Entidad.Models.Empleado? emp = dBContext.Empleados.Find(id);
+            return emp;
+        }
+
         public static List<Entidad.Models.Empleado> GetAll()
         {
             List<Entidad.Models.Empleado> lstEmp = dBContext.Empleados.ToList();
@@ -48,12 +54,6 @@ namespace Negocio
             {
                 return false;
             }
-        }
-
-        public static Entidad.Models.Empleado? GetOne(int id)
-        {
-            Entidad.Models.Empleado? emp = dBContext.Empleados.Find(id);
-            return emp;
         }
 
         public static bool Delete(Entidad.Models.Empleado emp)

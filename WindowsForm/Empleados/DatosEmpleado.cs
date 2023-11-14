@@ -1,4 +1,5 @@
 ﻿using Entidad.Models;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -45,7 +46,7 @@ namespace WindowsForm.Empleados
                             emp = new Empleado();
                             emp.NombreUsuario = txtNombre.Text;
                             emp.Password = txtPassword.Text;
-                            emp.TipoUsuario = txtTipoUsuario.Text;
+                            emp.TipoUsuario = cmbTipoUsuario.Text;
 
                             Negocio.Empleado.Create(emp);
                             MessageBox.Show("Empleado ID: " + emp.IdEmpleado + " cargado con exito.");
@@ -64,7 +65,7 @@ namespace WindowsForm.Empleados
                         {
                             emp = _lstEmp.Find(delegate (Empleado emp) { return emp.IdEmpleado == _id; })!;
                             emp.NombreUsuario = txtNombre.Text;
-                            emp.TipoUsuario = txtTipoUsuario.Text;
+                            emp.TipoUsuario = cmbTipoUsuario.Text;
                             emp.Password = txtPassword.Text;
 
                             Negocio.Empleado.Update(emp);
@@ -99,6 +100,7 @@ namespace WindowsForm.Empleados
                 case 1:
                     this.Text = "Agregar Empleado";
                     idLabel.Text = "Nuevo";
+                    cmbTipoUsuario.SelectedIndex = 0;
                     break;
 
                 case 2:
@@ -126,9 +128,9 @@ namespace WindowsForm.Empleados
         private void Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
             emp = _lstEmp.Find(delegate (Empleado emp) { return emp.IdEmpleado == _id; })!;
-            emp.NombreUsuario = txtNombre.Text;
-            emp.TipoUsuario = txtTipoUsuario.Text;
-            emp.Password = txtPassword.Text;
+            txtNombre.Text = emp.NombreUsuario;
+            cmbTipoUsuario.SelectedItem = emp.TipoUsuario;
+            txtPassword.Text = emp.Password;
         }
 
         private void textBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -142,7 +144,6 @@ namespace WindowsForm.Empleados
         private bool validate()
         {
             if (txtNombre.Text.Length == 0 || txtNombre.Text[0].ToString() == " ") { return false; }
-            if (txtTipoUsuario.Text.Length == 0 || txtTipoUsuario.Text[0].ToString() == " ") { return false; }
             if (txtPassword.Text.Length == 0 || txtPassword.Text[0].ToString() == " ") { return false; }
             return true;
         }

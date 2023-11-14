@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Entidad.Models;
+using Entidad.Api;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 using Datos;
@@ -30,11 +31,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{IdHabitacion}")]
-        public ActionResult<Habitacion> GetOne(int id)
+        public ActionResult<Habitacion> GetOne(int IdHabitacion)
         {
             try
             {
-                Habitacion? tmpHbt = _dbContext.Habitacions.Find(id);
+                Habitacion? tmpHbt = _dbContext.Habitacions.Find(IdHabitacion);
                 if (tmpHbt == null)
                 {
                     return NotFound();
@@ -48,18 +49,25 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Habitacion> Create(Habitacion tmpHbt)
+        public ActionResult<int> Create(HabitacionApi hbtApi)
         {
             try
             {
-                if (!Validate(tmpHbt))
+                Habitacion? hbt = new Habitacion();
+                hbt.NumeroHabitacion = hbtApi.NumeroHabitacion;
+                hbt.PisoHabitacion = hbtApi.PisoHabitacion;
+                hbt.Estado = hbtApi.Estado;
+                hbt.IdTipoHabitacion = hbtApi.IdTipoHabitacion;
+                hbt.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(hbtApi.IdTipoHabitacion)!;
+                hbt.Reservas = new List<Reserva>();
+                if (!ValidateCreate(hbt))
                 {
                     return BadRequest();
                 }
-                _dbContext.Habitacions.Add(tmpHbt);
+                _dbContext.Habitacions.Add(hbt);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpHbt);
-                return tmpHbt;
+                _dbContext.Update(hbt);
+                return hbt.IdHabitacion;
             }
             catch (Exception ex)
             {
@@ -68,11 +76,26 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idHabitacion}")]
-        public ActionResult Update(int idHabitacion, Habitacion hbt)
+        public ActionResult Update(int idHabitacion, HabitacionApi hbtApi)
         {
             try
             {
-                if (idHabitacion != hbt.IdHabitacion || !Validate(hbt))
+                Habitacion? hbt = _dbContext.Habitacions.Find(hbtApi.IdHabitacion);
+                if (hbt == null || idHabitacion != hbt.IdHabitacion) { return NotFound(); }
+                else
+                {
+                    hbt.NumeroHabitacion = hbtApi.NumeroHabitacion;
+                    hbt.PisoHabitacion = hbtApi.PisoHabitacion;
+                    hbt.Estado = hbtApi.Estado;
+                    hbt.IdTipoHabitacion = hbtApi.IdTipoHabitacion;
+                    hbt.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(hbtApi.IdTipoHabitacion)!;
+                    hbt.Reservas = _dbContext.Reservas.Join(_dbContext.Habitacions,
+                        r => r.IdHabitacion,
+                        h => h.IdHabitacion,
+                        (r, h) => r
+                        ).Where(e => e.IdHabitacion == hbt.IdHabitacion).ToList();
+                }
+                if (!ValidateUpdate(hbt))
                 {
                     return BadRequest();
                 }
@@ -160,7 +183,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpGet("{piso, nro}")]
+        [HttpGet("{piso}/{nro}")]
         public ActionResult<Habitacion> GetByPiso_Nro(int piso, int nro)
         {
             try
@@ -196,13 +219,22 @@ namespace Servicios.Controllers
         /// </summary>
         /// <param name="hbt"></param>
         /// <returns>Si pasa las validaciones "True", caso contrario "False"</returns>
-        private bool Validate(Habitacion hbt)
+        private bool ValidateCreate(Habitacion hbt)
         {
             if (hbt.IdTipoHabitacionNavigation == null)
             { return false; }
             if (hbt.Reservas == null)
             { return false; }
             if (_dbContext.Habitacions.FirstOrDefault(e => e.NumeroHabitacion == hbt.NumeroHabitacion && e.PisoHabitacion == hbt.NumeroHabitacion) != null)
+            { return false; }
+            return true;
+        }
+
+        private bool ValidateUpdate(Habitacion hbt)
+        {
+            if (hbt.IdTipoHabitacionNavigation == null)
+            { return false; }
+            if (hbt.Reservas == null)
             { return false; }
             return true;
         }

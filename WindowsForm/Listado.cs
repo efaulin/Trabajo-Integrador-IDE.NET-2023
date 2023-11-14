@@ -32,7 +32,6 @@ namespace WindowsForm
             };
             opcion = (int)ht[op]!;
             InitializeComponent();
-            listar();
         }
 
         public async void listar()
@@ -40,19 +39,75 @@ namespace WindowsForm
             switch (opcion)
             {
                 case 0:
-                    dgvHabitaciones.DataSource = await Negocio.Habitacion.GetAll();
+                    Task<List<Habitacion>> getAll = Negocio.Habitacion.GetAll();
+                    DataTable dtHbt = new DataTable();
+                    DataColumn[] dcHbt = new DataColumn[]
+                    {
+                        new DataColumn("IdHabitacion", typeof(int)),
+                        new DataColumn("Estado", typeof(string)),
+                        new DataColumn("Nro. habitacion", typeof(int)),
+                        new DataColumn("Piso de habitacion", typeof(int)),
+                        new DataColumn("Descripcion", typeof(string)),
+                        new DataColumn("Cant. de camas", typeof(int)),
+                        new DataColumn("Precio", typeof(int))
+                    };
+                    dtHbt.Columns.AddRange(dcHbt);
+                    List<Habitacion> _lstHbt = await getAll;
+                    foreach (Habitacion hbt in _lstHbt)
+                    {
+                        string estado;
+                        if (hbt.Estado)
+                        { estado = "Alta"; }
+                        else
+                        { estado = "Baja"; }
+
+                        dtHbt.Rows.Add(
+                            hbt.IdHabitacion,
+                            estado,
+                            hbt.NumeroHabitacion,
+                            hbt.PisoHabitacion,
+                            hbt.IdTipoHabitacionNavigation.Descripcion,
+                            hbt.IdTipoHabitacionNavigation.NumeroCamas,
+                            hbt.IdTipoHabitacionNavigation.Precio.PrecioHabitacion
+                            );
+                    }
+                    dgvHabitaciones.DataSource = dtHbt;
                     break;
                 case 1:
-                    dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
+                    //dgvHabitaciones.DataSource = Datos.Old.BBDD.InnerJoin_TpHbt_PrcTpHbt();
+                    Task<List<TipoHabitacion>> getAllTipo = Negocio.TipoHabitacion.GetAll();
+                    DataTable dtTpHbt = new DataTable();
+                    DataColumn[] dcTpHbt = new DataColumn[]
+                    {
+                        new DataColumn("IdTipoHabitacion", typeof(int)),
+                        new DataColumn("Nro. Cama", typeof(int)),
+                        new DataColumn("Descripcion", typeof(string)),
+                        new DataColumn("Precio", typeof(double)),
+                        new DataColumn("Fecha Modificacion", typeof(DateTime)),
+
+                    };
+                    dtTpHbt.Columns.AddRange(dcTpHbt);
+                    List<TipoHabitacion> _lstTpHbt = await getAllTipo;
+                    foreach (TipoHabitacion tpHbt in _lstTpHbt)
+                    {
+                        dtTpHbt.Rows.Add(
+                            tpHbt.IdTipoHabitacion,
+                            tpHbt.NumeroCamas,
+                            tpHbt.Descripcion,
+                            tpHbt.Precio.PrecioHabitacion,
+                            tpHbt.Precio.FechaPrecio
+                            );
+                    }
+                    dgvHabitaciones.DataSource = dtTpHbt;
                     break;
                 case 2:
-                    List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
+                    List<Huesped> _lstHspd = await Negocio.Huesped.GetAll();
                     dgvHabitaciones.DataSource = _lstHspd;
                     //Se remueve la columna de reserva debido a la falta de ABM
                     dgvHabitaciones.Columns.RemoveAt(5);
                     break;
                 case 3:
-                    List<Reserva> _lstRsv = Negocio.Reserva.GetAll();
+                    Task<List<Reserva>> getlstRsv = Negocio.Reserva.GetAll();
                     DataTable dtRsv = new DataTable();
                     DataColumn[] dcRsv = new DataColumn[]
                     {
@@ -69,18 +124,33 @@ namespace WindowsForm
                         new DataColumn("Tipo de habitacion", typeof(string))
                     };
                     dtRsv.Columns.AddRange(dcRsv);
+                    List<Reserva> _lstRsv = await getlstRsv;
                     foreach (Reserva rsv in _lstRsv)
                     {
                         double precio = rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Precio.PrecioHabitacion;
-                        List<Servicio> lstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
+                        Task<List<Servicio>> getlstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
+                        List<Servicio> lstRsvSrv = await getlstRsvSrv;
                         lstRsvSrv.ForEach(e => precio += e.Precio.PrecioServicio1);
-                        dtRsv.Rows.Add(rsv.IdReserva, rsv.FechaInscripcion, rsv.FechaInicioReserva, rsv.FechaFinReserva, rsv.EstadoReserva, rsv.CantidadPersonas, rsv.IdHuespedNavigation.nombreCompleto(), precio, rsv.IdHabitacionNavigation.NumeroHabitacion, rsv.IdHabitacionNavigation.PisoHabitacion, rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion);
+                        
+                        dtRsv.Rows.Add(
+                            rsv.IdReserva,
+                            rsv.FechaInscripcion,
+                            rsv.FechaInicioReserva,
+                            rsv.FechaFinReserva,
+                            rsv.EstadoReserva,
+                            rsv.CantidadPersonas,
+                            rsv.IdHuespedNavigation.nombreCompleto(),
+                            precio,
+                            rsv.IdHabitacionNavigation.NumeroHabitacion,
+                            rsv.IdHabitacionNavigation.PisoHabitacion,
+                            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion
+                            );
                     }
                     dgvHabitaciones.DataSource = dtRsv;
                     break;
                 case 4:
 #warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)
-                    List<Servicio> _lstSrv = Negocio.Servicio.GetAll();
+                    Task<List<Servicio>> getlstSrv = Negocio.Servicio.GetAll();
                     DataTable dtSrv = new DataTable();
                     DataColumn[] dcSrv = new DataColumn[]
                     {
@@ -90,6 +160,7 @@ namespace WindowsForm
                         new DataColumn("Fecha de precio", typeof(DateTime))
                     };
                     dtSrv.Columns.AddRange(dcSrv);
+                    List<Servicio> _lstSrv = await getlstSrv;
                     foreach (Servicio srv in _lstSrv)
                     {
                         dtSrv.Rows.Add(srv.IdServicio, srv.Descripcion, srv.Precio.PrecioServicio1, srv.Precio.FechaPrecio);
@@ -130,35 +201,29 @@ namespace WindowsForm
             Form form;
             switch (opcion)
             {
-#warning Falta implementacion boton "Agregar" en todas las opciones
                 case 0:
                     form = new DatosHabitacion(1);
                     form.ShowDialog();
-                    listar();
                     break;
                 case 1:
                     form = new DatosTipoHabitacion(1);
                     form.ShowDialog();
-                    listar();
                     break;
                 case 2:
                     form = new DatosHuesped(1);
                     form.ShowDialog();
-                    listar();
                     break;
                 case 3:
-                    form = new DatosReserva(4);
+                    form = new DatosReserva();
                     form.ShowDialog();
                     break;
                 case 4:
                     form = new DatosServicio(1);
                     form.ShowDialog();
-                    listar();
                     break;
                 case 5:
                     form = new DatosEmpleado(1);
                     form.ShowDialog();
-                    listar();
                     break;
             }
             listar();
@@ -166,136 +231,142 @@ namespace WindowsForm
 
         private void btnEditar_Click(object sender, EventArgs e)
         {
-            int tmp;
-            Form form;
-            switch (opcion)
+            if (dgvHabitaciones.Rows.Count > 0)
             {
-#warning Falta implementacion boton "Editar"
-                case 0:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosHabitacion(2, tmp);
-                    form.ShowDialog();
-                    listar();
-                    break;
-                case 1:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosTipoHabitacion(2, tmp);
-                    form.ShowDialog();
-                    listar();
-                    break;
-                case 2:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosHuesped(2, tmp);
-                    form.ShowDialog();
-                    listar();
-                    break;
-                case 3:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosReserva(tmp);
-                    form.ShowDialog();
-                    break;
-                case 4:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosServicio(2, tmp);
-                    form.ShowDialog();
-                    listar();
-                    break;
-                case 5:
-                    tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
-                    form = new DatosEmpleado(2, tmp);
-                    form.ShowDialog();
-                    listar();
-                    break;
-            }
-            listar();
-        }
-
-        private void btnEliminar_Click(object sender, EventArgs e)
-        {
-            int tmpId;
-            if (MessageBox.Show("¿Seguro que desea borrar?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-            {
+                int tmp;
+                Form form;
                 switch (opcion)
                 {
-#warning Falta implementacion boton "Eliminar"
+#warning Falta implementacion boton "Editar"
                     case 0:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
-                        if (Negocio.Habitacion.Delete(hbt))
-                        {
-                            MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosHabitacion(2, tmp);
+                        form.ShowDialog();
                         break;
                     case 1:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        TipoHabitacion tpHbt = Negocio.TipoHabitacion.GetOne(tmpId)!;
-                        if (Negocio.TipoHabitacion.Delete(tpHbt))
-                        {
-                            MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosTipoHabitacion(2, tmp);
+                        form.ShowDialog();
                         break;
                     case 2:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Huesped hspd = Negocio.Huesped.GetOne(tmpId)!;
-                        if (Negocio.Huesped.Delete(hspd))
-                        {
-                            MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosHuesped(2, tmp);
+                        form.ShowDialog();
                         break;
                     case 3:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Reserva rsv = Negocio.Reserva.GetOne(tmpId)!;
-                        if (Negocio.Reserva.Delete(rsv))
-                        {
-                            MessageBox.Show("Reserva ID:" + tmpId + " borrado con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosReserva(tmp);
+                        form.ShowDialog();
                         break;
                     case 4:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Servicio serv = Negocio.Servicio.GetOne(tmpId)!;
-                        if (Negocio.Servicio.Delete(serv))
-                        {
-                            MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
-                            listar();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Error, intente nuevamente");
-                        }
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosServicio(2, tmp);
+                        form.ShowDialog();
                         break;
                     case 5:
-                        tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                        Empleado emp = Negocio.Empleado.GetOne(tmpId);
-                        if (Negocio.Empleado.Delete(emp))
-                        {
-                            MessageBox.Show("Empleado ID:" + tmpId + " borrado con exito");
-                            listar();
-                        }
+                        tmp = (int)dgvHabitaciones.SelectedCells[0].Value;
+                        form = new DatosEmpleado(2, tmp);
+                        form.ShowDialog();
                         break;
                 }
+                listar();
             }
+        }
 
-            listar();
+        private async void btnEliminar_Click(object sender, EventArgs e)
+        {
+            if (dgvHabitaciones.Rows.Count > 0)
+            {
+                int tmpId;
+                if (MessageBox.Show("¿Seguro que desea borrar?", "Confirmacion", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    switch (opcion)
+                    {
+#warning Falta implementacion boton "Eliminar"
+                        case 0:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
+                            if (await Negocio.Habitacion.Delete(hbt))
+                            {
+                                MessageBox.Show("Habitacion ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 1:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            TipoHabitacion tpHbt = await Negocio.TipoHabitacion.GetOne(tmpId)!;
+                            if (await Negocio.TipoHabitacion.Delete(tpHbt))
+                            {
+                                MessageBox.Show("TipoHabitacion ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 2:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Huesped hspd = (await Negocio.Huesped.GetOne(tmpId))!;
+                            if (await Negocio.Huesped.Delete(hspd))
+                            {
+                                MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 3:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Reserva rsv = (await Negocio.Reserva.GetOne(tmpId))!;
+                            if (await Negocio.Reserva.Delete(rsv))
+                            {
+                                MessageBox.Show("Reserva ID:" + tmpId + " borrado con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 4:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Task<Servicio> getserv = Negocio.Servicio.GetOne(tmpId)!;
+                            Servicio serv = await getserv;
+                            if (await Negocio.Servicio.Delete(serv))
+                            {
+                                MessageBox.Show("Servicio ID:" + tmpId + " borrada con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                        case 5:
+                            tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                            Empleado emp = Negocio.Empleado.GetOne(tmpId)!;
+                            if (Negocio.Empleado.Delete(emp))
+                            {
+                                MessageBox.Show("Empleado ID:" + tmpId + " borrado con exito");
+                                listar();
+                            }
+                            else
+                            {
+                                MessageBox.Show("Error, intente nuevamente");
+                            }
+                            break;
+                    }
+                }
+
+                listar();
+            }
         }
 
         private void toolStripContainer1_RightToolStripPanel_Click(object sender, EventArgs e)
@@ -303,7 +374,7 @@ namespace WindowsForm
 
         }
 
-        private void btnEditPrecio_Click(object sender, EventArgs e)
+        /*private void btnEditPrecio_Click(object sender, EventArgs e)
         {
             if (opcion == 1)
             {
@@ -320,15 +391,22 @@ namespace WindowsForm
                 listar();
             }
 
-        }
+        }*/
 
-        private void btnAltaBaja_Click(object sender, EventArgs e)
+        private async void btnAltaBaja_Click(object sender, EventArgs e)
         {
-            int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-            Habitacion hbt = Negocio.Habitacion.GetOne(tmpId)!;
-            hbt.Estado = !hbt.Estado;
-            Negocio.Habitacion.Update(hbt);
-            listar();
+            if (dgvHabitaciones.Rows.Count > 0)
+            {
+                int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
+                Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
+                hbt.Estado = !hbt.Estado;
+                if (!(await Negocio.Habitacion.Update(hbt)))
+                {
+                    //Si falla
+                    MessageBox.Show("No se pudo actualizar el estado de la habitacion\nVuelva a intentar", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                listar();
+            }
         }
 
         private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)

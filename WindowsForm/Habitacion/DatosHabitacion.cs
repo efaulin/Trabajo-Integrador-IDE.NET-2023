@@ -17,7 +17,7 @@ namespace WindowsForm
         int? op;
         int? _id;
         Habitacion? hbt;
-        List<TipoHabitacion> _lstTpHbt = Negocio.TipoHabitacion.GetAll();
+        Task<List<TipoHabitacion>> getlstTpHbt = Negocio.TipoHabitacion.GetAll();
         Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
         Hashtable _tmpTpHbt = new Hashtable();
@@ -51,7 +51,8 @@ namespace WindowsForm
                         hbt.IdTipoHabitacionNavigation = tmpTpHbt;
                         hbt.NumeroHabitacion = int.Parse(txtNumero.Text);
                         hbt.PisoHabitacion = int.Parse(txtPiso.Text);
-                        if (Negocio.Habitacion.Create(hbt))
+                        hbt = await Negocio.Habitacion.Create(hbt);
+                        if (hbt != null)
                         {
                             MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " cargada con exito.");
                         }
@@ -70,7 +71,7 @@ namespace WindowsForm
                         hbt.IdTipoHabitacionNavigation = tmpTpHbt;
                         hbt.NumeroHabitacion = int.Parse(txtNumero.Text);
                         hbt.PisoHabitacion = int.Parse(txtPiso.Text);
-                        if (Negocio.Habitacion.Update(hbt))
+                        if (await Negocio.Habitacion.Update(hbt))
                         {
                             MessageBox.Show("Habitacion ID: " + hbt.IdHabitacion + " editada con exito.");
                         }
@@ -96,6 +97,7 @@ namespace WindowsForm
 
         private async void DatosHabitacion_Load(object sender, EventArgs e)
         {
+            List<Entidad.Models.TipoHabitacion> _lstTpHbt = await getlstTpHbt;
             if (_lstTpHbt.Count <= 0)
             {
                 MessageBox.Show("¡No hay tipos de habitaciones registradas!\nAgrege un Tipo de habitacion, antes de cargar una habitacion", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);

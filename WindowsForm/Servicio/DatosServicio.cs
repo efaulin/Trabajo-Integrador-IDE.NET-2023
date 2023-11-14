@@ -19,7 +19,7 @@ namespace WindowsForm
         int? _id;
         bool controlPrecio = false;
         Entidad.Models.Servicio? serv;
-        List<Entidad.Models.Servicio> _lstServ = Negocio.Servicio.GetAll();
+        Task<List<Entidad.Models.Servicio>> getlstServ = Negocio.Servicio.GetAll();
         Hashtable _tmpServ = new Hashtable();
         public DatosServicio()
         {
@@ -39,7 +39,7 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             bool stop = false;
             if (validate())
@@ -49,15 +49,23 @@ namespace WindowsForm
                     case 1:
                         try
                         {
-                            serv = new Entidad.Models.Servicio();
+                            Entidad.Models.Servicio serv = new Entidad.Models.Servicio();
                             serv.Descripcion = txtDescipcion.Text;
-                            Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                            prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
-                            prcServ.FechaPrecio = DateTime.Now;
-                            serv.PrecioServicios.Add(prcServ);
-
-                            Negocio.Servicio.Create(serv);
-                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
+                            serv = await Negocio.Servicio.Create(serv);
+                            if (serv != null)
+                            {
+                                Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
+                                prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
+                                prcServ.FechaPrecio = DateTime.Now;
+                                prcServ.IdServicio = serv.IdServicio;
+                                prcServ = await Negocio.PrecioServicio.create(prcServ);
+                                serv = (await Negocio.Servicio.GetOne(serv.IdServicio))!;
+                                if (serv != null)
+                                {
+                                    MessageBox.Show("Servicio ID: " + serv.IdServicio + " cargado con exito.");
+                                }
+                            }                         
+                                                     
                         }
                         catch
                         {
@@ -71,21 +79,23 @@ namespace WindowsForm
                     case 2:
                         try
                         {
+                            List<Entidad.Models.Servicio> _lstServ = await getlstServ; 
                             serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
                             serv.Descripcion = txtDescipcion.Text;
                             if (controlPrecio && double.Parse(txtPrecio.Text) != serv.Precio.PrecioServicio1)
                             {
                                 Entidad.Models.PrecioServicio prcServ = new Entidad.Models.PrecioServicio();
-                                serv.IdServicio = serv.IdServicio;
-                                prcServ.IdServicioNavigation = serv;
-                                prcServ.FechaPrecio = DateTime.Now;
                                 prcServ.PrecioServicio1 = double.Parse(txtPrecio.Text);
-                                serv.PrecioServicios.Add(prcServ);
-
+                                prcServ.FechaPrecio = DateTime.Now;
+                                prcServ.IdServicio = serv.IdServicio;
+                                prcServ.IdServicioNavigation = serv;
+                                prcServ = await Negocio.PrecioServicio.create(prcServ);                                                           
+                            }
+                            if (await Negocio.Servicio.Update(serv))
+                            {
+                                MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
                             }
 
-                            Negocio.Servicio.Update(serv);
-                            MessageBox.Show("Servicio ID: " + serv.IdServicio + " editado con exito.");
                         }
                         catch
                         {
@@ -111,7 +121,7 @@ namespace WindowsForm
             }
         }
 
-        private void DatosServicio_Load(object sender, EventArgs e)
+        private async void DatosServicio_Load(object sender, EventArgs e)
         {
             switch (op)
             {
@@ -123,6 +133,7 @@ namespace WindowsForm
 
                 case 2:
                     this.Text = "Editar Servicio";
+                    List<Entidad.Models.Servicio> _lstServ = await getlstServ;
                     if (_lstServ.Count <= 0)
                     {
                         MessageBox.Show("No hay servicios registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -143,8 +154,9 @@ namespace WindowsForm
             this.Close();
         }
 
-        private void Id_SelectionChangeCommitted(object sender, EventArgs e)
+        private async void  Id_SelectionChangeCommitted(object sender, EventArgs e)
         {
+            List<Entidad.Models.Servicio> _lstServ = await getlstServ;
             serv = _lstServ.Find(delegate (Entidad.Models.Servicio serv) { return serv.IdServicio == _id; })!;
             txtDescipcion.Text = serv.Descripcion;
             txtPrecio.Text = serv.PrecioServicios.Last().PrecioServicio1.ToString();
