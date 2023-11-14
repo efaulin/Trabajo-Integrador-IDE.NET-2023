@@ -82,12 +82,25 @@ namespace Negocio
             return lstRsv;
         }
 
+        public static async Task<List<Entidad.Models.Reserva>> GetAllBetween(DateTime desde, DateTime hasta)
+        {
+            Task<List<Entidad.Models.Reserva>> task = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(defaultUrl + "GetAllBetween?desde=" + desde.ToString("yyyy-MM-ddTHH:mm:ss") + "&hasta=" + hasta.ToString("yyyy-MM-ddTHH:mm:ss"))!;
+            List<Entidad.Models.Reserva> lstRsv = await task;
+            foreach (Entidad.Models.Reserva rsv in lstRsv)
+            {
+                await Initialize(rsv);
+            }
+            return lstRsv;
+        }
+
         private static async Task Initialize(Entidad.Models.Reserva rsv)
         {
             Task<Entidad.Models.Habitacion> getHbt = Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(Conexion.defaultUrl + "Habitacion/GetOne/" + rsv.IdHabitacion)!;
             rsv.IdHabitacionNavigation = await getHbt;
+
             Task<Entidad.Models.TipoHabitacion> getTipo = TipoHabitacion.GetOne(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
             rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = await getTipo;
+
             rsv.IdHuespedNavigation = (await Huesped.GetOne(rsv.IdHuesped))!;
         }
 

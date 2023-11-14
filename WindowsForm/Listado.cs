@@ -113,37 +113,38 @@ namespace WindowsForm
                     {
                         new DataColumn("idReserva", typeof(int)),
                         new DataColumn("Fecha de Inscripcion", typeof(DateTime)),
+                        new DataColumn("Estado", typeof(string)),
                         new DataColumn("Fecha de Inicio Reserva", typeof(DateTime)),
                         new DataColumn("Fecha de Fin Reserva", typeof(DateTime)),
-                        new DataColumn("Estado", typeof(string)),
                         new DataColumn("Cantidad de Personas", typeof(int)),
                         new DataColumn("Huesped", typeof(string)),
-                        new DataColumn("Precio", typeof(double)),
                         new DataColumn("Nro de habitacion", typeof(int)),
                         new DataColumn("Piso de habitacion", typeof(int)),
-                        new DataColumn("Tipo de habitacion", typeof(string))
+                        new DataColumn("Tipo de habitacion", typeof(string)),
+                        new DataColumn("Precio", typeof(string))
                     };
                     dtRsv.Columns.AddRange(dcRsv);
                     List<Reserva> _lstRsv = await getlstRsv;
                     foreach (Reserva rsv in _lstRsv)
                     {
-                        double precio = rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Precio.PrecioHabitacion;
+                        PrecioTipoHabitacion tmp = Negocio.TipoHabitacion.DevPrecioFecha(rsv.FechaFinReserva, rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation)!;
+                        double precio = tmp.PrecioHabitacion;
                         Task<List<Servicio>> getlstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
                         List<Servicio> lstRsvSrv = await getlstRsvSrv;
-                        lstRsvSrv.ForEach(e => precio += e.Precio.PrecioServicio1);
+                        lstRsvSrv.ForEach(e => precio += Negocio.Servicio.DevPrecioFecha(rsv.FechaFinReserva, e)!.PrecioServicio1);
                         
                         dtRsv.Rows.Add(
                             rsv.IdReserva,
                             rsv.FechaInscripcion,
+                            rsv.EstadoReserva,
                             rsv.FechaInicioReserva,
                             rsv.FechaFinReserva,
-                            rsv.EstadoReserva,
                             rsv.CantidadPersonas,
                             rsv.IdHuespedNavigation.nombreCompleto(),
-                            precio,
                             rsv.IdHabitacionNavigation.NumeroHabitacion,
                             rsv.IdHabitacionNavigation.PisoHabitacion,
-                            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion
+                            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion,
+                            "$" + precio.ToString("0.00")
                             );
                     }
                     dgvHabitaciones.DataSource = dtRsv;
@@ -168,7 +169,7 @@ namespace WindowsForm
                     dgvHabitaciones.DataSource = dtSrv;
                     break;
                 case 5:
-                    dgvHabitaciones.DataSource = Negocio.Empleado.GetAll();
+                    dgvHabitaciones.DataSource = await Negocio.Empleado.GetAll();
                     break;
             }
 
@@ -351,8 +352,8 @@ namespace WindowsForm
                             break;
                         case 5:
                             tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                            Empleado emp = Negocio.Empleado.GetOne(tmpId)!;
-                            if (Negocio.Empleado.Delete(emp))
+                            Empleado emp = (await Negocio.Empleado.GetOne(tmpId))!;
+                            if (await Negocio.Empleado.Delete(emp))
                             {
                                 MessageBox.Show("Empleado ID:" + tmpId + " borrado con exito");
                                 listar();

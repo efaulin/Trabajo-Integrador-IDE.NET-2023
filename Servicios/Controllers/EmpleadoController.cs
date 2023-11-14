@@ -48,7 +48,7 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Empleado> Create(Empleado tmpHbt)
+        public ActionResult<int> Create(Empleado tmpHbt)
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Servicios.Controllers
                 _dbContext.Empleados.Add(tmpHbt);
                 _dbContext.SaveChanges();
                 _dbContext.Update(tmpHbt);
-                return tmpHbt;
+                return tmpHbt.IdEmpleado;
             }
             catch (Exception ex)
             {
@@ -96,6 +96,24 @@ namespace Servicios.Controllers
                 _dbContext.Empleados.Remove(hbt);
                 _dbContext.SaveChanges();
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: 500, detail: ex.Message);
+            }
+        }
+
+        [HttpGet("{usuario}/{contra}")]
+        public ActionResult<Empleado> GetByUsuario_Contraseña(string usuario, string contra)
+        {
+            try
+            {
+                Empleado? tmpHbt = _dbContext.Empleados.FirstOrDefault(e => e.NombreUsuario == usuario && e.Password == contra);
+                if (tmpHbt == null)
+                {
+                    return NotFound();
+                }
+                return tmpHbt;
             }
             catch (Exception ex)
             {

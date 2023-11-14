@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using Entidad.Api;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,65 +11,53 @@ namespace Negocio
 {
     public class Empleado
     {
-        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
-        public static Entidad.Models.Empleado? GetByUsuario_Contraseña(string usuario, string contra)
+        static readonly string defaultUrl = Conexion.defaultUrl + "Empleado/";
+        public static async Task<Entidad.Models.Empleado?> GetByUsuario_Contraseña(string usuario, string contra)
         {
-            return dBContext.Empleados.FirstOrDefault(e => e.NombreUsuario == usuario && e.Password == contra);
+            var result = await Conexion.http.GetAsync(defaultUrl + "GetByUsuario_Contraseña/" + usuario + "/" + contra)!;
+            if (result.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<Entidad.Models.Empleado>(await result.Content.ReadAsStringAsync())!;
+            }
+            else { return null; }
         }
 
-        public static Entidad.Models.Empleado? GetOne(int id)
+        public static async Task<Entidad.Models.Empleado?> GetOne(int id)
         {
-            Entidad.Models.Empleado? emp = dBContext.Empleados.Find(id);
-            return emp;
+            Task<Entidad.Models.Empleado?> task = Conexion.http.GetFromJsonAsync<Entidad.Models.Empleado?>(defaultUrl + "GetOne/" + id)!;
+            Entidad.Models.Empleado? hpd = await task;
+            return hpd;
         }
 
-        public static List<Entidad.Models.Empleado> GetAll()
+        public static async Task<List<Entidad.Models.Empleado>> GetAll()
         {
-            List<Entidad.Models.Empleado> lstEmp = dBContext.Empleados.ToList();
-            return lstEmp;
+            Task<List<Entidad.Models.Empleado>> task = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Empleado>>(defaultUrl + "GetAll")!;
+            List<Entidad.Models.Empleado> lstHpd = await task;
+            return lstHpd;
         }
 
-        public static bool Create(Entidad.Models.Empleado emp)
+        public static async Task<Entidad.Models.Empleado?> Create(Entidad.Models.Empleado emp)
         {
-            try
+            var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", emp);
+            if (result.IsSuccessStatusCode)
             {
-                dBContext.Empleados.Add(emp);
-                dBContext.SaveChanges();
-                dBContext.Update(emp);
-                return true;
+                int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
+                Entidad.Models.Empleado createdHpd = (await GetOne(id))!;
+                return createdHpd;
             }
-            catch
-            {
-                return false;
-            }
+            else { return null; }
         }
 
-        public static bool Update(Entidad.Models.Empleado emp)
+        public static async Task<bool> Update(Entidad.Models.Empleado emp)
         {
-            try
-            {
-                dBContext.Update(emp);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + emp.IdEmpleado, emp);
+            return result.IsSuccessStatusCode;
         }
 
-        public static bool Delete(Entidad.Models.Empleado emp)
+        public static async Task<bool> Delete(Entidad.Models.Empleado emp)
         {
-            try
-            {
-                dBContext.Empleados.Remove(emp);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            var result = await Conexion.http.DeleteAsync(defaultUrl + "Delete/" + emp.IdEmpleado);
+            return result.IsSuccessStatusCode;
         }
     }
 }

@@ -89,6 +89,31 @@ namespace Negocio
             return lstSrv;
         }
 
+        /// <summary>
+        /// </summary>
+        /// <param name="fecha">fecha a buscar</param>
+        /// <param name="tipHbt">tipoHabitacion de precio a buscar</param>
+        /// <returns>Entidad precioServicio de un Servicio que pertenezca a la fecha ingresada</returns>
+        public static Entidad.Models.PrecioServicio? DevPrecioFecha(DateTime fecha, Entidad.Models.Servicio srv)
+        {
+            Entidad.Models.PrecioServicio? precioBuscado = null;
+            foreach (var preSrv in srv.PrecioServicios)
+            {
+                if (precioBuscado == null && preSrv.FechaPrecio <= fecha)
+                {
+                    precioBuscado = preSrv;
+                }
+                else if (precioBuscado != null)
+                {
+                    if (preSrv.FechaPrecio > precioBuscado.FechaPrecio && preSrv.FechaPrecio <= fecha)
+                    {
+                        precioBuscado = preSrv;
+                    }
+                }
+            }
+            return precioBuscado;
+        }
+
         private static async Task Initialize(Entidad.Models.Servicio srv)
         {
             Task<List<Entidad.Models.PrecioServicio>> getPrcSrv = Conexion.http.GetFromJsonAsync<List<Entidad.Models.PrecioServicio>>(Conexion.defaultUrl + "PrecioServicio/GetAllOfServicio/" + srv.IdServicio)!;

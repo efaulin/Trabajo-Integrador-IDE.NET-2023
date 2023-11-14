@@ -18,12 +18,14 @@ namespace WindowsForm
             InitializeComponent();
         }
 
-        private void btnIngresar_Click(object sender, EventArgs e)
+        private async void btnIngresar_Click(object sender, EventArgs e)
         {
             btnIngresar.BackColor = SystemColors.GrayText;
             btnIngresar.Enabled = false;
+            txtUsuario.Enabled = false;
+            txtContraseña.Enabled = false;
 
-            Empleado? emp = Negocio.Empleado.GetByUsuario_Contraseña(txtUsuario.Text, txtContraseña.Text);
+            Empleado? emp = await Negocio.Empleado.GetByUsuario_Contraseña(txtUsuario.Text, txtContraseña.Text);
 
             if (emp == null)
             {
@@ -42,6 +44,8 @@ namespace WindowsForm
             }
             btnIngresar.BackColor = Color.DarkCyan;
             btnIngresar.Enabled = true;
+            txtUsuario.Enabled = true;
+            txtContraseña.Enabled = true;
         }
 
         private void iniciarSesion_KeyPress(object sender, KeyPressEventArgs e)
