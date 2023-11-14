@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Datos;
 using System.Text.RegularExpressions;
 using System.Reflection.PortableExecutable;
+using Entidad.Api;
 
 namespace Servicios.Controllers
 {
@@ -31,11 +32,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{idReservaServicio}")]
-        public ActionResult<ReservaServicio> GetOne(int id)
+        public ActionResult<ReservaServicio> GetOne(int idReservaServicio)
         {
             try
             {
-                ReservaServicio? rsv = _dbContext.ReservaServicios.Find(id);
+                ReservaServicio? rsv = _dbContext.ReservaServicios.Find(idReservaServicio);
                 if (rsv == null)
                 {
                     return NotFound();
@@ -49,10 +50,16 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<ReservaServicio> Create(ReservaServicio rsv)
+        public ActionResult<int> Create(ReservaServicioApi api)
         {
             try
             {
+                ReservaServicio rsv = new ReservaServicio();
+                rsv.IdReservaServicio = api.IdReservaServicio;
+                rsv.IdServicio = api.IdServicio;
+                rsv.IdReserva = api.IdReserva;
+                rsv.IdReservaNavigation = _dbContext.Reservas.Find(api.IdReserva)!;
+                rsv.IdServicioNavigation = _dbContext.Servicios.Find(api.IdServicio)!;
                 if (!Validate(rsv))
                 {
                     return BadRequest();
@@ -60,7 +67,7 @@ namespace Servicios.Controllers
                 _dbContext.ReservaServicios.Add(rsv);
                 _dbContext.SaveChanges();
                 _dbContext.Update(rsv);
-                return rsv;
+                return rsv.IdReservaServicio;
             }
             catch (Exception ex)
             {
@@ -69,11 +76,12 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idReservaServicio}")]
-        public ActionResult Update(int idReservaServicio, ReservaServicio rsv)
+        public ActionResult Update(int idReservaServicio, ReservaServicioApi api)
         {
             try
             {
-                if (idReservaServicio != rsv.IdReservaServicio || !Validate(rsv))
+                ReservaServicio? rsv = _dbContext.ReservaServicios.Find(api.IdReservaServicio);
+                if (rsv == null || idReservaServicio != rsv.IdReservaServicio || !Validate(rsv))
                 {
                     return BadRequest();
                 }
@@ -140,7 +148,7 @@ namespace Servicios.Controllers
         /// <param name="idReserva"></param>
         /// <param name="idServicio"></param>
         /// <returns>Entidad ReservaSerivico que relaciona los id's de reserva y servicios</returns>
-        [HttpGet("{idReserva, idServicio}")]
+        [HttpGet("{idReserva}/{idServicio}")]
         public ActionResult<ReservaServicio> GetByReserva_Servicio(int idReserva, int idServicio)
         {
             try
@@ -156,6 +164,50 @@ namespace Servicios.Controllers
             {
                 return Problem(statusCode: 500, detail: ex.Message);
             }
+        }
+
+        /// <summary> Guardo las relaciones de Reserva con Servicios </summary>
+        /// <param name="idReserva">Id de Reserva al que pertenezcan las relaciones</param>
+        /// <param name="lstSrvApi">Lista de relaciones que debe tener la Reserva con Servicio</param>
+        /// <returns></returns>
+        [HttpPut("{idReserva}")]
+        public ActionResult<bool> SaveServicios(int idReserva, List<ReservaServicioApi> lstSrvApi)
+        {
+            Reserva? rsv = _dbContext.Reservas.Find(idReserva);
+            if (rsv == null) { return BadRequest(); }
+
+            //Obtengo las relaciones guardadas
+            List<ReservaServicio> lstGuardada = _dbContext.ReservaServicios.Where(e => e.IdReserva == rsv.IdReserva).ToList();
+
+            //Borro relaciones que no esten en el listado "lstSrvApi"
+            foreach (ReservaServicio rsvSrv in lstGuardada)
+            {
+                if (lstSrvApi.FirstOrDefault(e => e.IdReserva == rsvSrv.IdReserva && e.IdServicio == rsvSrv.IdServicio) == null)
+                {
+                    try { _dbContext.ReservaServicios.Remove(rsvSrv); }
+                    catch { return false; }
+                }
+            }
+
+            //Creo las relaciones que no esten guardadas
+            foreach (ReservaServicioApi api in lstSrvApi)
+            {
+                if (lstGuardada.FirstOrDefault(e => e.IdReserva == api.IdReserva && e.IdServicio == api.IdServicio) == null)
+                {
+                    var tmp = new ReservaServicio();
+                    tmp.IdServicio = api.IdServicio;
+                    tmp.IdReserva = api.IdReserva;
+                    tmp.IdReservaNavigation = _dbContext.Reservas.Find(api.IdReserva)!;
+                    tmp.IdServicioNavigation = _dbContext.Servicios.Find(api.IdServicio)!;
+                    if (tmp.IdReservaNavigation == null || tmp.IdServicioNavigation == null) { return NotFound(); }
+                    try { _dbContext.ReservaServicios.Add(tmp); }
+                    catch { return false; }
+                }
+            }
+
+            try { _dbContext.SaveChanges(); }
+            catch { return false; }
+            return true;
         }
 
         /// <summary>

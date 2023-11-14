@@ -30,11 +30,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{IdServicio}")]
-        public ActionResult<Servicio> GetOne(int id)
+        public ActionResult<Servicio> GetOne(int IdServicio)
         {
             try
             {
-                Servicio? tmpHbt = _dbContext.Servicios.Find(id);
+                Servicio? tmpHbt = _dbContext.Servicios.Find(IdServicio);
                 if (tmpHbt == null)
                 {
                     return NotFound();
@@ -48,18 +48,21 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Servicio> Create(Servicio tmpHbt)
+        public ActionResult<int> Create(Entidad.Api.ServicioApi api)
         {
             try
             {
-                if (!Validate(tmpHbt))
+                Servicio srv = new Servicio();
+                srv.Descripcion = api.Descripcion;  
+                srv.PrecioServicios = new List<PrecioServicio>();
+                if (!Validate(srv))
                 {
                     return BadRequest();
                 }
-                _dbContext.Servicios.Add(tmpHbt);
+                _dbContext.Servicios.Add(srv);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpHbt);
-                return tmpHbt;
+                _dbContext.Update(srv);
+                return srv.IdServicio;
             }
             catch (Exception ex)
             {
@@ -68,15 +71,17 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idServicio}")]
-        public ActionResult Update(int idServicio, Servicio hbt)
+        public ActionResult Update(int idServicio, Entidad.Api.ServicioApi api)
         {
             try
             {
-                if (idServicio != hbt.IdServicio || !Validate(hbt))
+                Servicio srv = _dbContext.Servicios.Find(idServicio);
+                if (idServicio != api.IdServicio || srv == null)
                 {
                     return BadRequest();
                 }
-                _dbContext.Servicios.Entry(hbt).State = EntityState.Modified;
+                srv.Descripcion = api.Descripcion;
+                _dbContext.Servicios.Entry(srv).State = EntityState.Modified;
                 _dbContext.SaveChanges();
                 return NoContent();
             }
@@ -106,16 +111,22 @@ namespace Servicios.Controllers
         /// <summary></summary>
         /// <param name="idReserva"></param>
         /// <returns>Lista de servicios pertenecientes a la reserva de id ingresado</returns>
-        [HttpGet(Name = "GetAllOfReserva")]
+        [HttpGet("{idReserva}")]
         public ActionResult<IEnumerable<Servicio>> GetAllOfReserva(int idReserva)
         {
             try
             {
-                return _dbContext.Servicios.Join(_dbContext.ReservaServicios,
-                    s => s.IdServicio,
+                var lstRelacionada = _dbContext.ReservaServicios.Join(_dbContext.Servicios,
                     rs => rs.IdServicio,
-                    (s, rs) => s
-                    ).ToList();
+                    s => s.IdServicio,
+                    (rs, s) => new { rs, s }
+                    ).Where(e => e.rs.IdReserva == idReserva).ToList();
+                List<Servicio> list = new List<Servicio>();
+                foreach (var xd in lstRelacionada)
+                {
+                    list.Add(xd.s);
+                }
+                return list;
             }
             catch (Exception ex)
             {
@@ -126,8 +137,6 @@ namespace Servicios.Controllers
         private bool Validate(Servicio srv)
         {
             if (srv.PrecioServicios == null)
-            { return false; }
-            if (srv.Precio.PrecioServicio1 <= 0)
             { return false; }
             if (srv.Descripcion.Length == 0 || srv.Descripcion[0].ToString() == " ")
             { return false; }

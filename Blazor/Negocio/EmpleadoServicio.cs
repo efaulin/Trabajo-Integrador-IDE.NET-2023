@@ -8,7 +8,7 @@ namespace Blazor.Negocio
         static readonly string defaultUrl = Conexion.defaultUrl + "Empleado/";
         public static async Task<List<Empleado>> GetAll()
         {
-            var result = await Conexion.http.GetFromJsonAsync<List<Empleado>>("http://localhost:7110/api/Empleado/GetAll");
+            var result = await Conexion.http.GetFromJsonAsync<List<Empleado>>(defaultUrl + "GetAll");
             return result!;
         }
 

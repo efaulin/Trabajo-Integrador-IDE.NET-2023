@@ -29,7 +29,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpGet("{IdPrecio}")]
+        [HttpGet("{idPrecioTipoHabitacion}")]
         public ActionResult<PrecioTipoHabitacion> GetOne(int idPrecioTipoHabitacion)
         {
             try
@@ -48,22 +48,27 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<PrecioTipoHabitacion> Create(PrecioTipoHabitacion tmpPcTpHbt)
+        public ActionResult<int> Create(Entidad.Api.PrecioTipoHabitacionApi api)
         {
             try
             {
-                if (!Validate(tmpPcTpHbt))
+                PrecioTipoHabitacion prsTip = new PrecioTipoHabitacion();
+                prsTip.PrecioHabitacion = api.PrecioHabitacion;
+                prsTip.IdTipoHabitacion = api.IdTipoHabitacion;
+                prsTip.FechaPrecio = api.FechaPrecio;
+                prsTip.IdTipoHabitacionNavigation = _dbContext.TipoHabitacions.Find(api.IdTipoHabitacion)!;
+                if (!Validate(prsTip))
                 {
                     return BadRequest();
                 }
-                _dbContext.PrecioTipoHabitacions.Add(tmpPcTpHbt);
+                _dbContext.PrecioTipoHabitacions.Add(prsTip);
                 _dbContext.SaveChanges();
-                _dbContext.Update(tmpPcTpHbt);
-                return CreatedAtAction(nameof(GetOne), tmpPcTpHbt);
+                _dbContext.Update(prsTip);
+                return prsTip.IdPrecioTipoHabitacion;
             }
             catch (Exception ex)
             {
-                return tmpPcTpHbt;
+                return Problem(statusCode: 500, detail: ex.Message);
             }
         }
 

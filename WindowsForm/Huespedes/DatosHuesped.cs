@@ -17,8 +17,8 @@ namespace WindowsForm.Huespedes
         int? op;
         int? _id;
         Huesped? hspd;
-        List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
-        Hashtable _tmpHspd = new Hashtable();
+        Task<List<Huesped>> getAll = Negocio.Huesped.GetAll();
+        List<Huesped> _lstHspd;
         public DatosHuesped(int opcion)
         {
             op = opcion;
@@ -32,7 +32,7 @@ namespace WindowsForm.Huespedes
             InitializeComponent();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             bool stop = false;
             if (validate())
@@ -40,43 +40,40 @@ namespace WindowsForm.Huespedes
                 switch (op)
                 {
                     case 1:
-                        try
-                        {
-                            hspd = new Huesped();
-                            hspd.Nombre = txtNombre.Text;
-                            hspd.Apellido = txtApellido.Text;
-                            hspd.NumeroDocumento = txtDNI.Text;
-                            hspd.TipoDocumento = cmbTipoDoc.Text;
+                        hspd = new Huesped();
+                        hspd.Nombre = txtNombre.Text;
+                        hspd.Apellido = txtApellido.Text;
+                        hspd.NumeroDocumento = txtDNI.Text;
+                        hspd.TipoDocumento = cmbTipoDoc.Text;
 
-                            Negocio.Huesped.Create(hspd);
+                        hspd = await Negocio.Huesped.Create(hspd);
+                        if (hspd != null)
+                        {
                             MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " cargado con exito.");
                         }
-                        catch
+                        else
                         {
                             stop = true;
                             MessageBox.Show("Hubo un problema al crear el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //throw ex;
                         }
 
                         break;
 
                     case 2:
-                        try
-                        {
-                            hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
-                            hspd.Nombre = txtNombre.Text;
-                            hspd.Apellido = txtApellido.Text;
-                            hspd.NumeroDocumento = txtDNI.Text;
-                            hspd.TipoDocumento = cmbTipoDoc.Text;
+                        hspd = _lstHspd.Find(delegate (Huesped hspd) { return hspd.IdHuesped == _id; })!;
+                        hspd.Nombre = txtNombre.Text;
+                        hspd.Apellido = txtApellido.Text;
+                        hspd.NumeroDocumento = txtDNI.Text;
+                        hspd.TipoDocumento = cmbTipoDoc.Text;
 
-                            Negocio.Huesped.Update(hspd);
+                        if (await Negocio.Huesped.Update(hspd))
+                        {
                             MessageBox.Show("Huesped ID: " + hspd.IdHuesped + " editado con exito.");
                         }
-                        catch
+                        else
                         {
                             stop = true;
                             MessageBox.Show("Hubo un problema al editar el huesped. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //throw ex;
                         }
 
                         break;
@@ -94,7 +91,7 @@ namespace WindowsForm.Huespedes
             }
         }
 
-        private void DatosHuesped_Load(object sender, EventArgs e)
+        private async void DatosHuesped_Load(object sender, EventArgs e)
         {
             cmbTipoDoc.Items.Add("DNI");
             cmbTipoDoc.Items.Add("LC");
@@ -108,6 +105,7 @@ namespace WindowsForm.Huespedes
                     break;
 
                 case 2:
+                    _lstHspd = await getAll;
                     this.Text = "Editar huesped";
                     if (_lstHspd.Count <= 0)
                     {

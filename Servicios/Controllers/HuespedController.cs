@@ -3,6 +3,7 @@ using Entidad.Models;
 using Microsoft.EntityFrameworkCore;
 using Datos;
 using System.Text.RegularExpressions;
+using Entidad.Api;
 
 namespace Servicios.Controllers
 {
@@ -30,11 +31,11 @@ namespace Servicios.Controllers
         }
 
         [HttpGet("{idHuesped}")]
-        public ActionResult<Huesped> GetOne(int id)
+        public ActionResult<Huesped> GetOne(int idHuesped)
         {
             try
             {
-                Huesped? hpd = _dbContext.Huespeds.Find(id);
+                Huesped? hpd = _dbContext.Huespeds.Find(idHuesped);
                 if (hpd == null)
                 {
                     return NotFound();
@@ -48,10 +49,17 @@ namespace Servicios.Controllers
         }
 
         [HttpPost]
-        public ActionResult<Huesped> Create(Huesped hpd)
+        public ActionResult<int> Create(HuespedApi api)
         {
             try
             {
+                Huesped hpd = new Huesped();
+                hpd.IdHuesped = api.IdHuesped;
+                hpd.Nombre = api.Nombre;
+                hpd.Apellido = api.Apellido;
+                hpd.NumeroDocumento = api.NumeroDocumento;
+                hpd.TipoDocumento = api.TipoDocumento;
+                hpd.Reservas = _dbContext.Reservas.Where(e => e.IdHuesped == api.IdHuesped).ToList();
                 if (!Validate(hpd))
                 {
                     return BadRequest();
@@ -59,7 +67,7 @@ namespace Servicios.Controllers
                 _dbContext.Huespeds.Add(hpd);
                 _dbContext.SaveChanges();
                 _dbContext.Update(hpd);
-                return hpd;
+                return hpd.IdHuesped;
             }
             catch (Exception ex)
             {
@@ -68,10 +76,17 @@ namespace Servicios.Controllers
         }
 
         [HttpPut("{idHuesped}")]
-        public ActionResult Update(int idHuesped, Huesped hpd)
+        public ActionResult Update(int idHuesped, HuespedApi api)
         {
             try
             {
+                Huesped? hpd = _dbContext.Huespeds.Find(api.IdHuesped);
+                if (hpd == null) { return NotFound(); }
+                hpd.Nombre = api.Nombre;
+                hpd.Apellido = api.Apellido;
+                hpd.NumeroDocumento = api.NumeroDocumento;
+                hpd.TipoDocumento = api.TipoDocumento;
+                hpd.Reservas = _dbContext.Reservas.Where(e => e.IdHuesped == hpd.IdHuesped).ToList();
                 if (idHuesped != hpd.IdHuesped || !Validate(hpd))
                 {
                     return BadRequest();
@@ -103,7 +118,7 @@ namespace Servicios.Controllers
             }
         }
 
-        [HttpGet("{tipo, nro}")]
+        [HttpGet("{tipo}/{nro}")]
         public ActionResult<Huesped> GetByTipo_NroDocumento(string tipo, string nro)
         {
             try
@@ -143,7 +158,7 @@ namespace Servicios.Controllers
         {
             if (hpd.TipoDocumento != "DNI" && hpd.TipoDocumento != "LE" && hpd.TipoDocumento != "LC")
             { return false; }
-            if (!Regex.IsMatch(hpd.NumeroDocumento, @"[0-9]{7,9}"))
+            if (!Regex.IsMatch(hpd.NumeroDocumento, @"[0-9]{7,9}") || hpd.NumeroDocumento.Length > 9)
             { return false; }
             if (hpd.Nombre.Length == 0 || hpd.Apellido.Length == 0)
             { return false; }
