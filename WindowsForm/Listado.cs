@@ -101,7 +101,7 @@ namespace WindowsForm
                     dgvHabitaciones.DataSource = dtTpHbt;
                     break;
                 case 2:
-                    List<Huesped> _lstHspd = Negocio.Huesped.GetAll();
+                    List<Huesped> _lstHspd = await Negocio.Huesped.GetAll();
                     dgvHabitaciones.DataSource = _lstHspd;
                     //Se remueve la columna de reserva debido a la falta de ABM
                     dgvHabitaciones.Columns.RemoveAt(5);
@@ -311,8 +311,8 @@ namespace WindowsForm
                             break;
                         case 2:
                             tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
-                            Huesped hspd = Negocio.Huesped.GetOne(tmpId)!;
-                            if (Negocio.Huesped.Delete(hspd))
+                            Huesped hspd = (await Negocio.Huesped.GetOne(tmpId))!;
+                            if (await Negocio.Huesped.Delete(hspd))
                             {
                                 MessageBox.Show("Huesped ID:" + tmpId + " borrada con exito");
                                 listar();

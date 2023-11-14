@@ -82,50 +82,13 @@ namespace Negocio
             return lstRsv;
         }
 
-
-        /*private static async Task<bool> SaveServicios(Entidad.Models.Reserva rsv, List<Entidad.Models.Servicio> lstSrv)
-        {
-            bool control = true;
-            Task<List<Entidad.Models.Servicio>> getlstGuardada = Servicio.GetAllOfReserva(rsv.IdReserva);
-            List<Entidad.Models.Servicio> lstGuardada = await getlstGuardada;
-
-            //Guardo las nuevas relaciones
-            foreach (Entidad.Models.Servicio tmpSrv in lstSrv)
-            {
-                if (!lstGuardada.Contains(tmpSrv))
-                {
-                    Entidad.Models.ReservaServicio newRsvSrv = new Entidad.Models.ReservaServicio();
-                    newRsvSrv.IdReserva = rsv.IdReserva;
-                    newRsvSrv.IdServicio = tmpSrv.IdServicio;
-                    if (!ReservaServicio.Create(newRsvSrv))
-                    {
-                        control = false;
-                    }
-                }
-            }
-            //Borro las que ya no se relacionan
-            foreach (Entidad.Models.Servicio dbSrv in lstGuardada)
-            {
-                if (!lstSrv.Contains(dbSrv))
-                {
-                    Entidad.Models.ReservaServicio delRsrSrv = ReservaServicio.GetByReserva_Servicio(rsv.IdReserva, dbSrv.IdServicio)!;
-                    if (!ReservaServicio.Delete(delRsrSrv))
-                    {
-                        control = false;
-                    }
-                }
-            }
-
-            return control;
-        }*/
-
         private static async Task Initialize(Entidad.Models.Reserva rsv)
         {
             Task<Entidad.Models.Habitacion> getHbt = Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(Conexion.defaultUrl + "Habitacion/GetOne/" + rsv.IdHabitacion)!;
             rsv.IdHabitacionNavigation = await getHbt;
             Task<Entidad.Models.TipoHabitacion> getTipo = TipoHabitacion.GetOne(rsv.IdHabitacionNavigation.IdTipoHabitacion)!;
             rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = await getTipo;
-            rsv.IdHuespedNavigation = Huesped.GetOne(rsv.IdHuesped)!;
+            rsv.IdHuespedNavigation = (await Huesped.GetOne(rsv.IdHuesped))!;
         }
 
         private static ReservaApi GetApi(Entidad.Models.Reserva rsv)

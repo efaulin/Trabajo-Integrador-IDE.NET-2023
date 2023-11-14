@@ -6,70 +6,60 @@ using System.Threading.Tasks;
 using Entidad.Models;
 using Datos;
 using Microsoft.EntityFrameworkCore.Storage.Internal;
+using System.Net.Http.Json;
+using Microsoft.EntityFrameworkCore;
+using Entidad.Api;
+using Newtonsoft.Json;
+using System.Security.Cryptography;
 
 namespace Negocio
 {
     public class Huesped
     {
-        static Datos.DBContext dBContext = Datos.DBContext.dBContext;
-        public static List<Entidad.Models.Huesped> GetAll()
+        static readonly string defaultUrl = Conexion.defaultUrl + "Huesped/";
+        public static async Task<List<Entidad.Models.Huesped>> GetAll()
         {
-            List<Entidad.Models.Huesped> huespeds = dBContext.Huespeds.ToList();
-            foreach (Entidad.Models.Huesped hpd in huespeds)
+            Task<List<Entidad.Models.Huesped>> task = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Huesped>>(defaultUrl + "GetAll")!;
+            List<Entidad.Models.Huesped> lstHpd = await task;
+            foreach (Entidad.Models.Huesped hpd in lstHpd)
             {
-                hpd.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHuesped == hpd.IdHuesped).ToList();
+                await Initialize(hpd);
             }
-            return huespeds;
+            return lstHpd;
         }
-        public static Entidad.Models.Huesped? GetOne(int id)
+
+        public static async Task<Entidad.Models.Huesped?> GetOne(int id)
         {
-            Entidad.Models.Huesped? hpd = dBContext.Huespeds.Find(id);
+            Task<Entidad.Models.Huesped> task = Conexion.http.GetFromJsonAsync<Entidad.Models.Huesped?>(defaultUrl + "GetOne/" + id)!;
+            Entidad.Models.Huesped hpd = await task;
             if (hpd != null)
             {
-                hpd.Reservas = dBContext.Reservas.Where(rsv => rsv.IdHuesped == hpd.IdHuesped).ToList();
+                await Initialize(hpd);
             }
             return hpd;
         }
-        public static bool Create(Entidad.Models.Huesped hpd)
+        public static async Task<Entidad.Models.Huesped?> Create(Entidad.Models.Huesped hpd)
         {
-            try
+            HuespedApi api = GetApi(hpd);
+            var result = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", api);
+            if (result.IsSuccessStatusCode)
             {
-                dBContext.Huespeds.Add(hpd);
-                dBContext.SaveChanges();
-                dBContext.Update(hpd);
-                return true;
+                int id = JsonConvert.DeserializeObject<int>(await result.Content.ReadAsStringAsync())!;
+                Entidad.Models.Huesped createdHpd = (await GetOne(id))!;
+                return createdHpd;
             }
-            catch
-            {
-                return false;
-            }
+            else { return null; }
         }
-        public static bool Update(Entidad.Models.Huesped hpd)
+        public static async Task<bool> Update(Entidad.Models.Huesped hpd)
         {
-            try
-            {
-                dBContext.Update(hpd);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            HuespedApi api = GetApi(hpd);
+            var result = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + hpd.IdHuesped, api);
+            return result.IsSuccessStatusCode;
         }
-        public static bool Delete(Entidad.Models.Huesped hpd)
+        public static async Task<bool> Delete(Entidad.Models.Huesped hpd)
         {
-            //return Datos.Habitacion.Delete(id);
-            try
-            {
-                dBContext.Huespeds.Remove(hpd);
-                dBContext.SaveChanges();
-                return true;
-            }
-            catch
-            {
-                return false;
-            }
+            var result = await Conexion.http.DeleteAsync(defaultUrl + "Delete/" + hpd.IdHuesped);
+            return result.IsSuccessStatusCode;
         }
 
         /// <summary>
@@ -77,17 +67,49 @@ namespace Negocio
         /// <param name="tipo">ingrese uno de estos 3 valores: DNI, LE, LC</param>
         /// <param name="nro">numero de documento de huesped a buscar</param>
         /// <returns>Entidad Huesped correspondiente al tipo y numero de documento ingresado por parametro</returns>
-        public static Entidad.Models.Huesped? GetByTipo_NroDocumento(string tipo, string nro)
+        public static async Task<Entidad.Models.Huesped?> GetByTipo_NroDocumento(string tipo, string nro)
         {
-            return dBContext.Huespeds.FirstOrDefault(hsp => hsp.TipoDocumento == tipo && hsp.NumeroDocumento == nro);
+            Entidad.Models.Huesped? rsv = await Conexion.http.GetFromJsonAsync<Entidad.Models.Huesped?>(defaultUrl + "GetByTipo_NroDocumento/" + tipo + "/" + nro);
+            if (rsv != null)
+            {
+                await Initialize(rsv);
+            }
+            return rsv;
         }
 
         /// <summary></summary>
         /// <param name="nro">numero de documento de huesped a buscar</param>
         /// <returns>Lista de huespedes que contengan total o parcialmente el numero ingresado</returns>
-        public static List<Entidad.Models.Huesped> GetByNroDocumento(string nro)
+        public static async Task<List<Entidad.Models.Huesped>> GetByNroDocumento(string nro)
         {
-            return dBContext.Huespeds.Where(hsp => hsp.NumeroDocumento.Contains(nro)).ToList();
+            Task<List<Entidad.Models.Huesped>> task = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Huesped>>(defaultUrl + "GetByNroDocumento/" + nro)!;
+            List<Entidad.Models.Huesped> lstHpd = await task;
+            foreach (Entidad.Models.Huesped hpd in lstHpd)
+            {
+                await Initialize(hpd);
+            }
+            return lstHpd;
+        }
+
+        private static async Task Initialize(Entidad.Models.Huesped hpd)
+        {
+            hpd.Reservas = (await Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHuesped/" + hpd.IdHuesped))!;
+            foreach (Entidad.Models.Reserva rsv in hpd.Reservas)
+            {
+                rsv.IdHabitacionNavigation = (await Conexion.http.GetFromJsonAsync<Entidad.Models.Habitacion>(Conexion.defaultUrl + "Habitacion/GetOne/" + rsv.IdHabitacion))!;
+                rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation = await TipoHabitacion.GetOne(rsv.IdHabitacionNavigation.IdTipoHabitacion);
+            }
+        }
+
+        private static HuespedApi GetApi(Entidad.Models.Huesped hpd)
+        {
+            HuespedApi api = new HuespedApi();
+            api.IdHuesped = hpd.IdHuesped;
+            api.Nombre = hpd.Nombre;
+            api.Apellido = hpd.Apellido;
+            api.NumeroDocumento = hpd.NumeroDocumento;
+            api.TipoDocumento = hpd.TipoDocumento;
+            return api;
         }
     }
 }

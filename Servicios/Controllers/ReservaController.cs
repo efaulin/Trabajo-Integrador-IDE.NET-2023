@@ -165,6 +165,19 @@ namespace Servicios.Controllers
             }
         }
 
+        [HttpGet("{idHuesped}")]
+        public ActionResult<IEnumerable<Reserva>> GetAllOfHuesped(int idHuesped)
+        {
+            try
+            {
+                return _dbContext.Reservas.Where(e => e.IdHuesped == idHuesped).ToList();
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: 500, detail: ex.Message);
+            }
+        }
+
         /// <summary>
         /// Validaciones a cumplir de un objeto Reserva
         /// </summary>

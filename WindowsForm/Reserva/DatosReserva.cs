@@ -25,7 +25,7 @@ namespace WindowsForm
         List<Servicio> originlstSrv;
         List<Habitacion> _lstHbt;
         List<Servicio> _lstSrv;
-        List<Huesped> _lstHpd = Negocio.Huesped.GetAll();
+        List<Huesped> _lstHpd;
         List<Reserva> _lstRsv;
         List<ReservaServicio> lstSrvTemporal = new List<ReservaServicio>();
         Hashtable _hashHbt = new Hashtable();
@@ -72,18 +72,20 @@ namespace WindowsForm
                     this.Close();
                 }
             }
+
             _lstHbt = await getlstHbt;
+            _lstHpd = await Negocio.Huesped.GetAll();
             if (_lstHbt.Count <= 0)
             {
                 MessageBox.Show("¡No hay habitaciones registradas!\nAgrege una habitacion, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
-            //List<Habitacion> _lstHpd = await getlstHpd;
             else if (_lstHpd.Count <= 0)
             {
                 MessageBox.Show("¡No hay huespedes registrados!\nAgrege un huesped, antes de cargar una reserva", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.Close();
             }
+
             _lstRsv = await Negocio.Reserva.GetAll();
             foreach (Reserva _tmpRsv in _lstRsv)
             {
@@ -242,7 +244,7 @@ namespace WindowsForm
             _rsv.IdHabitacion = (int)dtGrHabitacion.SelectedRows[0].Cells[0].Value;
             _rsv.IdHuesped = (int)dtGrHuesped.SelectedRows[0].Cells[0].Value;
             _rsv.IdHabitacionNavigation = await getHbt;
-            _rsv.IdHuespedNavigation = Negocio.Huesped.GetOne(idHpd)!;
+            _rsv.IdHuespedNavigation = (await Negocio.Huesped.GetOne(idHpd))!;
             //_rsv.IdHuespedNavigation = await getHpd;
         }
 
@@ -359,17 +361,17 @@ namespace WindowsForm
             dtGrHabitacion.Select();
         }
 
-        private void btnBuscarHuesped_Click(object sender, EventArgs e)
+        private async void btnBuscarHuesped_Click(object sender, EventArgs e)
         {
             List<Huesped>? lstHpd = null;
 
             if (txtNroDocumento.Text.Length > 0)
             {
-                lstHpd = Negocio.Huesped.GetByNroDocumento(txtNroDocumento.Text);
+                lstHpd = await Negocio.Huesped.GetByNroDocumento(txtNroDocumento.Text);
             }
             else
             {
-                lstHpd = Negocio.Huesped.GetAll();
+                lstHpd = await Negocio.Huesped.GetAll();
             }
 
             dtGrHuesped.DataSource = lstHpd;
