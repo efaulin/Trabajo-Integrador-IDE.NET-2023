@@ -25,7 +25,7 @@ namespace Negocio
 
         public static async Task<List<Entidad.Models.Habitacion>> GetAll()
         {
-            var response = await Conexion.Instancia.HttpClient.GetStringAsync("http://localhost:7110/api/Habitacion/GetAll");
+            var response = await Conexion.Instancia.HttpClient.GetStringAsync("http://localhost:5021/api/Habitacion/GetAll");
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.Habitacion>>(response);
             return data;
         }
@@ -41,6 +41,16 @@ namespace Negocio
         //}
         public static bool Create(Entidad.Models.Habitacion hbt)
         {
+            //Validacion para que el piso y numero no esté repetido:
+            List<Entidad.Models.Habitacion> h = dBContext.Habitacions
+                .Where(habitacion => hbt.NumeroHabitacion == habitacion.NumeroHabitacion && hbt.PisoHabitacion == habitacion.PisoHabitacion)
+                .ToList();
+            if(h.Count > 0)
+            {
+                return false;
+            }
+
+
             try
             {
                 dBContext.Habitacions.Add(hbt);
