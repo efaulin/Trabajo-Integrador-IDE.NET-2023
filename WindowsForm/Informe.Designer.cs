@@ -37,8 +37,11 @@
             dateTimePicker1 = new DateTimePicker();
             dateTimePicker2 = new DateTimePicker();
             label3 = new Label();
+            btnEmitir = new Button();
+            dgvInforme = new DataGridView();
             panel3.SuspendLayout();
             panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvInforme).BeginInit();
             SuspendLayout();
             // 
             // panel3
@@ -76,7 +79,7 @@
             // 
             label1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
             label1.AutoSize = true;
-            label1.Location = new Point(49, 153);
+            label1.Location = new Point(32, 131);
             label1.Name = "label1";
             label1.Size = new Size(432, 20);
             label1.TabIndex = 5;
@@ -85,13 +88,14 @@
             // panel1
             // 
             panel1.Anchor = AnchorStyles.Top | AnchorStyles.Right;
+            panel1.Controls.Add(btnEmitir);
             panel1.Controls.Add(dateTimePicker2);
             panel1.Controls.Add(label3);
             panel1.Controls.Add(dateTimePicker1);
             panel1.Controls.Add(label2);
-            panel1.Location = new Point(547, 125);
+            panel1.Location = new Point(497, 123);
             panel1.Name = "panel1";
-            panel1.Size = new Size(417, 110);
+            panel1.Size = new Size(569, 110);
             panel1.TabIndex = 7;
             // 
             // label2
@@ -126,11 +130,33 @@
             label3.TabIndex = 2;
             label3.Text = "Hasta";
             // 
+            // btnEmitir
+            // 
+            btnEmitir.BackColor = Color.LightSeaGreen;
+            btnEmitir.Location = new Point(420, 15);
+            btnEmitir.Name = "btnEmitir";
+            btnEmitir.Size = new Size(114, 61);
+            btnEmitir.TabIndex = 4;
+            btnEmitir.Text = "Emitir";
+            btnEmitir.UseVisualStyleBackColor = false;
+            // 
+            // dgvInforme
+            // 
+            dgvInforme.Anchor = AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            dgvInforme.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvInforme.Location = new Point(42, 265);
+            dgvInforme.Name = "dgvInforme";
+            dgvInforme.RowHeadersWidth = 51;
+            dgvInforme.RowTemplate.Height = 29;
+            dgvInforme.Size = new Size(1024, 331);
+            dgvInforme.TabIndex = 8;
+            // 
             // Informe
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1094, 655);
+            Controls.Add(dgvInforme);
             Controls.Add(panel1);
             Controls.Add(label1);
             Controls.Add(panel3);
@@ -139,6 +165,7 @@
             panel3.ResumeLayout(false);
             panel1.ResumeLayout(false);
             panel1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvInforme).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -154,5 +181,7 @@
         private Label label3;
         private DateTimePicker dateTimePicker1;
         private Label label2;
+        private Button btnEmitir;
+        private DataGridView dgvInforme;
     }
 }

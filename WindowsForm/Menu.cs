@@ -78,5 +78,10 @@ namespace WindowsForm
         {
 
         }
+
+        private void btnInforme_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

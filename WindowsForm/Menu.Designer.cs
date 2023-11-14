@@ -324,6 +324,7 @@
             btnInforme.TabIndex = 25;
             btnInforme.Text = "Informe";
             btnInforme.UseVisualStyleBackColor = false;
+            btnInforme.Click += btnInforme_Click;
             // 
             // Menu
             // 
