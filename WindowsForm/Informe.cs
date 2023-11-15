@@ -73,23 +73,39 @@ namespace WindowsForm
             PaginaHTML_Texto = PaginaHTML_Texto.Replace("@FILAS", filas);
             PaginaHTML_Texto = PaginaHTML_Texto.Replace("@TOTAL", total.ToString());
 
+            // ...
+
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                try
                 {
-                    Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
-                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                    pdfDoc.Open();
-                    pdfDoc.Add(new Phrase("Hola"));
-                    using (StreamReader reader = new StreamReader(PaginaHTML_Texto))
+                    using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
                     {
-                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, reader);
-                    }
-                    pdfDoc.Close();
-                    stream.Close();
-                }
+                        Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
+                        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                        pdfDoc.Open();
 
+                        // Convierte el HTML a una cadena
+                        string htmlContent = PaginaHTML_Texto;
+
+                        // Utiliza StringReader con UTF-8
+                        using (StringReader reader = new StringReader(htmlContent))
+                        {
+                            XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, reader);
+                        }
+
+                        pdfDoc.Close();
+                        stream.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Maneja la excepción, regístrala o muestra un mensaje de error
+                    MessageBox.Show($"Error al guardar el PDF: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
+
+
         }
     }
 }
