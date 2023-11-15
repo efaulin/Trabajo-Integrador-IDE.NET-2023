@@ -132,7 +132,7 @@ namespace WindowsForm
                         Task<List<Servicio>> getlstRsvSrv = Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
                         List<Servicio> lstRsvSrv = await getlstRsvSrv;
                         lstRsvSrv.ForEach(e => precio += Negocio.Servicio.DevPrecioFecha(rsv.FechaFinReserva, e)!.PrecioServicio1);
-                        
+
                         dtRsv.Rows.Add(
                             rsv.IdReserva,
                             rsv.FechaInscripcion,

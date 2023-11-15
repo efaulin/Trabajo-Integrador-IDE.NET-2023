@@ -7,10 +7,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using iTextSharp.tool.xml;
-using System.IO;
 
 namespace WindowsForm
 {
@@ -19,13 +19,14 @@ namespace WindowsForm
         DataTable dtInforme = new DataTable();
         DataColumn[] dcInforme = new DataColumn[]
         {
-            new DataColumn("Fecha", typeof(DateTime)),
+            new DataColumn("Fecha", typeof(string)),
             new DataColumn("Recaudado", typeof(string))
         };
 
         public Informe()
         {
             dtInforme.Columns.AddRange(dcInforme);
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
         }
 
@@ -41,7 +42,7 @@ namespace WindowsForm
                 tmp.ForEach(e =>
                 {
                     dtInforme.Rows.Add(
-                        e.Fecha,
+                        e.Fecha.ToString("dd/MM/yyyy"),
                         "$" + e.Recaudacion.ToString("0.00")
                         );
                 });
@@ -77,35 +78,20 @@ namespace WindowsForm
 
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                try
+                using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
                 {
-                    using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                    Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
+                    PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                    pdfDoc.Open();
+                    //pdfDoc.Add(new Phrase("Hola"));
+                    using (StringReader reader = new StringReader(PaginaHTML_Texto))
                     {
-                        Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
-                        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
-                        pdfDoc.Open();
-
-                        // Convierte el HTML a una cadena
-                        string htmlContent = PaginaHTML_Texto;
-
-                        // Utiliza StringReader con UTF-8
-                        using (StringReader reader = new StringReader(htmlContent))
-                        {
-                            XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, reader);
-                        }
-
-                        pdfDoc.Close();
-                        stream.Close();
+                        XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, reader);
                     }
-                }
-                catch (Exception ex)
-                {
-                    // Maneja la excepción, regístrala o muestra un mensaje de error
-                    MessageBox.Show($"Error al guardar el PDF: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    pdfDoc.Close();
+                    stream.Close();
                 }
             }
-
-
         }
     }
 }
