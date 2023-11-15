@@ -15,12 +15,12 @@ namespace Negocio
         static readonly string defaultUrl = Conexion.defaultUrl + "Servicio/";
         public static async Task<Entidad.Models.Servicio?> GetOne(int id)
         {
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/Servicio/GetOne/" + id.ToString());
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetOne/" + id.ToString());
             var data = JsonConvert.DeserializeObject<Entidad.Models.Servicio>(response);
             return data;
         }
         public static async Task<List<Entidad.Models.Servicio>> GetAll() { 
-            var response = await Conexion.http.GetStringAsync("http://localhost:7110/api/Servicio/GetAll/");
+            var response = await Conexion.http.GetStringAsync(defaultUrl + "GetAll");
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.Servicio>>(response);
             //if(data != null)
             //{
@@ -35,7 +35,7 @@ namespace Negocio
         public static async Task<Entidad.Models.Servicio> Create(Entidad.Models.Servicio srv)
         {
             Entidad.Api.ServicioApi srvApi = GetApi(srv);
-            var response = await Conexion.http.PostAsJsonAsync("http://localhost:7110/api/Servicio/Create", srvApi);
+            var response = await Conexion.http.PostAsJsonAsync(defaultUrl + "Create", srvApi);
             int data = JsonConvert.DeserializeObject<int>(await response.Content.ReadAsStringAsync());
             Entidad.Models.Servicio createdServ = (await GetOne(data))!;
             return createdServ;          
@@ -44,7 +44,7 @@ namespace Negocio
         {
             try
             {
-                var result = await Conexion.http.DeleteAsync("http://localhost:7110/api/Servicio/Delete/" + srv.IdServicio);
+                var result = await Conexion.http.DeleteAsync(defaultUrl + "Delete/" + srv.IdServicio);
                 return result.IsSuccessStatusCode;
             }
             catch
@@ -57,7 +57,7 @@ namespace Negocio
             try
             {
                 Entidad.Api.ServicioApi srvApi = GetApi(srv);
-                var response = await Conexion.http.PutAsJsonAsync("http://localhost:7110/api/Servicio/Update/" + srvApi.IdServicio, srvApi);
+                var response = await Conexion.http.PutAsJsonAsync(defaultUrl + "Update/" + srvApi.IdServicio, srvApi);
                 return response.IsSuccessStatusCode;
             }
             catch
