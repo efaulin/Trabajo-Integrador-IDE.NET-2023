@@ -8,14 +8,14 @@ namespace WindowsForm
         Empleado emp;
         //Task<List<Habitacion>> lstHbt = Negocio.Habitacion.GetAll();
         //Task<List<TipoHabitacion>> lstTpHbt = Negocio.TipoHabitacion.GetAll();
-        private Listado? activeForm = null;
+        private Form? activeForm = null;
         public Menu(Empleado tmp)
         {
             emp = tmp;
             InitializeComponent();
         }
 
-        private void openChildForm(Listado childForm)
+        private void openChildForm(Form childForm)
         {
             if (activeForm != null)
             {
@@ -77,6 +77,11 @@ namespace WindowsForm
         private void panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void btnInforme_Click(object sender, EventArgs e)
+        {
+            openChildForm(new Informe());
         }
     }
 }

@@ -237,15 +237,15 @@ namespace WindowsForm
             int idHbt = (int)dtGrHabitacion.SelectedRows[0].Cells[0].Value;
             int idHpd = (int)dtGrHuesped.SelectedRows[0].Cells[0].Value;
             Task<Habitacion> getHbt = Negocio.Habitacion.GetOne(idHbt)!;
-            //Task<Huesped> getHpd = Negocio.Huesped.GetOne(idHpd)!;
+            Task<Huesped> getHpd = Negocio.Huesped.GetOne(idHpd)!;
             _rsv!.FechaInicioReserva = dtFechaInicio.Value.Date;
             _rsv.FechaFinReserva = dtFechaFin.Value.Date;
+            _rsv.EstadoReserva = (string)cmbEstado.SelectedItem;
             _rsv.CantidadPersonas = int.Parse(txtCantidadPersonas.Text);
             _rsv.IdHabitacion = (int)dtGrHabitacion.SelectedRows[0].Cells[0].Value;
             _rsv.IdHuesped = (int)dtGrHuesped.SelectedRows[0].Cells[0].Value;
             _rsv.IdHabitacionNavigation = await getHbt;
-            _rsv.IdHuespedNavigation = (await Negocio.Huesped.GetOne(idHpd))!;
-            //_rsv.IdHuespedNavigation = await getHpd;
+            _rsv.IdHuespedNavigation = await getHpd;
         }
 
         private void GroupServicios()

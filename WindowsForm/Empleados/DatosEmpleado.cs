@@ -18,7 +18,8 @@ namespace WindowsForm.Empleados
         int? op;
         int? _id;
         Empleado? emp;
-        List<Empleado> _lstEmp = Negocio.Empleado.GetAll();
+        Task<List<Empleado>> getAll = Negocio.Empleado.GetAll();
+        List<Empleado> _lstEmp;
         Hashtable _tmpEmp = new Hashtable();
         public DatosEmpleado(int opcion)
         {
@@ -33,7 +34,7 @@ namespace WindowsForm.Empleados
             InitializeComponent();
         }
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        private async void btnAceptar_Click(object sender, EventArgs e)
         {
             bool stop = false;
             if (validate())
@@ -41,41 +42,38 @@ namespace WindowsForm.Empleados
                 switch (op)
                 {
                     case 1:
-                        try
-                        {
-                            emp = new Empleado();
-                            emp.NombreUsuario = txtNombre.Text;
-                            emp.Password = txtPassword.Text;
-                            emp.TipoUsuario = cmbTipoUsuario.Text;
+                        emp = new Empleado();
+                        emp.NombreUsuario = txtNombre.Text;
+                        emp.Password = txtPassword.Text;
+                        emp.TipoUsuario = cmbTipoUsuario.Text;
 
-                            Negocio.Empleado.Create(emp);
+                        emp = await Negocio.Empleado.Create(emp);
+                        if (emp != null)
+                        {
                             MessageBox.Show("Empleado ID: " + emp.IdEmpleado + " cargado con exito.");
                         }
-                        catch
+                        else
                         {
                             stop = true;
                             MessageBox.Show("Hubo un problema al crear el empleado. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //throw ex;
                         }
 
                         break;
 
                     case 2:
-                        try
-                        {
-                            emp = _lstEmp.Find(delegate (Empleado emp) { return emp.IdEmpleado == _id; })!;
-                            emp.NombreUsuario = txtNombre.Text;
-                            emp.TipoUsuario = cmbTipoUsuario.Text;
-                            emp.Password = txtPassword.Text;
+                        emp = _lstEmp.Find(delegate (Empleado emp) { return emp.IdEmpleado == _id; })!;
+                        emp.NombreUsuario = txtNombre.Text;
+                        emp.TipoUsuario = cmbTipoUsuario.Text;
+                        emp.Password = txtPassword.Text;
 
-                            Negocio.Empleado.Update(emp);
+                        if (await Negocio.Empleado.Update(emp))
+                        {
                             MessageBox.Show("Empleado ID: " + emp.IdEmpleado + " editado con exito.");
                         }
-                        catch
+                        else
                         {
                             stop = true;
                             MessageBox.Show("Hubo un problema al editar el empleado. Intente nuevamente", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                            //throw ex;
                         }
 
                         break;
@@ -93,7 +91,7 @@ namespace WindowsForm.Empleados
             }
         }
 
-        private void DatosHuesped_Load(object sender, EventArgs e)
+        private async void DatosHuesped_Load(object sender, EventArgs e)
         {
             switch (op)
             {
@@ -105,6 +103,7 @@ namespace WindowsForm.Empleados
 
                 case 2:
                     this.Text = "Editar Empleado";
+                    _lstEmp = await getAll;
                     if (_lstEmp.Count <= 0)
                     {
                         MessageBox.Show("No hay empleados registrados", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);

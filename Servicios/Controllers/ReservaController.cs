@@ -178,6 +178,22 @@ namespace Servicios.Controllers
             }
         }
 
+        [HttpGet(Name = "GetAllBetween")]
+        public ActionResult<IEnumerable<Reserva>> GetAllBetween(DateTime desde, DateTime hasta)
+        {
+            try
+            {
+                if (desde.CompareTo(hasta) > 0) { return BadRequest(); }
+                return _dbContext.Reservas
+                    .Where(reserva => reserva.FechaInicioReserva >= desde && reserva.FechaInicioReserva <= hasta)
+                    .ToList();
+            }
+            catch (Exception ex)
+            {
+                return Problem(statusCode: 500, detail: ex.Message);
+            }
+        }
+
         /// <summary>
         /// Validaciones a cumplir de un objeto Reserva
         /// </summary>

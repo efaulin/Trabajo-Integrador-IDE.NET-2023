@@ -114,7 +114,7 @@ namespace Negocio
             {
                 throw new Exception();
             }
-            
+
         }
         /*public static List<Entidad.Models.Habitacion> GetByPiso(int piso)
         {
@@ -131,7 +131,7 @@ namespace Negocio
 
         public static async Task Initialize(Entidad.Models.Habitacion hbt)
         {
-            Task<Entidad.Models.TipoHabitacion> getOne =  TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
+            Task<Entidad.Models.TipoHabitacion> getOne = TipoHabitacion.GetOne(hbt.IdTipoHabitacion)!;
             hbt.IdTipoHabitacionNavigation = await getOne;
 
             Task<List<Entidad.Models.Reserva>> getRsvOfHbt = Conexion.http.GetFromJsonAsync<List<Entidad.Models.Reserva>>(Conexion.defaultUrl + "Reserva/GetAllOfHabitacion/" + hbt.IdHabitacion)!;
@@ -166,7 +166,7 @@ namespace Negocio
         {
             var response = await Conexion.http.GetStringAsync(defaultUrl + "GetAll");
             var data = JsonConvert.DeserializeObject<List<Entidad.Models.TipoHabitacion>>(response);
-            foreach(Entidad.Models.TipoHabitacion tp in data)
+            foreach (Entidad.Models.TipoHabitacion tp in data)
             {
                 tp.PrecioTipoHabitacions = await PrecioTipoHabitacion.GetAllById(tp.IdTipoHabitacion);
             }
@@ -229,7 +229,7 @@ namespace Negocio
                     {
                         precioBuscado = preTipHbt;
                     }
-                }              
+                }
             }
             return precioBuscado;
         }
