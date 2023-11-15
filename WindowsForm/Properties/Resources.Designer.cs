@@ -69,5 +69,13 @@ namespace WindowsForm.Properties {
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
+
+        internal static string Plantilla
+        {
+            get
+            {
+                return ResourceManager.GetString("Plantilla", resourceCulture);
+            }
+        }
     }
 }
