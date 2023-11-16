@@ -95,9 +95,9 @@ namespace Negocio
         public static List<Entidad.Models.Habitacion> TakeAvailable(List<Entidad.Models.Habitacion> lstHbt, DateTime start, DateTime end)
         {
             return lstHbt.FindAll(hbt =>
-                hbt.Reservas.ToList().Find(rsv =>
+                (hbt.Reservas.ToList().Find(rsv =>
                     (rsv.EstadoReserva == "En espera" || rsv.EstadoReserva == "En curso") && !(rsv.FechaInicioReserva.CompareTo(end) >= 0 || rsv.FechaFinReserva.CompareTo(start) <= 0)
-                ) == null || hbt.Reservas.Count == 0
+                ) == null || hbt.Reservas.Count == 0) && hbt.Estado
             );
         }
 
