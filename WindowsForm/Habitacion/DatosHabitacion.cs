@@ -16,7 +16,7 @@ namespace WindowsForm
     {
         int? op;
         int? _id;
-        Habitacion? hbt;
+        Habitacion hbt = new Habitacion();
         Task<List<TipoHabitacion>> getlstTpHbt = Negocio.TipoHabitacion.GetAll();
         Task<List<Habitacion>> getlstHbt = Negocio.Habitacion.GetAll();
         Hashtable _tmpHbt = new Hashtable();
@@ -40,6 +40,7 @@ namespace WindowsForm
         {
             if (validate())
             {
+                Habitacion hbt = new Habitacion();
                 TipoHabitacion tmpTpHbt;
                 bool stop = false;
                 switch (op)
