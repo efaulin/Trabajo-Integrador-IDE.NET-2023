@@ -13,6 +13,7 @@ namespace WindowsForm
         {
             emp = tmp;
             InitializeComponent();
+
         }
 
         private void openChildForm(Form childForm)
@@ -34,25 +35,35 @@ namespace WindowsForm
         private void btnHabitacion_Click_1(object sender, EventArgs e)
         {
             openChildForm(new Listado("Habitacion"));
+            Titulo.Visible = true;
+            Titulo.Text = "Habitaciones";
         }
         private void btnTpHbt_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("TipoHabitacion"));
+            Titulo.Visible = true;
+            Titulo.Text = "Tipo de Habitaciones";
         }
 
         private void btnHuesped_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Huesped"));
+            Titulo.Visible = true;
+            Titulo.Text = "Huespedes";
         }
 
         private void btnReserva_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Reserva"));
+            Titulo.Visible = true;
+            Titulo.Text = "Reservas";
         }
 
         private void btnServicio_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Servicio"));
+            Titulo.Visible = true;
+            Titulo.Text = "Servicios";
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -62,26 +73,23 @@ namespace WindowsForm
             {
                 btnEmpleados.Visible = false;
             }
+            Titulo.Visible = false;
         }
-
-        private void lblNombre_Click(object sender, EventArgs e)
-        {
-
-        }
-
+ 
         private void btnEmpleados_Click(object sender, EventArgs e)
         {
             openChildForm(new Listado("Empleado"));
-        }
-
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
-
+            Titulo.Visible = true;
+            Titulo.Text = "Empleados";
         }
 
         private void btnInforme_Click(object sender, EventArgs e)
         {
             openChildForm(new Informe());
+            Titulo.Visible = true;
+            Titulo.Text = "Generar Informe";
         }
+
+ 
     }
 }

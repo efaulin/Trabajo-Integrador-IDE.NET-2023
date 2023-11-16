@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Menu));
             panel1 = new Panel();
+            btnInforme = new Button();
             btnEmpleados = new Button();
             btnServicio = new Button();
             btnReserva = new Button();
@@ -45,15 +46,17 @@
             lblNombre = new Label();
             label2 = new Label();
             panel3 = new Panel();
+            panel6 = new Panel();
+            Titulo = new Label();
             panel4 = new Panel();
             label1 = new Label();
             panelChildForm = new Panel();
-            btnInforme = new Button();
             panel1.SuspendLayout();
             panel5.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             panel3.SuspendLayout();
+            panel6.SuspendLayout();
             panelChildForm.SuspendLayout();
             SuspendLayout();
             // 
@@ -75,7 +78,23 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(251, 720);
             panel1.TabIndex = 2;
-            panel1.Paint += panel1_Paint;
+            // 
+            // btnInforme
+            // 
+            btnInforme.BackColor = Color.LightSeaGreen;
+            btnInforme.Dock = DockStyle.Top;
+            btnInforme.FlatAppearance.BorderColor = Color.DarkCyan;
+            btnInforme.FlatAppearance.BorderSize = 2;
+            btnInforme.FlatStyle = FlatStyle.Flat;
+            btnInforme.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
+            btnInforme.ForeColor = Color.White;
+            btnInforme.Location = new Point(0, 375);
+            btnInforme.Name = "btnInforme";
+            btnInforme.Size = new Size(251, 35);
+            btnInforme.TabIndex = 25;
+            btnInforme.Text = "Informe";
+            btnInforme.UseVisualStyleBackColor = false;
+            btnInforme.Click += btnInforme_Click;
             // 
             // btnEmpleados
             // 
@@ -196,7 +215,7 @@
             label6.ForeColor = Color.White;
             label6.Location = new Point(132, 35);
             label6.Name = "label6";
-            label6.Size = new Size(66, 28);
+            label6.Size = new Size(54, 21);
             label6.TabIndex = 9;
             label6.Text = "CRUD";
             // 
@@ -207,7 +226,7 @@
             label3.ForeColor = Color.White;
             label3.Location = new Point(62, 35);
             label3.Name = "label3";
-            label3.Size = new Size(94, 28);
+            label3.Size = new Size(75, 21);
             label3.TabIndex = 8;
             label3.Text = "Opciones";
             // 
@@ -250,10 +269,9 @@
             lblNombre.ForeColor = Color.White;
             lblNombre.Location = new Point(96, 32);
             lblNombre.Name = "lblNombre";
-            lblNombre.Size = new Size(157, 28);
+            lblNombre.Size = new Size(125, 21);
             lblNombre.TabIndex = 5;
             lblNombre.Text = "Administrador";
-            lblNombre.Click += lblNombre_Click;
             // 
             // label2
             // 
@@ -263,19 +281,41 @@
             label2.ForeColor = Color.White;
             label2.Location = new Point(96, 12);
             label2.Name = "label2";
-            label2.Size = new Size(108, 25);
+            label2.Size = new Size(85, 20);
             label2.TabIndex = 4;
             label2.Text = "Bienvenido";
             // 
             // panel3
             // 
             panel3.BackColor = Color.LightSeaGreen;
+            panel3.Controls.Add(panel6);
             panel3.Controls.Add(panel4);
             panel3.Dock = DockStyle.Top;
             panel3.Location = new Point(251, 0);
             panel3.Name = "panel3";
             panel3.Size = new Size(859, 100);
             panel3.TabIndex = 3;
+            // 
+            // panel6
+            // 
+            panel6.Controls.Add(Titulo);
+            panel6.Location = new Point(0, 0);
+            panel6.Name = "panel6";
+            panel6.Size = new Size(859, 66);
+            panel6.TabIndex = 1;
+            // 
+            // Titulo
+            // 
+            Titulo.Dock = DockStyle.Fill;
+            Titulo.Font = new Font("Segoe UI", 18F, FontStyle.Bold, GraphicsUnit.Point);
+            Titulo.ForeColor = Color.Black;
+            Titulo.Location = new Point(0, 0);
+            Titulo.Name = "Titulo";
+            Titulo.RightToLeft = RightToLeft.Yes;
+            Titulo.Size = new Size(859, 66);
+            Titulo.TabIndex = 1;
+            Titulo.Text = "Titulo";
+            Titulo.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // panel4
             // 
@@ -294,7 +334,7 @@
             label1.Location = new Point(375, 213);
             label1.Name = "label1";
             label1.RightToLeft = RightToLeft.No;
-            label1.Size = new Size(168, 159);
+            label1.Size = new Size(135, 128);
             label1.TabIndex = 0;
             label1.Text = "ⵥ";
             label1.TextAlign = ContentAlignment.MiddleCenter;
@@ -303,32 +343,14 @@
             // 
             panelChildForm.BackColor = Color.White;
             panelChildForm.Controls.Add(label1);
-            panelChildForm.Dock = DockStyle.Fill;
             panelChildForm.Location = new Point(251, 100);
             panelChildForm.Name = "panelChildForm";
             panelChildForm.Size = new Size(859, 620);
             panelChildForm.TabIndex = 4;
             // 
-            // btnInforme
-            // 
-            btnInforme.BackColor = Color.LightSeaGreen;
-            btnInforme.Dock = DockStyle.Top;
-            btnInforme.FlatAppearance.BorderColor = Color.DarkCyan;
-            btnInforme.FlatAppearance.BorderSize = 2;
-            btnInforme.FlatStyle = FlatStyle.Flat;
-            btnInforme.Font = new Font("Segoe UI Black", 11.25F, FontStyle.Bold, GraphicsUnit.Point);
-            btnInforme.ForeColor = Color.White;
-            btnInforme.Location = new Point(0, 375);
-            btnInforme.Name = "btnInforme";
-            btnInforme.Size = new Size(251, 35);
-            btnInforme.TabIndex = 25;
-            btnInforme.Text = "Informe";
-            btnInforme.UseVisualStyleBackColor = false;
-            btnInforme.Click += btnInforme_Click;
-            // 
             // Menu
             // 
-            AutoScaleDimensions = new SizeF(8F, 19F);
+            AutoScaleDimensions = new SizeF(6F, 13F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(1110, 720);
@@ -349,6 +371,7 @@
             panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             panel3.ResumeLayout(false);
+            panel6.ResumeLayout(false);
             panelChildForm.ResumeLayout(false);
             panelChildForm.PerformLayout();
             ResumeLayout(false);
@@ -376,5 +399,7 @@
         private Panel panel7;
         private Button btnEmpleados;
         private Button btnInforme;
+        private Label Titulo;
+        private Panel panel6;
     }
 }
