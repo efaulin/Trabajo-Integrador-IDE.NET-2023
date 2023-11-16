@@ -33,11 +33,12 @@
             tlHabitaciones = new TableLayoutPanel();
             dgvHabitaciones = new DataGridView();
             btnSalir = new Button();
-            btnActualizar = new Button();
             btnAgregar = new Button();
             btnEditar = new Button();
             btnEliminar = new Button();
             btnAltaBaja = new Button();
+            btnActualizar = new Button();
+            ckbFiltrarFinalizadas = new CheckBox();
             toolStripContainer1.ContentPanel.SuspendLayout();
             toolStripContainer1.SuspendLayout();
             tlHabitaciones.SuspendLayout();
@@ -83,11 +84,12 @@
             tlHabitaciones.ColumnStyles.Add(new ColumnStyle());
             tlHabitaciones.Controls.Add(dgvHabitaciones, 0, 0);
             tlHabitaciones.Controls.Add(btnSalir, 6, 1);
-            tlHabitaciones.Controls.Add(btnActualizar, 5, 1);
             tlHabitaciones.Controls.Add(btnAgregar, 0, 1);
             tlHabitaciones.Controls.Add(btnEditar, 1, 1);
             tlHabitaciones.Controls.Add(btnEliminar, 2, 1);
             tlHabitaciones.Controls.Add(btnAltaBaja, 3, 1);
+            tlHabitaciones.Controls.Add(btnActualizar, 5, 1);
+            tlHabitaciones.Controls.Add(ckbFiltrarFinalizadas, 4, 1);
             tlHabitaciones.Dock = DockStyle.Fill;
             tlHabitaciones.Location = new Point(0, 0);
             tlHabitaciones.Margin = new Padding(15, 3, 3, 3);
@@ -133,21 +135,6 @@
             btnSalir.Text = "Salir";
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
-            // 
-            // btnActualizar
-            // 
-            btnActualizar.Anchor = AnchorStyles.Right;
-            btnActualizar.BackColor = Color.DarkCyan;
-            btnActualizar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
-            btnActualizar.ForeColor = Color.White;
-            btnActualizar.Location = new Point(691, 492);
-            btnActualizar.Margin = new Padding(3, 3, 10, 3);
-            btnActualizar.Name = "btnActualizar";
-            btnActualizar.Size = new Size(103, 37);
-            btnActualizar.TabIndex = 1;
-            btnActualizar.Text = "Actualizar";
-            btnActualizar.UseVisualStyleBackColor = false;
-            btnActualizar.Click += btnActualizar_Click;
             // 
             // btnAgregar
             // 
@@ -211,6 +198,35 @@
             btnAltaBaja.UseVisualStyleBackColor = false;
             btnAltaBaja.Click += btnAltaBaja_Click;
             // 
+            // btnActualizar
+            // 
+            btnActualizar.Anchor = AnchorStyles.Right;
+            btnActualizar.BackColor = Color.DarkCyan;
+            btnActualizar.Font = new Font("Segoe UI Semibold", 9.75F, FontStyle.Bold, GraphicsUnit.Point);
+            btnActualizar.ForeColor = Color.White;
+            btnActualizar.Location = new Point(691, 492);
+            btnActualizar.Margin = new Padding(3, 3, 10, 3);
+            btnActualizar.Name = "btnActualizar";
+            btnActualizar.Size = new Size(103, 37);
+            btnActualizar.TabIndex = 1;
+            btnActualizar.Text = "Actualizar";
+            btnActualizar.UseVisualStyleBackColor = false;
+            btnActualizar.Click += btnActualizar_Click;
+            // 
+            // ckbFiltrarFinalizadas
+            // 
+            ckbFiltrarFinalizadas.Anchor = AnchorStyles.Left;
+            ckbFiltrarFinalizadas.AutoSize = true;
+            ckbFiltrarFinalizadas.Location = new Point(524, 493);
+            ckbFiltrarFinalizadas.Margin = new Padding(15, 3, 3, 3);
+            ckbFiltrarFinalizadas.Name = "ckbFiltrarFinalizadas";
+            ckbFiltrarFinalizadas.Size = new Size(148, 34);
+            ckbFiltrarFinalizadas.TabIndex = 9;
+            ckbFiltrarFinalizadas.Text = "Ocultar\r\nFinalizadas/Canceladas";
+            ckbFiltrarFinalizadas.UseVisualStyleBackColor = true;
+            ckbFiltrarFinalizadas.Visible = false;
+            ckbFiltrarFinalizadas.CheckedChanged += ckbFiltrarFinalizadas_CheckedChanged;
+            // 
             // Listado
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -229,6 +245,7 @@
             toolStripContainer1.ResumeLayout(false);
             toolStripContainer1.PerformLayout();
             tlHabitaciones.ResumeLayout(false);
+            tlHabitaciones.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvHabitaciones).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -245,5 +262,6 @@
         private Button btnEditar;
         private Button btnAltaBaja;
         private Button btnAgregar;
+        private CheckBox ckbFiltrarFinalizadas;
     }
 }

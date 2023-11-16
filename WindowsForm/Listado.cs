@@ -1,4 +1,7 @@
 ﻿using Entidad.Models;
+using iTextSharp.text.pdf;
+using iTextSharp.text;
+using iTextSharp.tool.xml;
 using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using System;
 using System.Collections;
@@ -31,6 +34,7 @@ namespace WindowsForm
                 { "Empleado", 5 }
             };
             opcion = (int)ht[op]!;
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
             InitializeComponent();
         }
 
@@ -133,24 +137,45 @@ namespace WindowsForm
                         List<Servicio> lstRsvSrv = await getlstRsvSrv;
                         lstRsvSrv.ForEach(e => precio += Negocio.Servicio.DevPrecioFecha(rsv.FechaFinReserva, e)!.PrecioServicio1);
 
-                        dtRsv.Rows.Add(
-                            rsv.IdReserva,
-                            rsv.FechaInscripcion,
-                            rsv.EstadoReserva,
-                            rsv.FechaInicioReserva,
-                            rsv.FechaFinReserva,
-                            rsv.CantidadPersonas,
-                            rsv.IdHuespedNavigation.nombreCompleto(),
-                            rsv.IdHabitacionNavigation.NumeroHabitacion,
-                            rsv.IdHabitacionNavigation.PisoHabitacion,
-                            rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion,
-                            "$" + precio.ToString("0.00")
-                            );
+                        if (ckbFiltrarFinalizadas.Checked)
+                        {
+                            if (rsv.EstadoReserva == "En curso" || rsv.EstadoReserva == "En espera")
+                            {
+                                dtRsv.Rows.Add(
+                                    rsv.IdReserva,
+                                    rsv.FechaInscripcion,
+                                    rsv.EstadoReserva,
+                                    rsv.FechaInicioReserva,
+                                    rsv.FechaFinReserva,
+                                    rsv.CantidadPersonas,
+                                    rsv.IdHuespedNavigation.nombreCompleto(),
+                                    rsv.IdHabitacionNavigation.NumeroHabitacion,
+                                    rsv.IdHabitacionNavigation.PisoHabitacion,
+                                    rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion,
+                                    "$" + precio.ToString("0.00")
+                                    );
+                            }
+                        }
+                        else
+                        {
+                            dtRsv.Rows.Add(
+                                rsv.IdReserva,
+                                rsv.FechaInscripcion,
+                                rsv.EstadoReserva,
+                                rsv.FechaInicioReserva,
+                                rsv.FechaFinReserva,
+                                rsv.CantidadPersonas,
+                                rsv.IdHuespedNavigation.nombreCompleto(),
+                                rsv.IdHabitacionNavigation.NumeroHabitacion,
+                                rsv.IdHabitacionNavigation.PisoHabitacion,
+                                rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion,
+                                "$" + precio.ToString("0.00")
+                                );
+                        }
                     }
                     dgvHabitaciones.DataSource = dtRsv;
                     break;
                 case 4:
-#warning No se muestra el precio del servicio en la tabla (Ver si hay que hacer como con hbt y tpHbt con los innerJoins)
                     Task<List<Servicio>> getlstSrv = Negocio.Servicio.GetAll();
                     DataTable dtSrv = new DataTable();
                     DataColumn[] dcSrv = new DataColumn[]
@@ -183,6 +208,14 @@ namespace WindowsForm
             {
                 btnAltaBaja.Visible = true;
                 btnAltaBaja.Width = 107;
+            }
+
+            if (opcion == 3)
+            {
+                btnAltaBaja.Text = "Informe";
+                btnAltaBaja.Visible = true;
+                btnAltaBaja.Width = 107;
+                ckbFiltrarFinalizadas.Visible = true;
             }
         }
 
@@ -396,7 +429,7 @@ namespace WindowsForm
 
         private async void btnAltaBaja_Click(object sender, EventArgs e)
         {
-            if (dgvHabitaciones.Rows.Count > 0)
+            if (dgvHabitaciones.Rows.Count > 0 && opcion == 0)
             {
                 int tmpId = (int)dgvHabitaciones.SelectedCells[0].Value;
                 Habitacion hbt = (await Negocio.Habitacion.GetOne(tmpId))!;
@@ -408,11 +441,76 @@ namespace WindowsForm
                 }
                 listar();
             }
+
+            if (dgvHabitaciones.Rows.Count > 0 && opcion == 3)
+            {
+                Reserva rsv = (await Negocio.Reserva.GetOne((int)dgvHabitaciones.SelectedCells[0].Value))!;
+                Habitacion hbt = rsv.IdHabitacionNavigation;
+                TipoHabitacion tpHbt = hbt.IdTipoHabitacionNavigation;
+                PrecioTipoHabitacion pcTpHbt = Negocio.TipoHabitacion.DevPrecioFecha(rsv.FechaFinReserva, tpHbt)!;
+
+                SaveFileDialog saveFileDialog = new SaveFileDialog();
+                saveFileDialog.FileName = string.Format("reserva_nro{0}.pdf", rsv.IdReserva);
+                string PaginaHTML_Texto = Properties.Resources.PlanillaReserva.ToString();
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@NRORSV", rsv.IdReserva.ToString());
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@NOMBREHPD", rsv.IdHuespedNavigation.nombreCompleto());
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@CANTIDADRSV", rsv.CantidadPersonas.ToString());
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@INSCRIPCIONRSV", rsv.FechaInscripcion.ToString("dd/MM/yyyy"));
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@TIPOHBT", tpHbt.Descripcion);
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@NROHBT", hbt.NumeroHabitacion.ToString());
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@PISOHBT", hbt.PisoHabitacion.ToString());
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@INICIORSV", rsv.FechaInicioReserva.ToString("dd/MM/yyyy"));
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@FINRSV", rsv.FechaFinReserva.ToString("dd/MM/yyyy"));
+
+                string filas = string.Empty;
+                double total = 0;
+                filas += "<tr>";
+                filas += "<td>Habitacion " + rsv.IdHabitacionNavigation.IdTipoHabitacionNavigation.Descripcion + "</td>";
+                filas += "<td>$" + pcTpHbt.PrecioHabitacion.ToString() + "</td>";
+                filas += "</tr>";
+                total += pcTpHbt.PrecioHabitacion;
+                List<Servicio> lstSrv = await Negocio.Servicio.GetAllOfReserva(rsv.IdReserva);
+                foreach (Servicio srv in lstSrv)
+                {
+                    PrecioServicio tmp = Negocio.Servicio.DevPrecioFecha(rsv.FechaFinReserva, srv)!;
+
+                    filas += "<tr>";
+                    filas += "<td>" + srv.Descripcion + "</td>";
+                    filas += "<td>$" + tmp.PrecioServicio1.ToString() + "</td>";
+                    filas += "</tr>";
+                    total += tmp.PrecioServicio1;
+                }
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@FILAS", filas);
+                PaginaHTML_Texto = PaginaHTML_Texto.Replace("@TOTAL", "$" + total.ToString("0.00"));
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    using (FileStream stream = new FileStream(saveFileDialog.FileName, FileMode.Create))
+                    {
+                        Document pdfDoc = new Document(PageSize.A4, 25, 25, 25, 25);
+                        PdfWriter writer = PdfWriter.GetInstance(pdfDoc, stream);
+                        pdfDoc.Open();
+                        //pdfDoc.Add(new Phrase("Hola"));
+                        using (StringReader reader = new StringReader(PaginaHTML_Texto))
+                        {
+                            XMLWorkerHelper.GetInstance().ParseXHtml(writer, pdfDoc, reader);
+                        }
+                        pdfDoc.Close();
+                        stream.Close();
+                    }
+                    MessageBox.Show("Informe guardado con exito");
+                }
+            }
         }
 
         private void dgvHabitaciones_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void ckbFiltrarFinalizadas_CheckedChanged(object sender, EventArgs e)
+        {
+            listar();
         }
     }
 }
